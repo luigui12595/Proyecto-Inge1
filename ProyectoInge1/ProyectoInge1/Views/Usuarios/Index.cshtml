@@ -1,6 +1,5 @@
 ﻿
 @model ProyectoInge1.Models.ModUsuarioInter
-
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,15 +10,28 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Nombre Completo
-        </th>
-        <th>
-            Rol
-        </th>
-        <th>
-            Proyecto
-        </th>
-    </tr>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr><th>Nombre Completo</th><th>Rol</th><th>Proyecto</th></tr>
+    </thead>
+    <tbody data-link="row" class="rowlink">
+                 @for (int i = 0; i < Model.listaUsuarios.Count; i++)
+                 {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).nombre)
+                            @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).apellidos)
+                            @Html.Raw(" ")
+                        </td>
+                        <td>
+                            @Html.Raw(" ")
+                        </td>
+                        <td>
+                            @Html.Raw(" ")
+                        </td>
+                    </tr>
+                 }
+     </tbody>
+</table>
+
+
