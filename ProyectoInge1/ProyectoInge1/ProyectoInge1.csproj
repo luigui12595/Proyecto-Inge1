@@ -80,6 +80,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -198,12 +200,50 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CriterioAceptacion.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GestionCambios.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModuloUsuario.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloUsuario.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModuloUsuario.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModuloUsuario.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloUsuario.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModUsuarioInter.cs" />
+    <Compile Include="Models\Permiso.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Proyecto.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReqFuncional.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Telefono.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -214,12 +254,29 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\ModuloUsuario.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModuloUsuario.edmx</DependentUpon>
+      <LastGenOutput>ModuloUsuario.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModuloUsuario.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModuloUsuario.edmx</DependentUpon>
+      <LastGenOutput>ModuloUsuario.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EntityDeploy Include="Models\ModuloUsuario.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModuloUsuario.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModuloUsuario.edmx.diagram">
+      <DependentUpon>ModuloUsuario.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -267,6 +324,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -278,6 +336,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

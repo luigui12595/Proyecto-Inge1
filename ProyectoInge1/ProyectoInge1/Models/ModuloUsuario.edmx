@@ -1,0 +1,654 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BD_IngeGrupo4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CriterioAceptacion">
+          <Key>
+            <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="criterio" />
+          </Key>
+          <Property Name="idReqFunc" Type="smallint" Nullable="false" />
+          <Property Name="criterio" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GestionCambios">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="idReqFunc" />
+          </Key>
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Razon" Type="varchar" MaxLength="50" />
+          <Property Name="idReqFunc" Type="smallint" Nullable="false" />
+          <Property Name="realizadoPor" Type="char" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="fechaInicio" Type="date" Nullable="false" />
+          <Property Name="fechaFinal" Type="date" />
+          <Property Name="lider" Type="char" MaxLength="9" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProyectoUsuario">
+          <Key>
+            <PropertyRef Name="proyecto" />
+            <PropertyRef Name="usuario" />
+          </Key>
+          <Property Name="proyecto" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="usuario" Type="char" MaxLength="9" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReqFuncional">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" />
+          <Property Name="sprint" Type="tinyint" />
+          <Property Name="modulo" Type="tinyint" />
+          <Property Name="estado" Type="varchar" MaxLength="10" />
+          <Property Name="fechaInicial" Type="date" />
+          <Property Name="fechaFinal" Type="date" />
+          <Property Name="observaciones" Type="varchar" MaxLength="50" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="esfuerzo" Type="smallint" />
+          <Property Name="prioridad" Type="smallint" />
+          <Property Name="imagen" Type="varbinary" MaxLength="1" />
+          <Property Name="fuente" Type="char" MaxLength="9" />
+          <Property Name="responsable1" Type="char" MaxLength="9" />
+          <Property Name="responsable2" Type="char" MaxLength="9" />
+          <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Telefono">
+          <Key>
+            <PropertyRef Name="usuario" />
+            <PropertyRef Name="numero" />
+          </Key>
+          <Property Name="usuario" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="numero" Type="char" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="cedula" />
+          </Key>
+          <Property Name="cedula" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="15" />
+          <Property Name="apellidos" Type="varchar" MaxLength="40" />
+          <Property Name="correo" Type="varchar" MaxLength="40" />
+          <Property Name="lider" Type="bit" />
+          <Property Name="id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <Association Name="FK_Proyecto_ProyUsuario">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="ProyectoUsuario" Type="Self.ProyectoUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="nombre" />
+            </Principal>
+            <Dependent Role="ProyectoUsuario">
+              <PropertyRef Name="proyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_ReqFunc">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="nombre" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="nomProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReqFunc_CritAceptacion">
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
+          <End Role="CriterioAceptacion" Type="Self.CriterioAceptacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReqFuncional">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CriterioAceptacion">
+              <PropertyRef Name="idReqFunc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReqFunc_GestCambios">
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
+          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReqFuncional">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="GestionCambios">
+              <PropertyRef Name="idReqFunc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_GestCambios">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="GestionCambios">
+              <PropertyRef Name="realizadoPor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Proyecto">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="lider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ProyUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="ProyectoUsuario" Type="Self.ProyectoUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ProyectoUsuario">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ReqFunc_Fuente">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="fuente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ReqFunc_Resp1">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="responsable1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ReqFunc_Resp2">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="responsable2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Telefono">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Telefono" Type="Self.Telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Telefono">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_IngeGrupo4ModelStoreContainer">
+          <EntitySet Name="CriterioAceptacion" EntityType="Self.CriterioAceptacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GestionCambios" EntityType="Self.GestionCambios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProyectoUsuario" EntityType="Self.ProyectoUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReqFuncional" EntityType="Self.ReqFuncional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Telefono" EntityType="Self.Telefono" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Proyecto_ProyUsuario" Association="Self.FK_Proyecto_ProyUsuario">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ProyectoUsuario" EntitySet="ProyectoUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_ReqFunc" Association="Self.FK_Proyecto_ReqFunc">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReqFunc_CritAceptacion" Association="Self.FK_ReqFunc_CritAceptacion">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="CriterioAceptacion" EntitySet="CriterioAceptacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReqFunc_GestCambios" Association="Self.FK_ReqFunc_GestCambios">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="GestionCambios" EntitySet="GestionCambios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_GestCambios" Association="Self.FK_Usuario_GestCambios">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="GestionCambios" EntitySet="GestionCambios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Proyecto" Association="Self.FK_Usuario_Proyecto">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ProyUsuario" Association="Self.FK_Usuario_ProyUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ProyectoUsuario" EntitySet="ProyectoUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ReqFunc_Fuente" Association="Self.FK_Usuario_ReqFunc_Fuente">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ReqFunc_Resp1" Association="Self.FK_Usuario_ReqFunc_Resp1">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ReqFunc_Resp2" Association="Self.FK_Usuario_ReqFunc_Resp2">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Telefono" Association="Self.FK_Usuario_Telefono">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Telefono" EntitySet="Telefono" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BD_IngeGrupo4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CriterioAceptacion">
+          <Key>
+            <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="criterio" />
+          </Key>
+          <Property Name="idReqFunc" Type="Int16" Nullable="false" />
+          <Property Name="criterio" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_ReqFunc_CritAceptacion" FromRole="CriterioAceptacion" ToRole="ReqFuncional" />
+        </EntityType>
+        <EntityType Name="GestionCambios">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="idReqFunc" />
+          </Key>
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idReqFunc" Type="Int16" Nullable="false" />
+          <Property Name="realizadoPor" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_ReqFunc_GestCambios" FromRole="GestionCambios" ToRole="ReqFuncional" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_GestCambios" FromRole="GestionCambios" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaFinal" Type="DateTime" Precision="0" />
+          <Property Name="lider" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_Proyecto_ReqFunc" FromRole="Proyecto" ToRole="ReqFuncional" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Proyecto" FromRole="Proyecto" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.ProyectoUsuario" FromRole="Proyecto" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="ReqFuncional">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sprint" Type="Byte" />
+          <Property Name="modulo" Type="Byte" />
+          <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fechaInicial" Type="DateTime" Precision="0" />
+          <Property Name="fechaFinal" Type="DateTime" Precision="0" />
+          <Property Name="observaciones" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="esfuerzo" Type="Int16" />
+          <Property Name="prioridad" Type="Int16" />
+          <Property Name="imagen" Type="Binary" MaxLength="1" FixedLength="false" />
+          <Property Name="fuente" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="responsable1" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="responsable2" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="nomProyecto" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CriterioAceptacion" Relationship="Self.FK_ReqFunc_CritAceptacion" FromRole="ReqFuncional" ToRole="CriterioAceptacion" />
+          <NavigationProperty Name="GestionCambios" Relationship="Self.FK_ReqFunc_GestCambios" FromRole="ReqFuncional" ToRole="GestionCambios" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_ReqFunc" FromRole="ReqFuncional" ToRole="Proyecto" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_ReqFunc_Fuente" FromRole="ReqFuncional" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.FK_Usuario_ReqFunc_Resp1" FromRole="ReqFuncional" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario2" Relationship="Self.FK_Usuario_ReqFunc_Resp2" FromRole="ReqFuncional" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Telefono">
+          <Key>
+            <PropertyRef Name="usuario" />
+            <PropertyRef Name="numero" />
+          </Key>
+          <Property Name="usuario" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="numero" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.FK_Usuario_Telefono" FromRole="Telefono" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="cedula" />
+          </Key>
+          <Property Name="cedula" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="apellidos" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="lider" Type="Boolean" />
+          <Property Name="id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GestionCambios" Relationship="Self.FK_Usuario_GestCambios" FromRole="Usuario" ToRole="GestionCambios" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Usuario_Proyecto" FromRole="Usuario" ToRole="Proyecto" />
+          <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_Usuario_ReqFunc_Fuente" FromRole="Usuario" ToRole="ReqFuncional" />
+          <NavigationProperty Name="ReqFuncional1" Relationship="Self.FK_Usuario_ReqFunc_Resp1" FromRole="Usuario" ToRole="ReqFuncional" />
+          <NavigationProperty Name="ReqFuncional2" Relationship="Self.FK_Usuario_ReqFunc_Resp2" FromRole="Usuario" ToRole="ReqFuncional" />
+          <NavigationProperty Name="Telefono" Relationship="Self.FK_Usuario_Telefono" FromRole="Usuario" ToRole="Telefono" />
+          <NavigationProperty Name="Proyecto1" Relationship="Self.ProyectoUsuario" FromRole="Usuario" ToRole="Proyecto" />
+        </EntityType>
+        <Association Name="FK_ReqFunc_CritAceptacion">
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
+          <End Role="CriterioAceptacion" Type="Self.CriterioAceptacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReqFuncional">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CriterioAceptacion">
+              <PropertyRef Name="idReqFunc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReqFunc_GestCambios">
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
+          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReqFuncional">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="GestionCambios">
+              <PropertyRef Name="idReqFunc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_GestCambios">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="GestionCambios">
+              <PropertyRef Name="realizadoPor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_ReqFunc">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="nombre" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="nomProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Proyecto">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="lider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ReqFunc_Fuente">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="fuente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ReqFunc_Resp1">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="responsable1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_ReqFunc_Resp2">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="ReqFuncional">
+              <PropertyRef Name="responsable2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Telefono">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Telefono" Type="Self.Telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Telefono">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProyectoUsuario">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="BD_IngeGrupo4Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CriterioAceptacion" EntityType="Self.CriterioAceptacion" />
+          <EntitySet Name="GestionCambios" EntityType="Self.GestionCambios" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+          <EntitySet Name="ReqFuncional" EntityType="Self.ReqFuncional" />
+          <EntitySet Name="Telefono" EntityType="Self.Telefono" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_ReqFunc_CritAceptacion" Association="Self.FK_ReqFunc_CritAceptacion">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="CriterioAceptacion" EntitySet="CriterioAceptacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReqFunc_GestCambios" Association="Self.FK_ReqFunc_GestCambios">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="GestionCambios" EntitySet="GestionCambios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_GestCambios" Association="Self.FK_Usuario_GestCambios">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="GestionCambios" EntitySet="GestionCambios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_ReqFunc" Association="Self.FK_Proyecto_ReqFunc">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Proyecto" Association="Self.FK_Usuario_Proyecto">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ReqFunc_Fuente" Association="Self.FK_Usuario_ReqFunc_Fuente">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ReqFunc_Resp1" Association="Self.FK_Usuario_ReqFunc_Resp1">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_ReqFunc_Resp2" Association="Self.FK_Usuario_ReqFunc_Resp2">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Telefono" Association="Self.FK_Usuario_Telefono">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Telefono" EntitySet="Telefono" />
+          </AssociationSet>
+          <AssociationSet Name="ProyectoUsuario" Association="Self.ProyectoUsuario">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BD_IngeGrupo4ModelStoreContainer" CdmEntityContainer="BD_IngeGrupo4Entities1">
+          <EntitySetMapping Name="CriterioAceptacion">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.CriterioAceptacion">
+              <MappingFragment StoreEntitySet="CriterioAceptacion">
+                <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
+                <ScalarProperty Name="criterio" ColumnName="criterio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GestionCambios">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.GestionCambios">
+              <MappingFragment StoreEntitySet="GestionCambios">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Razon" ColumnName="Razon" />
+                <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
+                <ScalarProperty Name="realizadoPor" ColumnName="realizadoPor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permiso">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Permiso">
+              <MappingFragment StoreEntitySet="Permiso">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proyecto">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Proyecto">
+              <MappingFragment StoreEntitySet="Proyecto">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
+                <ScalarProperty Name="lider" ColumnName="lider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReqFuncional">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.ReqFuncional">
+              <MappingFragment StoreEntitySet="ReqFuncional">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="sprint" ColumnName="sprint" />
+                <ScalarProperty Name="modulo" ColumnName="modulo" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fechaInicial" ColumnName="fechaInicial" />
+                <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="esfuerzo" ColumnName="esfuerzo" />
+                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="fuente" ColumnName="fuente" />
+                <ScalarProperty Name="responsable1" ColumnName="responsable1" />
+                <ScalarProperty Name="responsable2" ColumnName="responsable2" />
+                <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Telefono">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Telefono">
+              <MappingFragment StoreEntitySet="Telefono">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="lider" ColumnName="lider" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProyectoUsuario" TypeName="BD_IngeGrupo4Model.ProyectoUsuario" StoreEntitySet="ProyectoUsuario">
+            <EndProperty Name="Proyecto">
+              <ScalarProperty Name="nombre" ColumnName="proyecto" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="cedula" ColumnName="usuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
