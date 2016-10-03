@@ -14,5 +14,5 @@ namespace ProyectoInge1.Models
         public List<Usuario> listaUsuarios { get; set; }
         public List<Telefono> listaTelefono { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
-     }
+    }
 }
