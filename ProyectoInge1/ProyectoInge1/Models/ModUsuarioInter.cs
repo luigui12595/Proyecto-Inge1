@@ -12,7 +12,8 @@ namespace ProyectoInge1.Models
     public class ModUsuarioInter
     {
         public Usuario modeloUsuario { get; set; }
-        public Telefono modeloTelefono { get; set; }
+        public Telefono modeloTelefono1 { get; set; }
+        public Telefono modeloTelefono2 { get; set; }
         public Proyecto modeloProyecto { get; set; }
         public ApplicationUser appUser { get; set; }
         public List<ApplicationUser> appUserList { get; set; }
