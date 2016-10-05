@@ -11,7 +11,7 @@ namespace ProyectoInge1.Controllers
     {
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         // GET: Usuarios
-        public ActionResult Index( string sortOrder )
+        public ActionResult Index( string sortOrder, string searchString )
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
@@ -19,6 +19,11 @@ namespace ProyectoInge1.Controllers
                            select users;
             var proyectos = from proy in BD.Proyecto
                             select proy;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                usuarios = usuarios.Where(users => users.apellidos.Contains(searchString)
+                                       || users.nombre.Contains(searchString));
+            }
             switch (sortOrder)
             {
                 case "name_desc":
