@@ -50,6 +50,13 @@ namespace ProyectoInge1.Controllers
             return View();
         }
 
+        public ActionResult Detalles(string id)
+        {
+            ModUsuarioInter modelo = new ModUsuarioInter();
+            modelo.modeloUsuario = BD.Usuario.Find(id);
+            return View(modelo);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

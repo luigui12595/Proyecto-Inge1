@@ -1,0 +1,113 @@
+﻿@model ProyectoInge1.Models.ModUsuarioInter
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Detalles de Usuario</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="button" value="Editar" onclick="Editar()">
+        <input type="button" value="Eliminar" onclick="Eliminar()">
+        <div>
+            <dt>
+                Nombre
+            </dt>
+
+            <dd>
+                <textarea name="message" rows="1" cols="30">
+                    @Html.DisplayFor(model => model.modeloUsuario.nombre)
+                </textarea>
+            </dd>
+
+            <dt>
+                Apellido
+            </dt>
+
+            <dd>
+                <textarea name="message" rows="1" cols="30">
+                    @Html.DisplayFor(model => model.modeloUsuario.apellidos)
+                </textarea>
+            </dd>
+
+            <dt>
+                Cedula
+            </dt>
+
+            <dd>
+                <textarea name="message" rows="1" cols="30">
+                    @Html.DisplayFor(model => model.modeloUsuario.cedula)
+                </textarea>
+            </dd>
+
+            <dt>
+                Telefono
+            </dt>
+
+            <dd>
+                <textarea name="message" rows="1" cols="30">
+                    89080981
+                </textarea>
+            </dd>
+
+            <dt>
+                Rol
+            </dt>
+
+            <dd>
+                <select>
+                    <option value="admin">rol 1</option>
+                    <option value="usser">rol 2</option>
+                    <option value="desarr">rol 3</option>
+                    <option value="lider">rol 4</option>
+                </select>
+            </dd>
+        </div>
+        <div id="nCuenta" style="display:none;">
+            <dt>
+                Nombre
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.modeloUsuario.nombre)
+            </dd>
+
+            <dt>
+                Apellido
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.modeloUsuario.apellidos)
+            </dd>
+
+            <dt>
+                Cedula
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.modeloUsuario.cedula)
+            </dd>
+
+            <dt>
+                Telefono
+            </dt>
+
+            <dd>
+                89080981
+            </dd>
+
+            <dt>
+                Rol
+            </dt>
+
+            <dd>
+                rol 4
+            </dd>
+        </div>
+    </dl>
+</div>
+<p>
+</p>

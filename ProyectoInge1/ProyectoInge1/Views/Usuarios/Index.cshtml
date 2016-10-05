@@ -53,6 +53,9 @@
                             @Html.Raw(" ")
                         }
                     }
+                <td>
+                    @Html.ActionLink("Detalles", "Detalles", new { id =Model.listaUsuarios.ElementAt(i).cedula})
+                </td>
                 </td>
             </tr>
         }
