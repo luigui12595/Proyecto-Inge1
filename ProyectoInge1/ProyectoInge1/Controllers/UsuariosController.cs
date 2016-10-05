@@ -39,5 +39,41 @@ namespace ProyectoInge1.Controllers
             modelo.listaProyectos = proyectos.ToList();
             return View(modelo);
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(ModUsuarioInter modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                BD.Usuario.Add(modelo.modeloUsuario);
+                BD.SaveChanges();
+
+                if (modelo.modeloTelefono1.numero != null)
+                {
+                    modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                    BD.Telefono.Add(modelo.modeloTelefono1);
+                }
+                if (modelo.modeloTelefono2.numero != null)
+                {
+                    modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
+                    BD.Telefono.Add(modelo.modeloTelefono2);
+                }
+                BD.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                return View(modelo);
+            }
+        }
     }
 }
