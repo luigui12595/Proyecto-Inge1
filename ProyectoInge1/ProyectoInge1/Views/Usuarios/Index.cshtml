@@ -20,7 +20,7 @@
 }
 
 
-<table class="table table-striped table-bordered table-hover">
+<table id="table1"class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>
@@ -35,7 +35,7 @@
     <tbody>
         @for (int i = 0; i < Model.listaUsuarios.Count; i++)
         {
-            <tr onclick="gotoDetails()">
+            <tr id='@(Model.listaUsuarios.ElementAt(i).cedula)' onclick="gotoDetails(this)">
                 <td>
                     @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).nombre)
                     @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).apellidos)
@@ -53,9 +53,6 @@
                             @Html.Raw(" ")
                         }
                     }
-                <td>
-                    @Html.ActionLink("Detalles", "Detalles", new { id =Model.listaUsuarios.ElementAt(i).cedula})
-                </td>
                 </td>
             </tr>
         }
