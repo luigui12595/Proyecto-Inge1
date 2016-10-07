@@ -50,7 +50,8 @@ namespace ProyectoInge1.Controllers
         public string GetRoleToUsers(string userId)
         {
             var context = new ApplicationDbContext();
-            var role = context.Roles.Where(x => x.Users.Select(y => y.UserId).Contains(userId)).ElementAt(0).Name;
+            //var role = context.Roles.Where(x => x.Users.Select(y => y.UserId).Contains(userId)).ElementAt(0).Name;
+            var role = userId;
             return role;
         }
 

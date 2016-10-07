@@ -48,7 +48,22 @@
                     @Html.Raw(" ")
                 </td>
                 <td>
-                    @Html.Raw(" ")
+                    Model.Roles.First( x => x.RoleID == role.RoleID).Name;
+                                        @*
+                                @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @foreach(var role in user.Roles){
+                        Model.Roles.First(x=>x.RoleID == role.RoleID).Name;
+                        role.RoleId; //valid
+                        role.UserId; //valid
+                    }
+                </td>
+            </tr>
+        }
+                                            @Html.Action("GetRoleToUsers", new { Type = Model.listaUsuarios.ElementAt(i).cedula} )
+                            @Html.Raw(" ")-->*@
                 </td>
                 <td>
                     @for (int j = 0; j < Model.listaProyectos.Count; j++)
