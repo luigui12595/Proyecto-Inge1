@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProyectoInge1.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ProyectoInge1.Controllers
 {
@@ -43,6 +44,13 @@ namespace ProyectoInge1.Controllers
             modelo.listaUsuarios = usuarios.ToList();
             modelo.listaProyectos = proyectos.ToList();
             return View(modelo);
+        }
+
+        public string GetRoleToUsers(string userId)
+        {
+            var context = new ApplicationDbContext();
+            var role = context.Roles.Where(x => x.Users.Select(y => y.UserId).Contains(userId)).ElementAt(0).Name;
+            return role;
         }
 
         public ActionResult Create()
