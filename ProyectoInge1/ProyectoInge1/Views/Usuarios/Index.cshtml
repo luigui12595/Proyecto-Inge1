@@ -7,15 +7,21 @@
 
 <h2>Usuarios</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 
 @using (Html.BeginForm())
 {
     <p>
-        Buscar por nombre: @Html.TextBox("SearchString")
-        <input type="submit" value="Buscar" />
+        <div class="row">
+            
+            <div class="col-lg-5">
+                Buscar por nombre: @Html.TextBox("SearchString")
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </div>
+            <div class="col-lg-2 col-lg-push-6">
+                <a class="btn btn-success" href="Usuarios/Create">Crear</a>
+            </div>
+        </div>
     </p>
 }
 

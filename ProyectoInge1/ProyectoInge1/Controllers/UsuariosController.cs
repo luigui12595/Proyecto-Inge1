@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 using System.Web.Mvc;
 using ProyectoInge1.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -62,6 +63,16 @@ namespace ProyectoInge1.Controllers
         {
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
+            //modelo.modeloTelefono1 = BD.Telefono.Find(id);
+            //modelo.modeloTelefono2 = BD.Telefono.Find(id);
+            return View(modelo);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Detalles(ModUsuarioInter modelo)
+        {
+            BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
+            BD.SaveChanges();
             return View(modelo);
         }
 
