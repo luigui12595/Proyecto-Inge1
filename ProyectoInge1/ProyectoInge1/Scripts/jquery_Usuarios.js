@@ -1,3 +1,4 @@
-﻿function gotoDetails() {
-    window.location.replace("Usuarios/Index");
+﻿function gotoDetails(element) {
+    var elementId = element.id;
+    window.location.replace('Usuarios/Detalles/'+elementId)
 }
