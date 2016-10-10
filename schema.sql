@@ -1,4 +1,3 @@
-
 USE BD_IngeGrupo4;
 
 CREATE TABLE Usuario(
@@ -122,11 +121,5 @@ CREATE TABLE CriterioAceptacion(
 	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc ) REFERENCES ReqFuncional ( id )
 											ON UPDATE CASCADE
 );
-
-
-
-
-
-
 
 
