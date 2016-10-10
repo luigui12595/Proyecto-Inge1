@@ -10,7 +10,7 @@ using ProyectoInge1.Models;
 using System.Web.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using System.Diagnostics;
 
 namespace ProyectoInge1.Controllers
 {
@@ -90,12 +90,19 @@ namespace ProyectoInge1.Controllers
                 var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
                 //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-                var password = Membership.GeneratePassword(6, 1);
+                // var password = Membership.GeneratePassword(6, 1);
+                var password = "AAAAbbb23.";
                 var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
                 var result = await UserManager.CreateAsync(user, password);
-                BD.SaveChanges();
+                
                 modelo.modeloUsuario.id = user.Id;
 
+                Debug.WriteLine(result.Errors.ToString());
+                if (result.Succeeded)
+                {
+                    Debug.WriteLine("Entre!!!");
+
+                }
                 /*        if (result.Succeeded)
                           {
                               BD.SaveChanges();
