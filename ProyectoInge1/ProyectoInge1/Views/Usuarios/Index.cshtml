@@ -1,5 +1,9 @@
 ﻿
 @model ProyectoInge1.Models.ModUsuarioInter
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
+
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -48,22 +52,11 @@
                     @Html.Raw(" ")
                 </td>
                 <td>
-                    Model.Roles.First( x => x.RoleID == role.RoleID).Name;
-                                        @*
-                                @foreach (var user in Model)
-        {
-            <tr>
-                <td>
-                    @foreach(var role in user.Roles){
-                        Model.Roles.First(x=>x.RoleID == role.RoleID).Name;
-                        role.RoleId; //valid
-                        role.UserId; //valid
-                    }
-                </td>
-            </tr>
-        }
-                                            @Html.Action("GetRoleToUsers", new { Type = Model.listaUsuarios.ElementAt(i).cedula} )
-                            @Html.Raw(" ")-->*@
+                    @{  var id = Model.listaUsuarios.ElementAt(i).id;
+                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var userRoles = userManager.GetRoles(id);
+                        var role = userRoles[0]; }
+                    @Html.DisplayFor(modelItem => role)
                 </td>
                 <td>
                     @for (int j = 0; j < Model.listaProyectos.Count; j++)
@@ -82,5 +75,3 @@
 </table>
 
 <script src="../../Scripts/jquery_Usuarios.js"></script>
-
-//ApplicationUser.ROles.first

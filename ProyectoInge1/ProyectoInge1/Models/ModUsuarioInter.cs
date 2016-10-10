@@ -24,19 +24,3 @@ namespace ProyectoInge1.Models
         
     }
 }
-
-/*@for (int j = 0; j < Model.appUserList.Count; j++)
-                    {
-                        if (Model.listaUsuarios.ElementAt(i).id.Equals(Model.appUserList.ElementAt(j).Id))
-                        {
-                            if (Model.appUserList.ElementAt(j).Id.Equals(Model.appUserList.ElementAt(j).Roles.ElementAt(j).UserId))
-                            {
-                                if (Model.appUserList.ElementAt(j).Roles.ElementAt(j).RoleId.Equals(Model.listaRoles.ElementAt(j).Id))
-                                {
-                                    @Html.DisplayFor(modelItem => Model.listaRoles.ElementAt(j).Name)
-                                    @Html.Raw(" ")
-                                }
-                            }
-                        }
-                    }
-*/
