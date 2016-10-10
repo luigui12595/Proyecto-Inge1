@@ -78,7 +78,7 @@ namespace ProyectoInge1.Controllers
             {
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirme el reenvio a su cuenta");
                     ViewBag.errorMessage = "Debe de confirmar su email para iniciar sesion." + "El token de confirmacion ha sido reenviado a su correo.";
                     return View("Error");
                 }
@@ -97,7 +97,7 @@ namespace ProyectoInge1.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Intento de inicio de sesion inválido");
                     return View(model);
             }
         }
@@ -168,11 +168,11 @@ namespace ProyectoInge1.Controllers
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirme su cuenta");
                     
                     //TempData["ViewBagLink"] = callbackUrl;
-                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
-                       + "before you can log in.";
+                    ViewBag.Message = "Revise su correo para confirmar su cuenta. Es necesario confirmarlo "
+                       + "para que después pueda iniciar sesión.";
 
                     return View("Info");
                     //return RedirectToAction("Index", "Home");
@@ -224,7 +224,7 @@ namespace ProyectoInge1.Controllers
 
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Por favor reinicie su contraseña haciendo click <a href=\"" + callbackUrl + "\">aquí</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
