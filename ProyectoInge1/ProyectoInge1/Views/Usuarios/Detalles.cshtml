@@ -26,159 +26,196 @@
     <hr />
     <div class="elementoModificar" style="display:none">
         <dl class="dl-horizontal">
-            <div>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloUsuario.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloUsuario.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloUsuario.nombre, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloUsuario.apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloUsuario.apellidos, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloUsuario.apellidos, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloUsuario.cedula, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloUsuario.correo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloUsuario.correo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloUsuario.correo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloTelefono1.numero, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloTelefono1.numero, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloUsuario.Telefono, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloTelefono2.numero, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloTelefono2.numero, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloTelefono2.numero, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.modeloProyecto.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.modeloProyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.modeloProyecto.nombre, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-                <dt>
-                    Rol
-                </dt>
-
-                <dd>
-                    <select>
-                        <option value="admin">rol 1</option>
-                        <option value="usser">rol 2</option>
-                        <option value="desarr">rol 3</option>
-                        <option value="lider">rol 4</option>
-                    </select>
-                </dd>
-                <div class="form-group">                    
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Aceptar" class="btn btn-default" />
-                        <a class="btn btn-default" onclick="cancelar()">Cancelar</a>
-                    </div>
-                </div>
-            </div>
-            </dl>
-    </div>
-</div>
-        <div class="elementoEditar">
-            <a class="btn btn-default" onclick="esconderEditar()">Modificar</a>
-            <dl class="dl-horizontal">
 
                 <div>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.modeloUsuario.nombre)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.modeloUsuario.nombre)
-                    </dd>
-                </div>
+                    <div class="form-group">
+                        @*Nombre Modificar*@
+                        <div><dt>Nombre</dt></div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloUsuario.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloUsuario.nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+@*
+    Apellidos Modificar
+*@
 
-                <div>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.modeloUsuario.apellidos)
-                    </dt>
+                    <div class="form-group">
+                        Apellidos
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloUsuario.apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloUsuario.apellidos, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+@*
+    Cedula Modificar
+*@
+                    <div class="form-group">
+                        Cedula
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+@*
+    Correo Modificar
+*@
+                    <div class="form-group">
+                        Correo
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloUsuario.correo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloUsuario.correo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.modeloUsuario.apellidos)
-                    </dd>
-                </div>
-                <div>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.modeloUsuario.nombre)
-                    </dt>
+@*
+    Telefono 1 Modificar
+*@
+                    <div class="form-group">
+                        Telefono
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloTelefono1.numero, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloUsuario.Telefono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.modeloUsuario.cedula)
-                    </dd>
-                </div>
+@*
+    Telefono 2 Modificar
+*@
+                    <div class="form-group">
+                        Telefono
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloTelefono2.numero, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloTelefono2.numero, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+@*
+    Proyecto Modificar
+*@
+                    <div class="form-group">
+                        Proyecto
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.modeloProyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.modeloProyecto.nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-                <div>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.modeloUsuario.correo)
-                    </dt>
 
-                    <dd>
-                        89080981
-                    </dd>
-                </div>
-                <div>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.modeloTelefono1.numero)
-                    </dt>
-
-                    <dd>
-                        89080981
-                    </dd>
-                </div>
-
-                <div>
                     <dt>
                         Rol
                     </dt>
 
                     <dd>
-                        rol 4
+                        <select>
+                            <option value="admin">rol 1</option>
+                            <option value="usser">rol 2</option>
+                            <option value="desarr">rol 3</option>
+                            <option value="lider">rol 4</option>
+                        </select>
                     </dd>
-                </div>
-            </dl>
-</div>
-        <div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-<p>
-</p>
-}
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Aceptar" class="btn btn-default" />
+                            <a class="btn btn-default" onclick="cancelar()">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+                </dl>
+        </div>
+    </div>
+@*---------------------------------------Detalles------------------------------------------------*@
+            <div class="elementoEditar">
+                <a class="btn btn-default" onclick="esconderEditar()">Modificar</a>
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                </div>
+                <dl class="dl-horizontal">
+@*
+    Nombre Detalles
+*@
+                    <div>
+                        <dt>
+                           Nombre
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.modeloUsuario.nombre)
+                        </dd>
+                    </div>
+
+@*
+    Apellidos Detalles
+*@
+                    <div>
+                        <dt>
+                           Apellidos
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.modeloUsuario.apellidos)
+                        </dd>
+                    </div>
+@*
+    Cedula Detalles
+*@                    
+                    <div>
+                        <dt>
+                            Cedula
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.modeloUsuario.cedula)
+                        </dd>
+                    </div>
+@*
+    Telefono 1 Detalles
+*@
+                    <div>
+                        <dt>
+                            Telefono
+                        </dt>
+
+                        <dd>
+                            89080981
+                        </dd>
+                    </div>
+@*
+    Telefono 2 Detalles
+*@
+                    <div>
+                        <dt>
+                            Telefono
+                        </dt>
+
+                        <dd>
+                            89080981
+                        </dd>
+                    </div>
+@*
+    Proyecto Detalles
+*@
+
+                    <div>
+                        <dt>
+                            Proyecto
+                        </dt>
+@*
+    Rol Detalles
+*@
+                        <dd>
+                            rol 4
+                        </dd>
+                    </div>
+                </dl>
+    </div>
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+    <p>
+    </p>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

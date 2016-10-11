@@ -63,7 +63,7 @@ namespace ProyectoInge1.Controllers
         {
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
-            //modelo.modeloTelefono1 = BD.Telefono.Find(id);
+            //modelo.modeloTelefono1.numero = BD.Usuario.Find(id).cedula;
             //modelo.modeloTelefono2 = BD.Telefono.Find(id);
             return View(modelo);
         }
