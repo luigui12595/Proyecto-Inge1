@@ -1,0 +1,28 @@
+﻿@model ProyectoInge1.Models.ModUsuarioInter
+<script>
+    function Cancelar() {
+        window.location.replace('../Usuarios/Index')
+    }
+</script>
+@{
+    ViewBag.Title = "Eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar</h2>
+<div> <dt>Esta Seguro que desea borrar a:</dt></div>
+<div> <dt>Nombre:</dt></div>
+@Html.DisplayFor(model => model.modeloUsuario.nombre)
+<div> <dt>Apellido:</dt></div>
+@Html.DisplayFor(model => model.modeloUsuario.apellidos)
+<div> <dt>Cedula:</dt></div>
+@Html.DisplayFor(model => model.modeloUsuario.cedula)
+
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Borrar" class="btn btn-default" />
+        <a class="btn btn-default" onclick="Cancelar()">Cancelar</a>
+    </div>
+
+</div>

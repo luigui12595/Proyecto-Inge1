@@ -11,6 +11,10 @@
         $('.elementoModificar').hide();
 
     }
+    function borrar(element) {
+        var elementid = element.id;
+        window.location.replace('../Eliminar/'+elementid)
+    }
 </script>
 @{
     ViewBag.Title = "Detalles";
@@ -27,191 +31,195 @@
     <div class="elementoModificar" style="display:none">
         <dl class="dl-horizontal">
 
-                <div>
+@*Nombre Modificar*@            
                     <div class="form-group">
-                        @*Nombre Modificar*@
-                        <div><dt>Nombre</dt></div>
-                        <div class="col-md-10">
+                        <dt>Nombre </dt>                  
                             @Html.EditorFor(model => model.modeloUsuario.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.modeloUsuario.nombre, "", new { @class = "text-danger" })
-                        </div>
+                            @Html.ValidationMessageFor(model => model.modeloUsuario.nombre, "", new { @class = "text-danger" })                       
                     </div>
-@*
-    Apellidos Modificar
-*@
+
+
+@*Apellidos Modificar*@
 
                     <div class="form-group">
-                        Apellidos
-                        <div class="col-md-10">
+                        <dt>Apellidos </dt>  
                             @Html.EditorFor(model => model.modeloUsuario.apellidos, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.modeloUsuario.apellidos, "", new { @class = "text-danger" })
-                        </div>
                     </div>
-@*
-    Cedula Modificar
-*@
+
+
+@*Cedula Modificar*@
                     <div class="form-group">
-                        Cedula
-                        <div class="col-md-10">
+                        <dt>Cedula </dt>  
                             @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
-                        </div>
                     </div>
-@*
-    Correo Modificar
-*@
+
+
+@*Correo Modificar*@
                     <div class="form-group">
-                        Correo
-                        <div class="col-md-10">
+                        <dt>Correo </dt>  
                             @Html.EditorFor(model => model.modeloUsuario.correo, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.modeloUsuario.correo, "", new { @class = "text-danger" })
-                        </div>
                     </div>
 
-@*
-    Telefono 1 Modificar
-*@
+
+@*Telefono 1 Modificar*@
                     <div class="form-group">
-                        Telefono
-                        <div class="col-md-10">
+                        <dt>Telefono </dt>  
                             @Html.EditorFor(model => model.modeloTelefono1.numero, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.modeloUsuario.Telefono, "", new { @class = "text-danger" })
-                        </div>
                     </div>
 
-@*
-    Telefono 2 Modificar
-*@
+
+@*Telefono 2 Modificar*@
                     <div class="form-group">
-                        Telefono
-                        <div class="col-md-10">
+                        <dt>Telefono </dt>  
                             @Html.EditorFor(model => model.modeloTelefono2.numero, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.modeloTelefono2.numero, "", new { @class = "text-danger" })
-                        </div>
                     </div>
-@*
-    Proyecto Modificar
-*@
-                    <div class="form-group">
-                        Proyecto
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.modeloProyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.modeloProyecto.nombre, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+@*Proyecto Modificar, no implementado en este sprint*@
+            <div class="form-group">
+                <dt>Proyecto </dt>
+                @Html.EditorFor(model => model.modeloProyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modeloProyecto.nombre, "", new { @class = "text-danger" })
+            </div>
 
-
-                    <dt>
-                        Rol
-                    </dt>
-
-                    <dd>
-                        <select>
-                            <option value="admin">rol 1</option>
-                            <option value="usser">rol 2</option>
-                            <option value="desarr">rol 3</option>
-                            <option value="lider">rol 4</option>
-                        </select>
-                    </dd>
-
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Aceptar" class="btn btn-default" />
-                            <a class="btn btn-default" onclick="cancelar()">Cancelar</a>
-                        </div>
-                    </div>
+@*id usuario no editable, oculto*@
+                <div class="form-group" style="display:none">
+                    @Html.LabelFor(model => model.modeloUsuario.id, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.modeloUsuario.id, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.modeloUsuario.id, "", new { @class = "text-danger" })
                 </div>
-                </dl>
+
+
+@*Lider usuario no editable, oculto*@
+                <div class="form-group"style="display:none">
+                    @Html.LabelFor(model => model.modeloUsuario.lider, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.modeloUsuario.lider, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.modeloUsuario.lider, "", new { @class = "text-danger" })
+                </div>
+
+
+@*Rol editable*@
+                <dt>
+                    Rol
+                </dt>
+
+                <dd>
+                    <select>
+                        <option value="admin">Administrador</option>
+                        <option value="usser">Usuario</option>
+                        <option value="desarr">Desarrollador</option>
+                    </select>
+                </dd>
+                <div class="form-group">                    
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Aceptar" class="btn btn-default" />
+                        <a class="btn btn-default" onclick="cancelar()">Cancelar</a>
+                    </div>
+
+                </div>
+            </dl>
         </div>
     </div>
 @*---------------------------------------Detalles------------------------------------------------*@
-            <div class="elementoEditar">
-                <a class="btn btn-default" onclick="esconderEditar()">Modificar</a>
-                <div class="form-actions no-color">
-                    <input type="submit" value="Delete" class="btn btn-default" />
-                </div>
-                <dl class="dl-horizontal">
-@*
-    Nombre Detalles
-*@
-                    <div>
-                        <dt>
-                           Nombre
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.modeloUsuario.nombre)
-                        </dd>
-                    </div>
-
-@*
-    Apellidos Detalles
-*@
-                    <div>
-                        <dt>
-                           Apellidos
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.modeloUsuario.apellidos)
-                        </dd>
-                    </div>
-@*
-    Cedula Detalles
-*@                    
-                    <div>
-                        <dt>
-                            Cedula
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.modeloUsuario.cedula)
-                        </dd>
-                    </div>
-@*
-    Telefono 1 Detalles
-*@
-                    <div>
-                        <dt>
-                            Telefono
-                        </dt>
-
-                        <dd>
-                            89080981
-                        </dd>
-                    </div>
-@*
-    Telefono 2 Detalles
-*@
-                    <div>
-                        <dt>
-                            Telefono
-                        </dt>
-
-                        <dd>
-                            89080981
-                        </dd>
-                    </div>
-@*
-    Proyecto Detalles
-*@
-
-                    <div>
-                        <dt>
-                            Proyecto
-                        </dt>
-@*
-    Rol Detalles
-*@
-                        <dd>
-                            rol 4
-                        </dd>
-                    </div>
-                </dl>
-    </div>
+    <div class="elementoEditar">
+        <a class="btn btn-default" onclick="esconderEditar()">Modificar</a>
+        <div class="col-lg-2 col-lg-push-6">
+         <a class="btn btn-default" id='@(Model.modeloUsuario.cedula)' onclick="borrar(this)">Eliminar</a>
+        </div>
+        <dl class="dl-horizontal">
+            @*
+                Nombre Detalles
+            *@
             <div>
-                @Html.ActionLink("Back to List", "Index")
+                <dt>
+                    Nombre
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.modeloUsuario.nombre)
+                </dd>
             </div>
+
+            @*
+                Apellidos Detalles
+            *@
+            <div>
+                <dt>
+                    Apellidos
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.modeloUsuario.apellidos)
+                </dd>
+            </div>
+            @*
+                Cedula Detalles
+            *@
+            <div>
+                <dt>
+                    Cedula
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.modeloUsuario.cedula)
+                </dd>
+            </div>
+            @*
+                Telefono 1 Detalles
+            *@
+            <div>
+                <dt>
+                    Telefono
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.modeloTelefono1.numero)
+                </dd>
+            </div>
+            @*
+                Telefono 2 Detalles
+            *@
+            <div>
+                <dt>
+                    Telefono
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.modeloTelefono1.numero)
+                </dd>
+            </div>
+            @*
+                Proyecto Detalles
+            *@
+
+            <div>
+                <dt>
+                    Proyecto
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.modeloProyecto.nombre)
+                </dd>
+            </div>
+        @*
+            Rol Detalles
+        *@
+        <div>
+            <dt>
+                Rol
+            </dt>
+            <dd>
+                Administrador
+            </dd>
+        </div>
+        </dl>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+ </div>
+
     <p>
     </p>
     }
