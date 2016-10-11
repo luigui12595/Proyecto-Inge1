@@ -70,7 +70,7 @@
                             @Html.EditorFor(model => model.modeloTelefono1.numero, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.modeloUsuario.Telefono, "", new { @class = "text-danger" })
                     </div>
-
+                                 
 
 @*Telefono 2 Modificar*@
                     <div class="form-group">
@@ -175,7 +175,10 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.modeloTelefono1.numero)
+                    @if ( 1 <= Model.listaTelefono.Count)
+                    { 
+                        @Html.DisplayFor(model => model.listaTelefono.ElementAt(0).numero)
+                    }
                 </dd>
             </div>
             @*
@@ -187,7 +190,10 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.modeloTelefono1.numero)
+                    @if (1 < Model.listaTelefono.Count)
+                    {
+                        @Html.DisplayFor(model => model.listaTelefono.ElementAt(1).numero)
+                    }    
                 </dd>
             </div>
             @*

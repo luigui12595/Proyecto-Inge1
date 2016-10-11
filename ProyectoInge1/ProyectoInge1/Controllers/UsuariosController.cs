@@ -76,17 +76,44 @@ namespace ProyectoInge1.Controllers
         {
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
-            modelo.listaTelefono = BD.Telefono.Where(Tel => Tel.usuario.Equals(id)).ToList();
-            //modelo.modeloTelefono1 = modelo.listaTelefono.First();
-            //modelo.modeloTelefono1 = modelo.listaTelefono.Last();
+            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            if (1 <= modelo.listaTelefono.Count) { 
+                modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
+
+            }
+            if (1 < modelo.listaTelefono.Count)
+            {
+                modelo.modeloTelefono2 = modelo.listaTelefono.ElementAt(1);
+
+            }
+            
             return View(modelo);
+            
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Detalles(ModUsuarioInter modelo)
         {
             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
-            BD.SaveChanges();
+            var id = modelo.modeloUsuario.cedula;
+            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            for(int i = 0; i <modelo.listaTelefono.Count; i++){ 
+                BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+            }
+            if (modelo.modeloTelefono1.numero!= null)
+            {
+                modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                BD.Telefono.Add(modelo.modeloTelefono1);
+                BD.SaveChanges();
+
+            }
+            if (modelo.modeloTelefono2.numero != null)
+            {
+                modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                BD.Telefono.Add(modelo.modeloTelefono2);
+                BD.SaveChanges();
+
+            }
             return View(modelo);
         }
 
