@@ -15,7 +15,7 @@
 
 
 
-@using (Html.BeginForm("Index", "Student", FormMethod.Get))
+@using (Html.BeginForm("Index", "Usuarios", FormMethod.Get))
 {
     <p>
         <div class="row">
@@ -60,7 +60,10 @@
                         var role = userRoles[0]; }
                     @Html.DisplayFor(modelItem => role)
                 </td>
-                <td> @Html.DisplayFor(modelItem => item.Proyecto.First().nombre ) </td>
+                <td>@{ if (item.Proyecto.Count != 0) {
+                        @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
+                </td>
+                    
             </tr>
         }
     </tbody>

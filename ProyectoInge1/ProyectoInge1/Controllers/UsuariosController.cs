@@ -106,7 +106,7 @@ namespace ProyectoInge1.Controllers
                     usuarios = usuarios.OrderBy(users => users.apellidos);
                     break;
             }
-            int pageSize = 1;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.listaUsuarios = usuarios.ToList();
