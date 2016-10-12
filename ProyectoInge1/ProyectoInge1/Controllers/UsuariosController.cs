@@ -10,23 +10,25 @@ using ProyectoInge1.Models;
 using System.Web.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using PagedList;
 
 namespace ProyectoInge1.Controllers
 {
     public class UsuariosController : Controller
     {
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
- 
+
         // GET: Usuarios
-        public ActionResult Index( string sortOrder, string searchString )
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
+            if (searchString != null) { page = 1; }
+            else { searchString = currentFilter; }
+            ViewBag.CurrentFilter = searchString;
             var usuarios = from users in BD.Usuario
                            select users;
-            var proyectos = from proy in BD.Proyecto
-                            select proy;
             if (!String.IsNullOrEmpty(searchString))
             {
                 usuarios = usuarios.Where(users => users.apellidos.Contains(searchString)
@@ -37,20 +39,15 @@ namespace ProyectoInge1.Controllers
                 case "name_desc":
                     usuarios = usuarios.OrderByDescending(users => users.apellidos);
                     break;
-                case "Proy":
-                    proyectos = proyectos.OrderBy(proy => proy.nombre);
-                    break;
-                case "proy_desc":
-                    proyectos = proyectos.OrderByDescending(proy => proy.nombre);
-                    break;
                 default:
                     usuarios = usuarios.OrderBy(users => users.apellidos);
                     break;
             }
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.listaUsuarios = usuarios.ToList();
-            modelo.listaProyectos = proyectos.ToList();
-            return View(modelo);
+            return View(usuarios.ToList().ToPagedList(pageNumber, pageSize));
         }
 
 
