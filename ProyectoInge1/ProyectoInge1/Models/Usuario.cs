@@ -32,7 +32,7 @@ namespace ProyectoInge1.Models
         [Display(Name = "Cédula:")]
         [RegularExpression(@"^[0-9]{9,9}$", ErrorMessage = "La cédula sólo puede contener 9 números")]
         public string cedula { get; set; }
-        [StringLength(20)]
+        [StringLength(30)]
         [Required(ErrorMessage = "El nombre es un campo requerido.")]
         [Display(Name = "Nombre:")]
         [RegularExpression(@"^[a-zA-Záéíóúñ''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
@@ -42,7 +42,7 @@ namespace ProyectoInge1.Models
         [Display(Name = "Apellidos:")]
         [RegularExpression(@"^[a-zA-Záéíóúñ''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
         public string apellidos { get; set; }
-        [StringLength(20)]
+        [StringLength(40)]
         [Required(ErrorMessage = "El correo es un campo requerido.")]
         [Display(Name = "Correo:")]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "El correo debe de tener el formato correcto")]

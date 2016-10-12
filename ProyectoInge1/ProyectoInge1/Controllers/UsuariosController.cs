@@ -80,10 +80,26 @@ namespace ProyectoInge1.Controllers
             return pos;
         }
         // END OF "PARA LA GENERACIÓN DE CONTRASEÑA"
+        ApplicationDbContext context = new ApplicationDbContext();
+        private bool revisarPermisos(string permiso)
+        {
+            string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var rol = context.Users.Find(userID).Roles.First();
+            var permisoID = BD.Permiso.Where(m => m.descripcion == permiso).First().id;
+            var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
+            bool userRol = listaRoles.Contains(rol.RoleId);
+            return userRol;
+        }
 
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (!revisarPermisos("Detalles de Usuario"))
+            {
+                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
@@ -225,7 +241,7 @@ namespace ProyectoInge1.Controllers
                         if (result2.Succeeded)
                         {
                             string code = await UserManager.GenerateEmailConfirmationTokenAsync(modelo.modeloUsuario.id);
-                            var callbackUrl = Url.Action("Confirmar Correo", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
                             await UserManager.SendEmailAsync(modelo.modeloUsuario.id, "Ingreso al sistema", "Su contraseña temporal asignada es " + password + "\n" + "Por favor confirme su cuenta pulsando click <a href=\"" + callbackUrl + "\">aquí</a>");
 
                         }
