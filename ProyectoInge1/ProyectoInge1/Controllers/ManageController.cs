@@ -55,6 +55,7 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
+
                 message == ManageMessageId.ChangePasswordSuccess ? "Su password ha sido cambiado con éxito."
                 : message == ManageMessageId.SetPasswordSuccess ? "Su password se ha guardado."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
