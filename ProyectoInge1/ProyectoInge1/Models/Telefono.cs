@@ -11,10 +11,14 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Telefono
     {
         public string usuario { get; set; }
+        [StringLength(8)]
+        [Display(Name = "Teléfono:")]
+        [RegularExpression(@"^[0-9]{8,8}$", ErrorMessage = "El número sólo puede contener 8 números")]
         public string numero { get; set; }
     
         public virtual Usuario Usuario1 { get; set; }

@@ -56,8 +56,8 @@ namespace ProyectoInge1.Controllers
         {
             ViewBag.StatusMessage =
 
-                message == ManageMessageId.ChangePasswordSuccess ? "Su password ha sido cambiado con éxito."
-                : message == ManageMessageId.SetPasswordSuccess ? "Su password se ha guardado."
+                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido cambiado con éxito."
+                : message == ManageMessageId.SetPasswordSuccess ? "Su contraseña se ha guardado."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "Ocurrió un error."
                 : message == ManageMessageId.AddPhoneSuccess ? "Su número telefónico se ha añadido."
@@ -283,7 +283,7 @@ namespace ProyectoInge1.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "Ocurrió un error."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
