@@ -56,18 +56,16 @@
                 <td>
                     @{  var id = item.id;
                         var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                        var userRoles = userManager.GetRoles(id);
-                        var role = userRoles[0]; }
-                    @Html.DisplayFor(modelItem => role)
+                        //var userRoles = userManager.GetRoles(id);
+                        //var role = userRoles[0];  @Html.DisplayFor(modelItem => role)
+                    }                
                 </td>
                 <td>@{ if (item.Proyecto.Count != 0) {
                         @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
                 </td>
-                    
             </tr>
         }
     </tbody>
-
 </table>
 
 <br />

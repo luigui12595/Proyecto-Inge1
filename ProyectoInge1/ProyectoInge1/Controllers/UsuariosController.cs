@@ -119,13 +119,43 @@ namespace ProyectoInge1.Controllers
             return View();
         }
 
+        public ActionResult Eliminar(string id)
+        {
+            ModUsuarioInter modelo = new ModUsuarioInter();
+            modelo.modeloUsuario = BD.Usuario.Find(id);
+            return View(modelo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Eliminar(ModUsuarioInter modelo)
+        {
+            var id = modelo.modeloUsuario.cedula;
+            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            for (int i = 0; i < modelo.listaTelefono.Count; i++)
+            {
+                BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+            }
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Detalles(string id)
         {
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
-            //modelo.modeloTelefono1 = BD.Telefono.Find(id);
-            //modelo.modeloTelefono2 = BD.Telefono.Find(id);
+            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            if (1 <= modelo.listaTelefono.Count) { 
+                modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
+
+            }
+            if (1 < modelo.listaTelefono.Count)
+            {
+                modelo.modeloTelefono2 = modelo.listaTelefono.ElementAt(1);
+
+            }
+            
             return View(modelo);
+            
         }
 
         [HttpPost]
@@ -133,8 +163,26 @@ namespace ProyectoInge1.Controllers
         public ActionResult Detalles(ModUsuarioInter modelo)
         {
             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
-            BD.SaveChanges();
-            return View(modelo);
+            var id = modelo.modeloUsuario.cedula;
+            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            for(int i = 0; i <modelo.listaTelefono.Count; i++){ 
+                BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+            }
+            if (modelo.modeloTelefono1.numero!= null)
+            {
+                modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                BD.Telefono.Add(modelo.modeloTelefono1);
+                BD.SaveChanges();
+
+            }
+            if (modelo.modeloTelefono2.numero != null)
+            {
+                modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
+                BD.Telefono.Add(modelo.modeloTelefono2);
+                BD.SaveChanges();
+
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
