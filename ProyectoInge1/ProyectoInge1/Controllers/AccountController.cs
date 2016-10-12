@@ -431,11 +431,8 @@ namespace ProyectoInge1.Controllers
         private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
         {
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
-            var callbackUrl = Url.Action("ConfirmEmail", "Account",
-               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
-            await UserManager.SendEmailAsync(userID,
-               "Confirme su cuenta", "Por favor confirme su cuenta pulsando click <a href=\""
-               + callbackUrl + "\">aquí</a>");
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject, "Por favor confirme su cuenta pulsando click <a href=\""+ callbackUrl + "\">aquí</a>");
 
             return callbackUrl;
         }

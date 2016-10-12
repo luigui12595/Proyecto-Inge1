@@ -11,7 +11,8 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,10 +26,26 @@ namespace ProyectoInge1.Models
             this.Telefono = new HashSet<Telefono>();
             this.Proyecto1 = new HashSet<Proyecto>();
         }
-    
+
+        [Required(ErrorMessage = "La cédula es un campo requerido.")]
+        [StringLength(8)]
+        [Display(Name = "Cédula:")]
+        [RegularExpression(@"^[0-9]{9,9}$", ErrorMessage = "La cédula sólo puede contener 9 números")]
         public string cedula { get; set; }
+        [StringLength(20)]
+        [Required(ErrorMessage = "El nombre es un campo requerido.")]
+        [Display(Name = "Nombre:")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
         public string nombre { get; set; }
+        [StringLength(40)]
+        [Required(ErrorMessage = "Los apellidos es un campo requerido.")]
+        [Display(Name = "Apellidos:")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
         public string apellidos { get; set; }
+        [StringLength(20)]
+        [Required(ErrorMessage = "El correo es un campo requerido.")]
+        [Display(Name = "Nombre:")]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "El correo debe de tener el formato correcto")]
         public string correo { get; set; }
         public Nullable<bool> lider { get; set; }
         public string id { get; set; }
