@@ -252,6 +252,9 @@
       <DependentUpon>ModuloUsuario.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ModUsuarioInter.cs" />
+    <Compile Include="Models\NetRolesPermiso.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Permiso.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>

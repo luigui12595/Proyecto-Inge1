@@ -67,6 +67,7 @@ namespace ProyectoInge1.Controllers
             //modelo.modeloTelefono2 = BD.Telefono.Find(id);
             return View(modelo);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Detalles(ModUsuarioInter modelo)
@@ -75,7 +76,6 @@ namespace ProyectoInge1.Controllers
             BD.SaveChanges();
             return View(modelo);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -1,71 +1,53 @@
-﻿
+﻿@model ProyectoInge1.Models.ModRolesInter
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
+
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<h2>Administración de Permisos</h2>
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+                Permisos
+            </th>
+            @for (int i = 0; i < Model.listaRoles.Count; i++)
+            {
+                <th id="@(Model.listaRoles.ElementAt(i).Id)">
+                    @Html.DisplayFor(modelItem =>Model.listaRoles.ElementAt(i).Name)
+                </th>
+            }
+        </tr>
 
-    <div class="form-horizontal">
-        <h2>Administracion de Permisos</h2>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-10">
-                <form action="demo_form.asp" method="get">
+        @Html.AntiForgeryToken()
+        @for (int i = 0; i < Model.listaPermisos.Count; i++)
+        {
+            <tr>
+                <th id="@(Model.listaPermisos.ElementAt(i).id)">
+                    @Html.DisplayFor(modelItem =>Model.listaPermisos.ElementAt(i).descripcion)
+                </th>
+                @for (int j = 0; j < Model.listaRoles.Count; j++)
+                {
+                    <th id="@(Model.listaPermisos.ElementAt(i).id)_/_@(Model.listaRoles.ElementAt(j).Id)">
+
+                        @Html.HiddenFor(m => m.rolPermisoId[i + Model.listaPermisos.Count * j].permiso)
+                        @Html.HiddenFor(m => m.rolPermisoId[i + Model.listaPermisos.Count * j].rol)
+                        @Html.CheckBoxFor(m => m.rolPermisoId[i + Model.listaPermisos.Count * j].valor)
 
 
-
-                    <table style="width:100%">
-                        <tr>
-                            <th>Permisos</th>
-                            <th>Administrador</th>
-                            <th>Desarrollador</th>
-                            <th>Usuario</th>
-                        </tr>
-                        <tr>
-                            <td>Crear Usuarios</td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                        </tr>
-                        <tr>
-                            <td>Modificar Usuarios</td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                        </tr>
-                        <tr>
-                            <td>Eliminar Usuarios</td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                        </tr>
-                        <tr>
-                            <td>Consultar Usuarios</td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                            <td><input type="checkbox" name="vehicle" value="Bike"></td>
-                        </tr>
-                    </table>
-
-                </form>
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="reset" class="btn btn-danger">Cancelar</button>
-            </div>
-        </div>
+                    </th>
+                }
+            </tr>
+        }
+    </table>
+    <div>
+        <input type="submit" class="btn btn-success" value="Guardar Cambios" />
+        <a href="@Url.Action("Index", "Home")" type="button" class="btn btn-default">Cancelar</a>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Volver", "Index", "Home")
-</div>
 

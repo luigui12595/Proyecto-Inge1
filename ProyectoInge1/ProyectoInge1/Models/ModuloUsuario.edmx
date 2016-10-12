@@ -23,6 +23,14 @@
           <Property Name="idReqFunc" Type="smallint" Nullable="false" />
           <Property Name="realizadoPor" Type="char" MaxLength="9" />
         </EntityType>
+        <EntityType Name="NetRolesPermiso">
+          <Key>
+            <PropertyRef Name="idNetRoles" />
+            <PropertyRef Name="idPermiso" />
+          </Key>
+          <Property Name="idNetRoles" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="idPermiso" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Permiso">
           <Key>
             <PropertyRef Name="id" />
@@ -88,6 +96,18 @@
           <Property Name="lider" Type="bit" />
           <Property Name="id" Type="nvarchar" MaxLength="128" />
         </EntityType>
+        <Association Name="FK_Permiso_NetRolesUsers">
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
+          <End Role="NetRolesPermiso" Type="Self.NetRolesPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NetRolesPermiso">
+              <PropertyRef Name="idPermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Proyecto_ProyUsuario">
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
           <End Role="ProyectoUsuario" Type="Self.ProyectoUsuario" Multiplicity="*" />
@@ -223,12 +243,17 @@
         <EntityContainer Name="BD_IngeGrupo4ModelStoreContainer">
           <EntitySet Name="CriterioAceptacion" EntityType="Self.CriterioAceptacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GestionCambios" EntityType="Self.GestionCambios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NetRolesPermiso" EntityType="Self.NetRolesPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProyectoUsuario" EntityType="Self.ProyectoUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReqFuncional" EntityType="Self.ReqFuncional" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Permiso_NetRolesUsers" Association="Self.FK_Permiso_NetRolesUsers">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="NetRolesPermiso" EntitySet="NetRolesPermiso" />
+          </AssociationSet>
           <AssociationSet Name="FK_Proyecto_ProyUsuario" Association="Self.FK_Proyecto_ProyUsuario">
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="ProyectoUsuario" EntitySet="ProyectoUsuario" />
@@ -305,6 +330,7 @@
           </Key>
           <Property Name="id" Type="Int16" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="NetRolesPermiso" Relationship="BD_IngeGrupo4Model.FK_Permiso_NetRolesUsers" FromRole="Permiso" ToRole="NetRolesPermiso" />
         </EntityType>
         <EntityType Name="Proyecto">
           <Key>
@@ -533,7 +559,33 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <EntitySet Name="NetRolesPermiso" EntityType="BD_IngeGrupo4Model.NetRolesPermiso" />
+          <AssociationSet Name="FK_Permiso_NetRolesUsers" Association="BD_IngeGrupo4Model.FK_Permiso_NetRolesUsers">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="NetRolesPermiso" EntitySet="NetRolesPermiso" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="NetRolesPermiso">
+          <Key>
+            <PropertyRef Name="idNetRoles" />
+            <PropertyRef Name="idPermiso" />
+          </Key>
+          <Property Name="idNetRoles" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="idPermiso" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Permiso" Relationship="BD_IngeGrupo4Model.FK_Permiso_NetRolesUsers" FromRole="NetRolesPermiso" ToRole="Permiso" />
+        </EntityType>
+        <Association Name="FK_Permiso_NetRolesUsers">
+          <End Type="BD_IngeGrupo4Model.Permiso" Role="Permiso" Multiplicity="1" />
+          <End Type="BD_IngeGrupo4Model.NetRolesPermiso" Role="NetRolesPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NetRolesPermiso">
+              <PropertyRef Name="idPermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -627,6 +679,14 @@
               <ScalarProperty Name="cedula" ColumnName="usuario" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="NetRolesPermiso">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.NetRolesPermiso">
+              <MappingFragment StoreEntitySet="NetRolesPermiso">
+                <ScalarProperty Name="idPermiso" ColumnName="idPermiso" />
+                <ScalarProperty Name="idNetRoles" ColumnName="idNetRoles" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
