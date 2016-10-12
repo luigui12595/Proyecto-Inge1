@@ -70,8 +70,15 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar(ModUsuarioInter modelo)
         {
-            return View(modelo);
+            var id = modelo.modeloUsuario.cedula;
+            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            for (int i = 0; i < modelo.listaTelefono.Count; i++)
+            {
+                BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+            }
+            return RedirectToAction("Index");
         }
+
         public ActionResult Detalles(string id)
         {
             ModUsuarioInter modelo = new ModUsuarioInter();
@@ -109,12 +116,12 @@ namespace ProyectoInge1.Controllers
             }
             if (modelo.modeloTelefono2.numero != null)
             {
-                modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
                 BD.Telefono.Add(modelo.modeloTelefono2);
                 BD.SaveChanges();
 
             }
-            return View(modelo);
+            return RedirectToAction("Index");
         }
 
 
