@@ -3,11 +3,11 @@
 
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Crear</h2>
 
 @using (Html.BeginForm())
 {
@@ -71,8 +71,8 @@
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="Aceptar" class="btn btn-primary" />
                 <div class="btn btn-danger" style="color:white;" />
-                @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
-            </div>
+                    @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+                </div>
             </div>
             <div class="col-md-offset-2 col-md-5">
                 

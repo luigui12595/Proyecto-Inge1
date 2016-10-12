@@ -42,7 +42,7 @@ namespace ProyectoInge1.Controllers
         {
             if (!revisarPermisos("Control de Permisos"))
             {
-                this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
+                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Home");
             }
 

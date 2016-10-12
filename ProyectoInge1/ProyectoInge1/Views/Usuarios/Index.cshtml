@@ -1,7 +1,9 @@
-﻿
-@model ProyectoInge1.Models.ModUsuarioInter
+﻿@model PagedList.IPagedList<ProyectoInge1.Models.Usuario>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin;
+
 
 
 @{
@@ -13,13 +15,13 @@
 
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "Usuarios", FormMethod.Get))
 {
     <p>
         <div class="row">
-            
+
             <div class="col-lg-5">
-                Buscar por nombre: @Html.TextBox("SearchString")
+                Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
                 <input class="btn btn-success" type="submit" value="Buscar" />
             </div>
             <div class="col-lg-2 col-lg-push-6">
@@ -30,48 +32,46 @@
 }
 
 
-<table id="table1"class="table table-striped table-bordered table-hover">
+<table id="table1" class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Nombre Completo", "Index", new { sortOrder = ViewBag.NameSortParm })
+                @Html.ActionLink("Nombre Completo", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>Rol</th>
             <th>
-                @Html.ActionLink("Proyecto", "Index", new { sortOrder = ViewBag.DateSortParm })
+                @Html.ActionLink("Proyecto", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < Model.listaUsuarios.Count; i++)
+        @foreach (var item in Model)
         {
-            <tr id='@(Model.listaUsuarios.ElementAt(i).cedula)' onclick="gotoDetails(this)">
+            <tr id='@(item.cedula)' onclick="gotoDetails(this)">
                 <td>
-                    @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).nombre)
-                    @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).apellidos)
+                    @Html.DisplayFor(modelItem => item.nombre)
+                    @Html.DisplayFor(modelItem => item.apellidos)
                     @Html.Raw(" ")
                 </td>
                 <td>
-                    @{  var id = Model.listaUsuarios.ElementAt(i).id;
+                    @{  var id = item.id;
                         var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                         var userRoles = userManager.GetRoles(id);
-                        var role = userRoles[0]; }
-                    @Html.DisplayFor(modelItem => role)
+                        var role = userRoles[0];  @Html.DisplayFor(modelItem => role)
+                    }                
                 </td>
-                <td>
-                    @for (int j = 0; j < Model.listaProyectos.Count; j++)
-                    {
-                        if (Model.listaUsuarios.ElementAt(i).cedula.Equals(Model.listaProyectos.ElementAt(j).Usuario.cedula))
-                        {
-                            @Html.DisplayFor(modelItem => Model.listaProyectos.ElementAt(j).nombre)
-                            @Html.Raw(" ")
-                        }
-                    }
+                <td>@{ if (item.Proyecto.Count != 0) {
+                        @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
                 </td>
             </tr>
         }
     </tbody>
-
 </table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
 <script src="../../Scripts/jquery_Usuarios.js"></script>
