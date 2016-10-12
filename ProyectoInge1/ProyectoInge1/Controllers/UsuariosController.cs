@@ -81,6 +81,7 @@ namespace ProyectoInge1.Controllers
             return pos;
         }
         // END OF "PARA LA GENERACIÓN DE CONTRASEÑA"
+
         ApplicationDbContext context = new ApplicationDbContext();
         private bool revisarPermisos(string permiso)
         {
@@ -214,49 +215,10 @@ namespace ProyectoInge1.Controllers
 
 
                 // var password = Membership.GeneratePassword(6, 1);
-                var password = "AAAAbbb23.";
+                var password = GenerateStrongPassword(8);
                 var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
                 var result = await UserManager.CreateAsync(user, password);
-                
-                modelo.modeloUsuario.id = user.Id;
-
-                Debug.WriteLine(result.Errors.ToString());
-                if (result.Succeeded)
-                {
-                    Debug.WriteLine("Entre!!!");
-
-                }
-                /*        if (result.Succeeded)
-                          {
-                              BD.SaveChanges();
-                              modelo.modeloUsuario.id = user.Id;
-
-                              // 
-                              // INFORMACIÓN IMPORTANTE PARA ENVIO DE CONTRASEÑA POR CORREO
-                              // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                              // Send an email with this link
-                              // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                              // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                              // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                          }
-               */
-
-                BD.Usuario.Add(modelo.modeloUsuario);
-                BD.SaveChanges();   // Verificar caracteristicas de constraint FK_NetUsers_usuario -> si afecta cambiar a NO y NO.
-
-                if (modelo.modeloTelefono1.numero != null)
-                {
-                    modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
-                    BD.Telefono.Add(modelo.modeloTelefono1);
-                }
-                if (modelo.modeloTelefono2.numero != null)
-                {
-                    modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
-                    BD.Telefono.Add(modelo.modeloTelefono2);
-                }
-                BD.SaveChanges();
-
-
+    
               if (result.Succeeded)
                     {
                         modelo.modeloUsuario.id = user.Id;
