@@ -1,6 +1,7 @@
 ﻿
 @model ProyectoInge1.Models.ModUsuarioInter
 
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -55,6 +56,12 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.modeloTelefono2.numero, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.modeloTelefono2.numero, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Rol</label>
+            <div class="col-md-10" style="padding-top:0.5em;">
+                @Html.DropDownListFor(model => model.Role, new[] { new SelectListItem() {Text = "Administrador", Value = "2"}, new SelectListItem() { Text = "Desarrollador", Value = "1" } ,new SelectListItem() {Text = "Usuario", Value = "3"} }, "-- Rol no asignado --")
             </div>
         </div>
         <div class="form-group">
