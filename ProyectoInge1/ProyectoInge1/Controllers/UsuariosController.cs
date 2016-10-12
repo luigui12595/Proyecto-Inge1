@@ -131,6 +131,7 @@ namespace ProyectoInge1.Controllers
             //modelo.modeloTelefono2 = BD.Telefono.Find(id);
             return View(modelo);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Detalles(ModUsuarioInter modelo)
@@ -139,7 +140,6 @@ namespace ProyectoInge1.Controllers
             BD.SaveChanges();
             return View(modelo);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -222,7 +222,7 @@ namespace ProyectoInge1.Controllers
                         if (result2.Succeeded)
                         {
                             string code = await UserManager.GenerateEmailConfirmationTokenAsync(modelo.modeloUsuario.id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
+                            var callbackUrl = Url.Action("Confirmar Correo", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
                             await UserManager.SendEmailAsync(modelo.modeloUsuario.id, "Ingreso al sistema", "Su contraseña temporal asignada es " + password + "\n" + "Por favor confirme su cuenta pulsando click <a href=\"" + callbackUrl + "\">aquí</a>");
 
                         }

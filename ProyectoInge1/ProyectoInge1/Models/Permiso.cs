@@ -14,7 +14,16 @@ namespace ProyectoInge1.Models
     
     public partial class Permiso
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Permiso()
+        {
+            this.NetRolesPermiso = new HashSet<NetRolesPermiso>();
+        }
+    
         public short id { get; set; }
         public string descripcion { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NetRolesPermiso> NetRolesPermiso { get; set; }
     }
 }

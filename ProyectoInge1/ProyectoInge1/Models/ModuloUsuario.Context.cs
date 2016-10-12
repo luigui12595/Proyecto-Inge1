@@ -32,5 +32,6 @@ namespace ProyectoInge1.Models
         public virtual DbSet<ReqFuncional> ReqFuncional { get; set; }
         public virtual DbSet<Telefono> Telefono { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<NetRolesPermiso> NetRolesPermiso { get; set; }
     }
 }
