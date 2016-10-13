@@ -102,7 +102,7 @@ namespace ProyectoInge1.Controllers
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
+            ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
@@ -110,8 +110,7 @@ namespace ProyectoInge1.Controllers
                            select users;
             if (!String.IsNullOrEmpty(searchString))
             {
-                usuarios = usuarios.Where(users => users.apellidos.Contains(searchString)
-                                       || users.nombre.Contains(searchString));
+                usuarios = usuarios.Where(users => users.apellidos.Contains(searchString) || users.nombre.Contains(searchString));
             }
             switch (sortOrder)
             {
