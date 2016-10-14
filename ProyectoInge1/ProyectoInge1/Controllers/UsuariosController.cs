@@ -70,12 +70,11 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar(ModUsuarioInter modelo)
         {
-            var id = modelo.modeloUsuario.cedula;
-            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-            for (int i = 0; i < modelo.listaTelefono.Count; i++)
-            {
-                BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
-            }
+            modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+            modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+            BD.Entry(modelo.modeloTelefono1).State = EntityState.Deleted;
+            BD.Entry(modelo.modeloTelefono2).State = EntityState.Deleted;
+            BD.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -18,11 +18,22 @@
 <div> <dt>Apellido:</dt></div>
 @Html.DisplayFor(model => model.modeloUsuario.apellidos)
     <div class="form-group"style="display:none">
-        <dt>Cedula </dt>
-        @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
+@Html.DisplayFor(model => model.modeloUsuario.cedula)
+    </div>
+    @*Telefono 1 solo lo almacena no lo muestra*@
+    <div class="form-group"style="display:none">
+       
+           @Html.DisplayFor(model => model.modeloTelefono1.numero)
+       
     </div>
 
+
+@*Telefono 2 solo lo almacena no lo muestra*@
+       <div class="form-group"style="display:none">
+          
+           @Html.DisplayFor(model => model.modeloTelefono2.numero)
+          
+       </div>
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
