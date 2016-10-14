@@ -10,6 +10,7 @@ using ProyectoInge1.Models;
 using System.Web.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Diagnostics;
 using PagedList;
 using System.Text;
 
@@ -80,6 +81,7 @@ namespace ProyectoInge1.Controllers
             return pos;
         }
         // END OF "PARA LA GENERACIÓN DE CONTRASEÑA"
+
         ApplicationDbContext context = new ApplicationDbContext();
         private bool revisarPermisos(string permiso)
         {
@@ -210,10 +212,12 @@ namespace ProyectoInge1.Controllers
                 var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
 
-                string password = GenerateStrongPassword(8);
+
+                // var password = Membership.GeneratePassword(6, 1);
+                var password = GenerateStrongPassword(8);
                 var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
                 var result = await UserManager.CreateAsync(user, password);
-
+    
               if (result.Succeeded)
                     {
                         modelo.modeloUsuario.id = user.Id;
