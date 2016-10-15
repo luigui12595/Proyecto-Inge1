@@ -1,7 +1,7 @@
 ﻿@model ProyectoInge1.Models.ModUsuarioInter
 <script>
     function Cancelar() {
-        window.location.replace('../../Usuarios/Index')
+        window.location.replace('../../Usuarios')
     }
 </script>
 @{
@@ -12,6 +12,7 @@
 {
     @Html.AntiForgeryToken()
 <h2>Eliminar</h2>
+<h4>Usuario</h4>
 <div> <dt>Esta Seguro que desea borrar a:</dt></div>
 <div> <dt>Nombre:</dt></div>
 @Html.DisplayFor(model => model.modeloUsuario.nombre)

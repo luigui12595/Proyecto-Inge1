@@ -12,14 +12,11 @@ namespace ProyectoInge1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GestionCambios
+    public partial class NetRolesPermiso
     {
-        public System.DateTime Fecha { get; set; }
-        public string Razon { get; set; }
-        public short idReqFunc { get; set; }
-        public string realizadoPor { get; set; }
+        public string idNetRoles { get; set; }
+        public short idPermiso { get; set; }
     
-        public virtual ReqFuncional ReqFuncional { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public virtual Permiso Permiso { get; set; }
     }
 }

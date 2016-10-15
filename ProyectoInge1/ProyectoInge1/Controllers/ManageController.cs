@@ -55,12 +55,13 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+
+                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido cambiado con éxito."
+                : message == ManageMessageId.SetPasswordSuccess ? "Su contraseña se ha guardado."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.Error ? "Ocurrió un error."
+                : message == ManageMessageId.AddPhoneSuccess ? "Su número telefónico se ha añadido."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Su numero de teléfono se ha removido."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -123,7 +124,7 @@ namespace ProyectoInge1.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "Su codigo de seguridad: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -282,7 +283,7 @@ namespace ProyectoInge1.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "Ocurrió un error."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
