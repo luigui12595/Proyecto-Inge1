@@ -13,34 +13,21 @@
     @Html.AntiForgeryToken()
 <h2>Eliminar</h2>
 <h4>Usuario</h4>
-<div> <dt>Esta Seguro que desea borrar a:</dt></div>
-<div> <dt>Nombre:</dt></div>
-@Html.DisplayFor(model => model.modeloUsuario.nombre)
-<div> <dt>Apellido:</dt></div>
-@Html.DisplayFor(model => model.modeloUsuario.apellidos)
-    <div class="form-group"style="display:none">
-@Html.DisplayFor(model => model.modeloUsuario.cedula)
+<div> <dt>Esta Seguro que desea borrar a</dt> @Html.DisplayFor(model => model.modeloUsuario.nombre) @Html.DisplayFor(model => model.modeloUsuario.apellidos)</div>
+<div>Cedula @Html.DisplayFor(model => model.modeloUsuario.cedula)</div>
+    <div> <dt>Sus Datos no podran ser recuperados</dt></div>
+    <div class="form-group" style="display:none">
+        @Html.LabelFor(model => model.modeloUsuario.cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
     </div>
-    @*Telefono 1 solo lo almacena no lo muestra*@
-    <div class="form-group"style="display:none">
-       
-           @Html.DisplayFor(model => model.modeloTelefono1.numero)
-       
+    <br/>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a class="btn btn-primary" onclick="Cancelar()">Cancelar</a>
+            <input type="submit" value="Eliminar" class="btn btn-danger" />     
+        </div>
+
     </div>
-
-
-@*Telefono 2 solo lo almacena no lo muestra*@
-       <div class="form-group"style="display:none">
-          
-           @Html.DisplayFor(model => model.modeloTelefono2.numero)
-          
-       </div>
-
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Borrar" class="btn btn-default" />
-        <a class="btn btn-default" onclick="Cancelar()">Cancelar</a>
-    </div>
-
-</div>
-}
+    }

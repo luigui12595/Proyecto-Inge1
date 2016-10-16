@@ -41,11 +41,11 @@ namespace ProyectoInge1.Controllers
         // GET: Roles
         public ActionResult Index()
         {
-            /*if (!revisarPermisos("Control de Permisos"))
+            if (!revisarPermisos("Control de Permisos"))
             {
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Home");
-            }*/
+            }
 
            
             ModRolesInter modelo = new ModRolesInter();
