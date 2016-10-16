@@ -21,6 +21,7 @@ CREATE TABLE Proyecto(
 	descripcion		VARCHAR(50),
 	fechaInicio		DATE			NOT NULL,
 	fechaFinal		DATE,
+	estado			VARCHAR(12)		NOT NULL,
 	lider			CHAR(9)			NOT NULL,
 	
 	CONSTRAINT PK_Proyecto	PRIMARY KEY CLUSTERED ( nombre ASC ),
