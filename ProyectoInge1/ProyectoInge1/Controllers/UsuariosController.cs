@@ -147,20 +147,19 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar(ModUsuarioInter modelo)
         {
-            var id = modelo.modeloUsuario.cedula;
-            modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-            for (int i = 0; i < modelo.listaTelefono.Count; i++)
-            {
-                BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
-            }
+            var usuario = BD.Usuario.Find(modelo.modeloUsuario.cedula);
+            BD.Entry(usuario).State = EntityState.Deleted;
+            BD.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public ActionResult Detalles(string id)
         {
+            
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+            //modelo.Role = BD.NetRolesPermiso.Find(id).Permiso;
             if (1 <= modelo.listaTelefono.Count) { 
                 modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
 
@@ -177,10 +176,16 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Detalles(ModUsuarioInter modelo)
+        public async Task<ActionResult> Detalles(ModUsuarioInter modelo)
         {
+            var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
             var id = modelo.modeloUsuario.cedula;
+            var roleId = modelo.Role;
+            var role = await RoleManager.FindByIdAsync(roleId);
+            // en ves de a;adir es modificar
+            await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
             for(int i = 0; i <modelo.listaTelefono.Count; i++){ 
                 BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
