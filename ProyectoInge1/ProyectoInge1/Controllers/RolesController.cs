@@ -79,23 +79,55 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(ModRolesInter model)
         {
+            
             var rol_permisos = BD.NetRolesPermiso.ToList();
 
             foreach (var rol_permiso in rol_permisos)
             {
-
                 BD.Entry(rol_permiso).State = System.Data.Entity.EntityState.Deleted;
             }
             BD.SaveChanges();
 
+            
+
             foreach (var relacion_rol_permiso in model.rolPermisoId)
             {
-                if (relacion_rol_permiso.valor)
+                if (relacion_rol_permiso.rol.Equals("1"))
                 {
+                    relacion_rol_permiso.valor = true;
                     var rolPermisosEntry = new NetRolesPermiso();
                     rolPermisosEntry.idPermiso = (short)relacion_rol_permiso.permiso;
                     rolPermisosEntry.idNetRoles = relacion_rol_permiso.rol;
                     BD.NetRolesPermiso.Add(rolPermisosEntry);
+                }
+                else if (relacion_rol_permiso.permiso.Equals(2))
+                {
+                    if (relacion_rol_permiso.valor)
+                    {
+                        var rolPermisosEntry = new NetRolesPermiso();
+                        rolPermisosEntry.idPermiso = (short)relacion_rol_permiso.permiso;
+                        rolPermisosEntry.idNetRoles = relacion_rol_permiso.rol;
+                        BD.NetRolesPermiso.Add(rolPermisosEntry);
+                    }
+                    else {
+                        var result = model.rolPermisoId.Find(x => x.rol == relacion_rol_permiso.rol && (x.permiso == 3||x.permiso==4));
+                        if (result.permiso.Equals(3)|| result.permiso.Equals(4)) {
+                            var rolPermisosEntry = new NetRolesPermiso();
+                            rolPermisosEntry.idPermiso = (short)relacion_rol_permiso.permiso;
+                            rolPermisosEntry.idNetRoles = relacion_rol_permiso.rol;
+                            BD.NetRolesPermiso.Add(rolPermisosEntry);
+                        }
+                    }
+                }
+                else
+                {
+                    if (relacion_rol_permiso.valor)
+                    {
+                        var rolPermisosEntry = new NetRolesPermiso();
+                        rolPermisosEntry.idPermiso = (short)relacion_rol_permiso.permiso;
+                        rolPermisosEntry.idNetRoles = relacion_rol_permiso.rol;
+                        BD.NetRolesPermiso.Add(rolPermisosEntry);
+                    }
                 }
             }
             BD.SaveChanges();
