@@ -19,7 +19,7 @@ namespace ProyectoInge1.Controllers
     {
 
         ApplicationDbContext context;
-        BD_IngeGrupo4Entities1 BD;  
+        BD_IngeGrupo4Entities1 BD;
         public RolesController()
         {
             context = new ApplicationDbContext();
@@ -27,7 +27,8 @@ namespace ProyectoInge1.Controllers
         }
 
 
-        private bool revisarPermisos(string permiso)
+
+         private bool revisarPermisos(string permiso)
         {
             string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var rol = context.Users.Find(userID).Roles.First();
@@ -40,11 +41,11 @@ namespace ProyectoInge1.Controllers
         // GET: Roles
         public ActionResult Index()
         {
-            if (!revisarPermisos("Control de Permisos"))
+            /*if (!revisarPermisos("Control de Permisos"))
             {
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Home");
-            }
+            }*/
 
            
             ModRolesInter modelo = new ModRolesInter();
