@@ -124,8 +124,26 @@ CREATE TABLE CriterioAceptacion(
 											ON UPDATE CASCADE
 );
 
+CREATE TRIGGER borrar_usuario
+ON Usuario INSTEAD OF DELETE
+AS
+BEGIN
+	DELETE FROM Telefono
+	WHERE usuario IN (SELECT cedula
+					  FROM deleted);
 
+	DELETE FROM AspNetUserRoles
+	WHERE UserId IN (SELECT id
+	                 FROM deleted);
 
+	DELETE FROM Usuario
+	WHERE cedula IN (SELECT cedula
+	                 FROM deleted);
+
+	DELETE FROM AspNetUsers
+	WHERE id IN (SELECT id
+	             FROM deleted);
+END;
 
 
 
