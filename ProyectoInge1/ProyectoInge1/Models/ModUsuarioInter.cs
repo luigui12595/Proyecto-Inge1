@@ -19,7 +19,7 @@ namespace ProyectoInge1.Models
         public List<Usuario> listaUsuarios { get; set; }
         public List<Telefono> listaTelefono { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
-        [Required(ErrorMessage = "--- Rol No Asignado ---")]
+        [Required(ErrorMessage = "Debe seleccionar un rol")]
         public string Role { get; set; }
     } 
 }

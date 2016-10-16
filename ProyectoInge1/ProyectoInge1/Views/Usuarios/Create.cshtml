@@ -1,6 +1,6 @@
 ﻿
 @model ProyectoInge1.Models.ModUsuarioInter
-
+@using ProyectoInge1.Helpers
 
 @{
     ViewBag.Title = "Crear";
@@ -17,28 +17,28 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.modeloUsuario.cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.CustomLabelFor(model => model.modeloUsuario.cedula, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.modeloUsuario.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.CustomLabelFor(model => model.modeloUsuario.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.modeloUsuario.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.modeloUsuario.nombre, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.modeloUsuario.apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.CustomLabelFor(model => model.modeloUsuario.apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.modeloUsuario.apellidos, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.modeloUsuario.apellidos, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.modeloUsuario.correo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.CustomLabelFor(model => model.modeloUsuario.correo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.modeloUsuario.correo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.modeloUsuario.correo, "", new { @class = "text-danger" })
@@ -59,12 +59,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Rol:</label>
+            <label class="control-label col-md-2">* Rol:</label>
             <div class="col-md-10" style="padding-top:0.5em;">
-                @Html.DropDownListFor(model => model.Role,
-               new[] { new SelectListItem() { Text = "Administrador", Value = "1" },
-               new SelectListItem() { Text = "Desarrollador", Value = "2" },
-               new SelectListItem() { Text = "Usuario", Value = "3" } }, new { @class = "form-control" }) 
+                @Html.DropDownListFor(model => model.Role, new[] { new SelectListItem() { Text = "Administrador", Value = "1" },new SelectListItem() { Text = "Desarrollador", Value = "2" },new SelectListItem() { Text = "Usuario", Value = "3" } },"--Rol no asignado--", new { @class = "form-control" }) 
             </div>
         </div>
         <div class="form-group">
@@ -80,7 +77,9 @@
         </div>
 }
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
 }
 
