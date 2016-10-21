@@ -371,11 +371,11 @@
     <Content Include="Views\Usuarios\Detalles.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Usuarios\Eliminar.cshtml" />
+    <Content Include="Views\ReqFuncional\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Proyectos\" />
-    <Folder Include="Views\ReqFuncional\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
