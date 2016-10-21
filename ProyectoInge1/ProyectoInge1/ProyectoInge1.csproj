@@ -247,6 +247,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModProyectoInter.cs" />
+    <Compile Include="Models\ModReqFuncionalInter.cs" />
     <Compile Include="Models\ModRolesInter.cs" />
     <Compile Include="Models\ModuloUsuario.Context.cs">
       <AutoGen>True</AutoGen>

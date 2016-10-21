@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoInge1.Models
 {
-    class ModReqFuncionalInter
+    public class ModReqFuncionalInter
     {
     }
 }

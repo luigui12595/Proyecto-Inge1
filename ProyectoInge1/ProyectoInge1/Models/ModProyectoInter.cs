@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoInge1.Models
 {
-    class ModProyectoInter
+    public class ModProyectoInter
     {
         public Usuario usuario { get; set; }
         public Proyecto proyecto { get; set; }
