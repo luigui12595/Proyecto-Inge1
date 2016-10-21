@@ -18,19 +18,24 @@ namespace ProyectoInge1.Controllers
             return View();
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModUsuarioInter modelo)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
-                /*
+                
                 var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
                 var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
                 var result = await UserManager.CreateAsync(user, password);
                 */
-                if (result.Succeeded)
+                /*if (result.Succeeded)
                 {
                     modelo.modeloUsuario.id = user.Id;
 
@@ -62,14 +67,13 @@ namespace ProyectoInge1.Controllers
                     }
 
                 }
-
                 return RedirectToAction("Index");
             }
             else
             {
-                ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                ModelState.AddModelError("", "Debe completar toda la información necesaria.");*/
                 return View(modelo);
-            }
+            //}
         }
     }
 }
