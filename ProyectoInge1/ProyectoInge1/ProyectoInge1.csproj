@@ -244,6 +244,7 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModReqFuncionalInter.cs" />
     <Compile Include="Models\ModRolesInter.cs" />
     <Compile Include="Models\ModuloUsuario.Context.cs">
       <AutoGen>True</AutoGen>
@@ -371,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Req_Funcionales\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
