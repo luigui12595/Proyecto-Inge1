@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,7 @@ namespace ProyectoInge1.Models
         public List<ReqFuncional> listaRequerimientos { get; set; }
         public List<CriterioAceptacion> listaCriterio { get; set; }
         public CriterioAceptacion criterio { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime ReleaseDate { get; set; }
     }
 }
