@@ -130,7 +130,7 @@ AS
 BEGIN
 	DELETE FROM Telefono
 	WHERE usuario IN (SELECT cedula
-					  FROM deleted);
+		          FROM deleted);
 
 	DELETE FROM AspNetUserRoles
 	WHERE UserId IN (SELECT id
@@ -143,6 +143,23 @@ BEGIN
 	DELETE FROM AspNetUsers
 	WHERE id IN (SELECT id
 	             FROM deleted);
+	
+	UPDATE ReqFuncional
+	SET fuente = NULL
+	WHERE fuente IN (SELECT cedula
+		              FROM deleted);
+
+	UPDATE ReqFuncional
+	SET responsable1 = NULL
+	WHERE responsable1 IN (SELECT cedula
+		              FROM deleted);
+	
+	UPDATE ReqFuncional
+	SET responsable2 = NULL
+	WHERE responsable2 IN (SELECT cedula
+		              FROM deleted);
+	
+
 END;
 
 
