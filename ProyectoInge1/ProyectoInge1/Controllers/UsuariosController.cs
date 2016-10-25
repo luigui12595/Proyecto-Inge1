@@ -155,11 +155,18 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(string id)
         {
-            
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-            //modelo.Role = BD.NetRolesPermiso.Find(id).Permiso;
+            //modelo.listaUserRoles = context.Users.ToList();
+            //modelo.listaRoles= BD.;
+            //var idRol= modelo.listaRoles.Find(id) ;
+
+
+
+
+
+            modelo.Role = "admin";
             if (1 <= modelo.listaTelefono.Count) { 
                 modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
 

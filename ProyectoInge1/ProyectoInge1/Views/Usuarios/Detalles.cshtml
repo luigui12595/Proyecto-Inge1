@@ -10,9 +10,17 @@
         window.location.replace('../../Usuarios')
 
     }
+    function myFunction() {
+        var r = confirm("Esta seguro que desea eliminar este usuario?");
+        if (r == true) {
+            alert("verdadero");
+        } else {
+            alert("falso");
+            window.location.replace('../../Usuarios')
+        }
+    }
     function borrar(element) {
-        var elementid = element.id;
-        window.location.replace('../Eliminar/'+elementid)
+        myFunction();       
     }
 </script>
 @{
@@ -21,17 +29,17 @@
 }
 
 <h2>Detalles</h2>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
-        <h4>Detalles de Usuario</h4>
+        
         <hr />
 
         <div class="elementoModificar" style="display:none">
-            <div class="col-lg-2 col-lg-push-6">
-                <a class="btn btn-danger" id='@(Model.modeloUsuario.cedula)' onclick="borrar(this)">Eliminar</a>
-            </div><br/>
+@using (Html.BeginForm("Detalles", "Usuarios", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display:inline;padding-left:5px;" }))
+{
+    @Html.AntiForgeryToken()
+            <h4>Modificar de Usuario</h4>
+               <br/>
              <dl class="dl-horizontal">
              @*Cedula Modificar*@
                 <div class="form-group">
@@ -117,22 +125,31 @@
 
                      </div>
                  </div>
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Aceptar" class="btn btn-primary" />
+
+   <button type="submit" class="btn btn-primary">Aceptar</button>
+
                         <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
                     </div>
 
                 </div>
             </dl>
+}
         </div>
     </div>
+
 @*---------------------------------------Detalles------------------------------------------------*@
     <div class="elementoEditar">
+@using (Html.BeginForm("Eliminar", "Usuarios", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display:inline;padding-left:5px;" }))
+{
+    @Html.AntiForgeryToken()
+        <h4>Consultar de Usuario</h4>
         <div class="form-horizontal">
             <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
             <div class="col-lg-2 col-lg-push-6">
-                <a class="btn btn-danger" id='@(Model.modeloUsuario.cedula)' onclick="borrar(this)">Eliminar</a>
+                <button type="submit" class="btn btn-danger">Eliminar</button>
             </div>
             <dl class="dl-horizontal">
 
@@ -195,18 +212,23 @@
                     @Html.EditorFor(model => model.modeloProyecto.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                     @Html.ValidationMessageFor(model => model.modeloProyecto.nombre, "", new { @class = "text-danger" })
                 </div>
-
+                @*Rol Modificar*@
+                <div class="form-group">
+                    <label class="control-label col-md-2">*Rol:</label>
+                    @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                </div>
             </dl>
 
             <div>
                 @Html.ActionLink("Back to List", "Index")
             </div>
         </div>
+}
     </div>
 
     <p>
     </p>
-    }
 
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
