@@ -11,8 +11,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-<h2>Eliminar</h2>
-<h4>Usuario</h4>
+<h2>Gestión de usuarios</h2>
+<h4>Eliminar usuario</h4>
 <div> <dt>Esta Seguro que desea borrar a</dt> @Html.DisplayFor(model => model.modeloUsuario.nombre) @Html.DisplayFor(model => model.modeloUsuario.apellidos)</div>
 <div>Cedula @Html.DisplayFor(model => model.modeloUsuario.cedula)</div>
     <div> <dt>Sus Datos no podran ser recuperados</dt></div>

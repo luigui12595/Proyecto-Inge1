@@ -8,5 +8,8 @@ namespace ProyectoInge1.Models
 {
     public class ModReqFuncionalInter
     {
+        public List<ReqFuncional> listaRequerimientos { get; set; }
+
+
     }
 }

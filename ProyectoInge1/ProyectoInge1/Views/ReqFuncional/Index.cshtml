@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Requerimiento funcional</h2>
 
 @using (Html.BeginForm("Index", "ReqFuncional", FormMethod.Get))
 {
@@ -51,25 +51,20 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id='@(item.cedula)' onclick="gotoDetails(this)">
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.nombre)
-                    @Html.DisplayFor(modelItem => item.apellidos)
-                    @Html.Raw(" ")
                 </td>
                 <td>
-                    @{  var id = item.id;
-                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                        var userRoles = userManager.GetRoles(id);
-                        var role = userRoles[0];  @Html.DisplayFor(modelItem => role)
-                    }
+                    @Html.DisplayFor(modelItem => item.sprint)
                 </td>
                 <td>
-                    @{ if (item.Proyecto.Count != 0)
-                    {
-                        @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
-            </td>
-        </tr>
+                    @Html.DisplayFor(modelItem => item.modulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estado)
+                </td>
+           </tr>
                     }
     </tbody>
 </table>

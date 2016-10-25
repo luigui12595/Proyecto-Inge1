@@ -15,6 +15,8 @@ namespace ProyectoInge1.Models
     
     public partial class BD_IngeGrupo4Entities1 : DbContext
     {
+        internal readonly object reqfuncional;
+
         public BD_IngeGrupo4Entities1()
             : base("name=BD_IngeGrupo4Entities1")
         {
