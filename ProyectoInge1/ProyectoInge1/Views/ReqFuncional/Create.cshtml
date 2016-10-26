@@ -1,8 +1,55 @@
-﻿@model ReqFunclController.Model.ReqFuncionalController
+﻿@model ProyectoInge1.Models.ReqFuncional
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Requerimientos Funcionales</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Crear</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Nombre:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Sprint:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sprint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sprint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Modulo:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modulo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Descripcion:</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                
+                <!--Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { class = "form-control" } })-->
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

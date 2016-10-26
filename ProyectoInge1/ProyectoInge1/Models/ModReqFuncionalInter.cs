@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProyectoInge1.Models
 {
-    class ModReqFuncionalInter
-    {
 
+        public class ModReqFuncionalInter
+        {
+            public List<ReqFuncional> listaRequerimientos { get; set; }
+            public ReqFuncional ModeloReqFun { get; set; }
+            
+
+        }
     }
-}

@@ -229,6 +229,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\ReqFuncionalController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -245,6 +246,7 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModProyectoInter.cs" />
     <Compile Include="Models\ModReqFuncionalInter.cs" />
     <Compile Include="Models\ModRolesInter.cs" />
     <Compile Include="Models\ModuloUsuario.Context.cs">
@@ -275,7 +277,6 @@
     <Compile Include="Models\ReqFuncional.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ReqFunlController.cs" />
     <Compile Include="Models\Telefono.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
@@ -371,12 +372,12 @@
     <Content Include="Views\Usuarios\Detalles.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Usuarios\Eliminar.cshtml" />
+    <Content Include="Views\ReqFuncional\Index.cshtml" />
     <Content Include="Views\ReqFuncional\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ReqFunl\" />
-    <Folder Include="Views\Req_Funcionales\" />
+    <Folder Include="Views\Proyectos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

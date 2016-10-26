@@ -20,6 +20,7 @@ CREATE TABLE Proyecto(
 	descripcion		VARCHAR(50),
 	fechaInicio		DATE			NOT NULL,
 	fechaFinal		DATE,
+	estado			VARCHAR(12)		NOT NULL,
 	lider			CHAR(9)			NOT NULL,
 	
 	CONSTRAINT PK_Proyecto	PRIMARY KEY CLUSTERED ( nombre ASC ),
@@ -107,7 +108,7 @@ CREATE TABLE Telefono(
 	numero		CHAR(8),
 
 	CONSTRAINT CHK_usuario_telefono	CHECK (usuario LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-	CONSTRAINT CHK_numero_telefono	CHECK (usuario LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_numero_telefono	CHECK (numero LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT PK_Telefono	PRIMARY KEY CLUSTERED ( usuario, numero ASC ),
 	CONSTRAINT FK_Usuario_Telefono	FOREIGN KEY ( usuario ) REFERENCES Usuario ( cedula )
 									ON UPDATE CASCADE,
@@ -121,5 +122,43 @@ CREATE TABLE CriterioAceptacion(
 	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc ) REFERENCES ReqFuncional ( id )
 											ON UPDATE CASCADE
 );
+
+CREATE TRIGGER borrar_usuario
+ON Usuario INSTEAD OF DELETE
+AS
+BEGIN
+	UPDATE ReqFuncional
+	SET fuente = NULL
+	WHERE fuente IN (SELECT cedula
+		              FROM deleted);
+
+	UPDATE ReqFuncional
+	SET responsable1 = NULL
+	WHERE responsable1 IN (SELECT cedula
+		              FROM deleted);
+	
+	UPDATE ReqFuncional
+	SET responsable2 = NULL
+	WHERE responsable2 IN (SELECT cedula
+		              FROM deleted);
+
+	DELETE FROM Telefono
+	WHERE usuario IN (SELECT cedula
+		          FROM deleted);
+
+	DELETE FROM AspNetUserRoles
+	WHERE UserId IN (SELECT id
+	                 FROM deleted);
+
+	DELETE FROM Usuario
+	WHERE cedula IN (SELECT cedula
+	                 FROM deleted);
+
+	DELETE FROM AspNetUsers
+	WHERE id IN (SELECT id
+	             FROM deleted);
+
+END;
+
 
 
