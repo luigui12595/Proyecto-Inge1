@@ -25,7 +25,7 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModUsuarioInter modelo)
+        public async Task<ActionResult> Create(ModUsuarioInter modelo, string id)
         {
             /*if (ModelState.IsValid)
             {

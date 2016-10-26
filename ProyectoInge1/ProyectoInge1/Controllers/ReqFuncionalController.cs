@@ -59,8 +59,14 @@ namespace ProyectoInge1.Controllers
             return View(requerimientos.ToList().ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create()
+        public ActionResult Create(/*string id*/)
         {
+            string id = "Aseguradora";
+            var usuarios =
+                          from usersP in BD.Usuario
+                         // where usersP.Proyecto = id
+                          select usersP;
+            // return View(usuarios.ToList() );
             return View();
         }
 
