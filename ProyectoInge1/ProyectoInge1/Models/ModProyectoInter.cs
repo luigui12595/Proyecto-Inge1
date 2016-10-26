@@ -17,7 +17,6 @@ namespace ProyectoInge1.Models
         public List<ReqFuncional> listaRequerimientos { get; set; }
         public List<CriterioAceptacion> listaCriterio { get; set; }
         public CriterioAceptacion criterio { get; set; }
-        [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
     }
 }
