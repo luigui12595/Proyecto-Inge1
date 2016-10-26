@@ -49,7 +49,7 @@ CREATE TABLE ReqFuncional(
 	responsable2	CHAR(9),
 	nomProyecto		VARCHAR(30)		NOT NULL,
 	
-	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id ASC ),
+	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id, nomProyecto ASC ), ***
 	
 	CONSTRAINT CHK_fuente_reqFuncional	CHECK (fuente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT CHK_resp1_reqFuncional	CHECK (responsable1 LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -65,11 +65,12 @@ CREATE TABLE GestionCambios(
 	Fecha			DATETIME		NOT NULL,
 	Razon			VARCHAR(50),
 	idReqFunc		SMALLINT,
+	nomProyecto		VARCHAR(30), 
 	realizadoPor	CHAR(9),
 	
 	CONSTRAINT CHK_realizadoPor_gestCambios	CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-	CONSTRAINT PK_GestionCambios	 PRIMARY KEY CLUSTERED ( idReqFunc,Fecha ASC ),
-	CONSTRAINT FK_ReqFunc_GestCambios	FOREIGN KEY ( idReqFunc ) REFERENCES ReqFuncional ( id ),
+	CONSTRAINT PK_GestionCambios	 PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto ,Fecha ASC ),
+	CONSTRAINT FK_ReqFunc_GestCambios	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id, nomProyecto ),
 	CONSTRAINT FK_Usuario_GestCambios	FOREIGN KEY ( RealizadoPor ) REFERENCES Usuario ( cedula )
 										ON UPDATE CASCADE
 );
@@ -116,11 +117,12 @@ CREATE TABLE Telefono(
 );
 
 CREATE TABLE CriterioAceptacion(
-	idReqFunc	SMALLINT			NOT NULL,	
+	idReqFunc	SMALLINT			NOT NULL,
+	nomProyecto	VARCHAR(30)
 	criterio	VARCHAR(128),
 	
-	CONSTRAINT PK_CritAceptacion	PRIMARY KEY CLUSTERED ( idReqFunc, criterio ASC ),
-	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc ) REFERENCES ReqFuncional ( id )
+	CONSTRAINT PK_CritAceptacion	PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto, criterio ASC ),
+	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id,reqProyecto )
 											ON UPDATE CASCADE
 );
 
