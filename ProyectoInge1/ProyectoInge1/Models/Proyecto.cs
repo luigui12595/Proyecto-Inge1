@@ -27,12 +27,8 @@ namespace ProyectoInge1.Models
         [DataType(DataType.MultilineText)]
         public string descripcion { get; set; }
         [Display(Name = "Fecha Inicio")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaInicio { get; set; }
         [Display(Name = "Fecha Final")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaFinal { get; set; }
         [Display(Name = "Líder")]
         public string lider { get; set; }
