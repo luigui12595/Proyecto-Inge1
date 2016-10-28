@@ -20,6 +20,7 @@ CREATE TABLE Proyecto(
 	descripcion		VARCHAR(50),
 	fechaInicio		DATE			NOT NULL,
 	fechaFinal		DATE,
+	estado			VARCHAR(12)		NOT NULL,
 	lider			CHAR(9)			NOT NULL,
 	
 	CONSTRAINT PK_Proyecto	PRIMARY KEY CLUSTERED ( nombre ASC ),
@@ -37,8 +38,8 @@ CREATE TABLE ReqFuncional(
 	estado			VARCHAR(10),
 	fechaInicial	DATE,
 	fechaFinal		DATE,
-	observaciones	VARCHAR(50),
-	descripcion		VARCHAR(50),
+	observaciones		VARCHAR(256),
+	descripcion		VARCHAR(256),
 	esfuerzo		SMALLINT,	
 	prioridad		SMALLINT,
 	imagen			VARBINARY,
@@ -47,7 +48,7 @@ CREATE TABLE ReqFuncional(
 	responsable2	CHAR(9),
 	nomProyecto		VARCHAR(30)		NOT NULL,
 	
-	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id ASC ),
+	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id, nomProyecto ASC ), ***
 	
 	CONSTRAINT CHK_fuente_reqFuncional	CHECK (fuente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT CHK_resp1_reqFuncional	CHECK (responsable1 LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -63,11 +64,12 @@ CREATE TABLE GestionCambios(
 	Fecha			DATETIME		NOT NULL,
 	Razon			VARCHAR(50),
 	idReqFunc		SMALLINT,
+	nomProyecto		VARCHAR(30), 
 	realizadoPor	CHAR(9),
 	
 	CONSTRAINT CHK_realizadoPor_gestCambios	CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-	CONSTRAINT PK_GestionCambios	 PRIMARY KEY CLUSTERED ( idReqFunc,Fecha ASC ),
-	CONSTRAINT FK_ReqFunc_GestCambios	FOREIGN KEY ( idReqFunc ) REFERENCES ReqFuncional ( id ),
+	CONSTRAINT PK_GestionCambios	 PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto ,Fecha ASC ),
+	CONSTRAINT FK_ReqFunc_GestCambios	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id, nomProyecto ),
 	CONSTRAINT FK_Usuario_GestCambios	FOREIGN KEY ( RealizadoPor ) REFERENCES Usuario ( cedula )
 										ON UPDATE CASCADE
 );
@@ -107,19 +109,58 @@ CREATE TABLE Telefono(
 	numero		CHAR(8),
 
 	CONSTRAINT CHK_usuario_telefono	CHECK (usuario LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-	CONSTRAINT CHK_numero_telefono	CHECK (usuario LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_numero_telefono	CHECK (numero LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT PK_Telefono	PRIMARY KEY CLUSTERED ( usuario, numero ASC ),
 	CONSTRAINT FK_Usuario_Telefono	FOREIGN KEY ( usuario ) REFERENCES Usuario ( cedula )
 									ON UPDATE CASCADE,
 );
 
 CREATE TABLE CriterioAceptacion(
-	idReqFunc	SMALLINT			NOT NULL,	
+	idReqFunc	SMALLINT			NOT NULL,
+	nomProyecto	VARCHAR(30)
 	criterio	VARCHAR(128),
 	
-	CONSTRAINT PK_CritAceptacion	PRIMARY KEY CLUSTERED ( idReqFunc, criterio ASC ),
-	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc ) REFERENCES ReqFuncional ( id )
+	CONSTRAINT PK_CritAceptacion	PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto, criterio ASC ),
+	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id,reqProyecto )
 											ON UPDATE CASCADE
 );
+
+CREATE TRIGGER borrar_usuario
+ON Usuario INSTEAD OF DELETE
+AS
+BEGIN
+	UPDATE ReqFuncional
+	SET fuente = NULL
+	WHERE fuente IN (SELECT cedula
+		              FROM deleted);
+
+	UPDATE ReqFuncional
+	SET responsable1 = NULL
+	WHERE responsable1 IN (SELECT cedula
+		              FROM deleted);
+	
+	UPDATE ReqFuncional
+	SET responsable2 = NULL
+	WHERE responsable2 IN (SELECT cedula
+		              FROM deleted);
+
+	DELETE FROM Telefono
+	WHERE usuario IN (SELECT cedula
+		          FROM deleted);
+
+	DELETE FROM AspNetUserRoles
+	WHERE UserId IN (SELECT id
+	                 FROM deleted);
+
+	DELETE FROM Usuario
+	WHERE cedula IN (SELECT cedula
+	                 FROM deleted);
+
+	DELETE FROM AspNetUsers
+	WHERE id IN (SELECT id
+	             FROM deleted);
+
+END;
+
 
 
