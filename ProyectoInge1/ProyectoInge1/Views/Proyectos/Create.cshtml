@@ -45,51 +45,17 @@
                 @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
             </div>
         </div>
-        <table border="0" cellpadding="0" cellspacing="0">
-
-            <tr>
-
-                <td>
-
-                    <asp:ListBox ID="lstLeft" runat="server" SelectionMode="Multiple" Width="80">
-
-                        <asp:ListItem Text="Apple" Value="Apple" />
-
-                        <asp:ListItem Text="Mango" Value="Mango" />
-
-                        <asp:ListItem Text="Grapes" Value="Grapes" />
-
-                        <asp:ListItem Text="Pineapple" Value="Pineapple" />
-
-                        <asp:ListItem Text="Guava" Value="Guava" />
-
-                        <asp:ListItem Text="Cherry" Value="Cherry" />
-
-                        <asp:ListItem Text="Banana" Value="Banana" />
-
-                        <asp:ListItem Text="Papaya" Value="Papaya" />
-
-                    </asp:ListBox>
-
-                </td>
-
-                <td>
-
-                    <input type="button" id="left" value="<<" />
-
-                    <input type="button" id="right" value=">>" />
-
-                </td>
-
-                <td>
-
-                    <asp:ListBox ID="lstRight" runat="server" SelectionMode="Multiple" Width="80"></asp:ListBox>
-
-                </td>
-
-            </tr>
-
-        </table>
+        <select id="a" size="10" multiple="">
+            <option value="a">Afghanistan</option>
+            <option value="b">Bahamas</option>
+            <option value="c">Barbados</option>
+            <option value="d">Belgium</option>
+            <option value="e">Bhutan</option>
+            <option value="f">China</option>
+            <option value="g">Croatia</option>
+            <option value="h">Denmark</option>
+            <option value="i">France</option>
+        </select>
 
         <br />
 
