@@ -460,10 +460,10 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Usuarios\Eliminar.cshtml" />
     <Content Include="Views\ReqFuncional\Index.cshtml" />
+    <Content Include="Views\Proyectos\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Proyectos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
