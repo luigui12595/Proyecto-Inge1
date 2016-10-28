@@ -7,11 +7,17 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-
+using System.Data.Entity;
+using System.Web.Security;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Diagnostics;
+using PagedList;
+using System.Text;
 namespace ProyectoInge1.Controllers
 {
     public class ProyectosController : Controller
     {
+        BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         // GET: Proyectos
         public ActionResult Index()
         {
@@ -74,6 +80,22 @@ namespace ProyectoInge1.Controllers
                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");*/
                 return View(modelo);
             //}
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Eliminar(ModProyectoInter modelo)
+        {
+            var ProyectoB = BD.Proyecto.Find(modelo.proyecto.nombre);
+            //Condicion de estado
+            BD.Entry(ProyectoB).State = EntityState.Deleted;
+            BD.SaveChanges();
+            //Fin condicion estado
+            //  if (ProyectoB. ) { }
+            /*var usuario = BD.Usuario.Find(modelo. );
+            BD.Entry(usuario).State = EntityState.Deleted;
+            BD.SaveChanges();*/
+            return RedirectToAction("Index");
         }
     }
 }
