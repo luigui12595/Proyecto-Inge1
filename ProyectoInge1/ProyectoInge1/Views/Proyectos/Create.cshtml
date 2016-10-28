@@ -1,11 +1,40 @@
-﻿
-@model ProyectoInge1.Models.ModProyectoInter
+﻿@model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
+
+<script>
+function listbox_moveacross(sourceID, destID) {
+	var src = document.getElementById(sourceID);
+	var dest = document.getElementById(destID);
+
+	for(var count=0; count < src.options.length; count++) {
+
+		if(src.options[count].selected == true) {
+				var option = src.options[count];
+
+				var newOption = document.createElement("option");
+				newOption.value = option.value;
+				newOption.text = option.text;
+				newOption.selected = true;
+				try {
+						 dest.add(newOption, null); //Standard
+						 src.remove(count, null);
+				 }catch(error) {
+						 dest.add(newOption); // IE only
+						 src.remove(count);
+				 }
+				count--;
+		}
+	}
+}
+
+</script>
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Styles.Render("~/Content/datepicker")
+@Scripts.Render("~/bundles/datePicker")
 
 <h2>Create</h2>
 
@@ -19,25 +48,30 @@
         <div class="form-group">
             @Html.CustomLabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.proyecto.nombre, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.CustomLabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.proyecto.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.proyecto.descripcion, new { htmlAttributes = new { @class = "form-control", placeholder = "50 Carácteres máximo" } })
                 @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.CustomLabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input class="date-picker" />
-                @Html.TextBox("YourTextBox", "", new { @class = "date-picker" })
-                @Html.ValidationMessageFor(model => model.ReleaseDate)   
+                @Html.TextBoxFor(model => model.proyecto.fechaInicio, new { @class = "form-control datepicker", placeholder = "DATE" })
             </div>
         </div>
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+            </div>
+        </div>*
+        <br/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="Aceptar" class="btn btn-primary" />
@@ -45,18 +79,42 @@
                 @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
             </div>
         </div>
-        <select id="a" size="10" multiple="">
-            <option value="a">Afghanistan</option>
-            <option value="b">Bahamas</option>
-            <option value="c">Barbados</option>
-            <option value="d">Belgium</option>
-            <option value="e">Bhutan</option>
-            <option value="f">China</option>
-            <option value="g">Croatia</option>
-            <option value="h">Denmark</option>
-            <option value="i">France</option>
-        </select>
 
+        <br/>  
+        <tr valign="top">
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <select class="control-label col-md-2" id="s" size="10" multiple="">
+
+                </select>
+            </td>
+            <td valign="center">
+                <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+                <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+            </td>
+            <td>
+                <select class= "control-label col-md-2" id="d" size="10" multiple="">
+                    <option value="a">Afghanistan</option>
+                    <option value="b">Bahamas</option>
+                    <option value="c">Barbados</option>
+                    <option value="d">Belgium</option>
+                    <option value="e">Bhutan</option>
+                    <option value="f">China</option>
+                    <option value="g">Croatia</option>
+                    <option value="h">Denmark</option>
+                    <option value="i">France</option>
+                    <option value="c">Barbados</option>
+                    <option value="i">France</option>
+                    <option value="h">Denmark</option>
+                    <option value="g">Croatia</option>
+                    <option value="a">Afghanistan</option>
+                    <option value="b">Bahamas</option>
+                    <option value="d">Belgium</option>
+                    <option value="e">Bhutan</option>
+                    <option value="f">China</option>
+                </select>
+            </td>
+        </tr>
         <br />
 
         <asp:Button ID="btnSubmit" Text="Submit" runat="server" OnClick="Submit" />
@@ -105,5 +163,17 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
 
+
+<script type="text/javascript">
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+    });
+    $(".datepicker").on("dp.change", function (e) {
+        $('.datepicker2').data("DatePicker").setMinDate(e.date);
+    });
+    $(".datepicker2").on("dp.change", function (e) {
+        $('.datepicker').data("DatePicker").setMaxDate(e.date);
+    });
+</script>
+}

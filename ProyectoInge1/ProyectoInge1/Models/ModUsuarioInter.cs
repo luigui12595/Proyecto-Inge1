@@ -38,5 +38,6 @@ namespace ProyectoInge1.Models
         public string Role { get; set; }
         public List<IdentityRole> listaRoles { get; set; }
         public List<ApplicationUser> listaUserRoles { get; set; }
+        public DateTime Date { get; internal set; }
     } 
 }
