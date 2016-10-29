@@ -88,8 +88,16 @@ namespace ProyectoInge1.Controllers
         {
             var ProyectoB = BD.Proyecto.Find(modelo.proyecto.nombre);
             //Condicion de estado
-            BD.Entry(ProyectoB).State = EntityState.Deleted;
-            BD.SaveChanges();
+            if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
+            {
+                //solicitar una confirmacion para eliminar proyecto 
+                BD.Entry(ProyectoB).State = EntityState.Deleted;
+                BD.SaveChanges();
+            }
+            else {
+                //Desplegar mensaje de imposible eliminar el proyecto
+            }
+            
             //Fin condicion estado
             //  if (ProyectoB. ) { }
             /*var usuario = BD.Usuario.Find(modelo. );

@@ -59,15 +59,22 @@ namespace ProyectoInge1.Controllers
             return View(requerimientos.ToList().ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create(/*string id*/)
+        public ActionResult Create(/*string NombProy*/)
         {
             string id = "Aseguradora";
-            var usuarios =
-                          from usersP in BD.Usuario
-                         // where usersP.Proyecto = id
+
+            ModReqFuncionalInter RQ = new ModReqFuncionalInter();
+            //RQ.ReqUsuario = BD.Usuario.Find(id);
+           /* RQ.ReqFunUsu=
+           */ var usuarios =
+                          from usersP in BD.Proyecto
+                          //where usersP.Proyecto = NombProy
                           select usersP;
-            // return View(usuarios.ToList() );
-            return View();
+
+            //usuarios = usuarios.Where(x => x.nombre == NombProy);
+            usuarios = usuarios.Where(x => x.nombre == id);
+            // return View(usuarios.ToList() );*/
+            return View(/*RQusuarios.ToList()*/);
         }
 
     }
