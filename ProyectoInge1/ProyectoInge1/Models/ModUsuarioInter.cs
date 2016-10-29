@@ -21,5 +21,6 @@ namespace ProyectoInge1.Models
         public List<Proyecto> listaProyectos { get; set; }
         [Required(ErrorMessage = "Debe seleccionar un rol")]
         public string Role { get; set; }
+        public DateTime Date { get; internal set; }
     } 
 }

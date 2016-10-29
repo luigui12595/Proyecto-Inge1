@@ -84,9 +84,10 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Eliminar(ModProyectoInter modelo)
+        public ActionResult Eliminar(/**/ModProyectoInter modelo/**//* string id*/)
         {
-            var ProyectoB = BD.Proyecto.Find(modelo.proyecto.nombre);
+            //id ="pp";
+            var ProyectoB = BD.Proyecto.Find("pp"/*modelo.proyecto.nombre*//*id*/);
             //Condicion de estado
             if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
             {
