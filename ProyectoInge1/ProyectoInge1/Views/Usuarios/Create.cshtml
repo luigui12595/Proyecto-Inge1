@@ -1,0 +1,85 @@
+﻿
+@model ProyectoInge1.Models.ModUsuarioInter
+@using ProyectoInge1.Helpers
+
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Gestión de usuarios</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Crear usuario</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.modeloUsuario.cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modeloUsuario.cedula, new { htmlAttributes = new { @class = "form-control", placeholder = "123456789" } })
+                @Html.ValidationMessageFor(model => model.modeloUsuario.cedula, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.modeloUsuario.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modeloUsuario.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modeloUsuario.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.modeloUsuario.apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modeloUsuario.apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modeloUsuario.apellidos, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.modeloUsuario.correo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modeloUsuario.correo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modeloUsuario.correo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Telefono 1:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modeloTelefono1.numero, new { htmlAttributes = new { @class = "form-control", placeholder = "88888888" } })
+                @Html.ValidationMessageFor(model => model.modeloTelefono1.numero, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Telefono 2:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modeloTelefono2.numero, new { htmlAttributes = new { @class = "form-control", placeholder = "88888888" } })
+                @Html.ValidationMessageFor(model => model.modeloTelefono2.numero, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">* Rol:</label>
+            <div class="col-md-10" style="padding-top:0.5em;">
+                @Html.DropDownListFor(model => model.Role, new[] { new SelectListItem() { Text = "Administrador", Value = "1" },new SelectListItem() { Text = "Desarrollador", Value = "2" },new SelectListItem() { Text = "Usuario", Value = "3" } },"--Rol no asignado--", new { @class = "form-control" }) 
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <div class="btn btn-danger" style="color:white;" />
+                    @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+                </div>
+            </div>
+            <div class="col-md-offset-2 col-md-5">
+                
+            </div>
+        </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+

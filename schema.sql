@@ -1,4 +1,3 @@
-
 USE BD_IngeGrupo4;
 
 CREATE TABLE Usuario(
@@ -49,7 +48,9 @@ CREATE TABLE ReqFuncional(
 	responsable2		CHAR(9),
 	nomProyecto		VARCHAR(30)		NOT NULL,
 	
+
 	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id, nomProyecto ASC ),
+
 	
 	CONSTRAINT CHK_fuente_reqFuncional	CHECK (fuente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT CHK_resp1_reqFuncional	CHECK (responsable1 LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -161,9 +162,8 @@ BEGIN
 	WHERE id IN (SELECT id
 	             FROM deleted);
 
+
 END;
-
-
 
 
 

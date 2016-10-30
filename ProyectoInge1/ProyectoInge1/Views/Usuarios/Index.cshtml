@@ -1,0 +1,80 @@
+﻿@model PagedList.IPagedList<ProyectoInge1.Models.Usuario>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
+
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuarios</h2>
+
+
+
+@using (Html.BeginForm("Index", "Usuarios", FormMethod.Get))
+{
+    <p>
+        <div class="row">
+
+            <div class="col-lg-5">
+                Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </div>
+            <div class="col-lg-1 col-lg-pull-1">
+                <a class="btn btn-info" href="../Usuarios">Mostrar Todos</a>
+            </div>
+            <div class="col-lg-2 col-lg-push-5">
+                <a class="btn btn-success" href="Usuarios/Create">Crear</a>
+            </div>
+        </div>
+    </p>
+}
+
+
+<table id="table1" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Nombre Completo", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>@Html.ActionLink("Rol", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+            <th>
+                @Html.ActionLink("Proyecto", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id='@(item.cedula)' onclick="gotoDetails(this)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                    @Html.DisplayFor(modelItem => item.apellidos)
+                    @Html.Raw(" ")
+                </td>
+                <td>
+                    @{  var id = item.id;
+                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var userRoles = userManager.GetRoles(id);
+                        var role = userRoles[0];  @Html.DisplayFor(modelItem => role)
+                    }                
+                </td>
+                <td>@{ if (item.Proyecto.Count != 0) {
+                        @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<script src="../../Scripts/jquery_Usuarios.js"></script>
