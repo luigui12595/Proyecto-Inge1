@@ -32,12 +32,12 @@ CREATE TABLE Proyecto(
 
 
 CREATE TABLE ReqFuncional(
-	id				SMALLINT		NOT NULL,				
+	id			SMALLINT		NOT NULL,				
 	nombre			VARCHAR(20),
 	sprint			TINYINT,
 	modulo			TINYINT,
 	estado			VARCHAR(10),
-	fechaInicial	DATE,
+	fechaInicial		DATE,
 	fechaFinal		DATE,
 	observaciones		VARCHAR(256),
 	descripcion		VARCHAR(256),
@@ -45,11 +45,11 @@ CREATE TABLE ReqFuncional(
 	prioridad		SMALLINT,
 	imagen			VARBINARY,
 	fuente			CHAR(9),
-	responsable1	CHAR(9),
-	responsable2	CHAR(9),
+	responsable1		CHAR(9),
+	responsable2		CHAR(9),
 	nomProyecto		VARCHAR(30)		NOT NULL,
 	
-	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id, nomProyecto ASC ), ***
+	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id, nomProyecto ASC ),
 	
 	CONSTRAINT CHK_fuente_reqFuncional	CHECK (fuente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT CHK_resp1_reqFuncional	CHECK (responsable1 LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -66,7 +66,7 @@ CREATE TABLE GestionCambios(
 	Razon			VARCHAR(50),
 	idReqFunc		SMALLINT,
 	nomProyecto		VARCHAR(30), 
-	realizadoPor	CHAR(9),
+	realizadoPor		CHAR(9),
 	
 	CONSTRAINT CHK_realizadoPor_gestCambios	CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT PK_GestionCambios	 PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto ,Fecha ASC ),
@@ -117,12 +117,12 @@ CREATE TABLE Telefono(
 );
 
 CREATE TABLE CriterioAceptacion(
-	idReqFunc	SMALLINT			NOT NULL,
-	nomProyecto	VARCHAR(30)
+	idReqFunc	SMALLINT	NOT NULL,
+	nomProyecto	VARCHAR(30),
 	criterio	VARCHAR(128),
 	
 	CONSTRAINT PK_CritAceptacion	PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto, criterio ASC ),
-	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id,reqProyecto )
+	CONSTRAINT FK_ReqFunc_CritAceptacion 	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id,nomProyecto )
 											ON UPDATE CASCADE
 );
 
