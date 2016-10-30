@@ -14,6 +14,7 @@ namespace ProyectoInge1.Models
         public List<ReqFuncional> listaRequerimientos { get; set; }
         public List<ReqFuncional> ModeloReqFun { get; set; }
         public List<Usuario> ReqUsuario { get; set; }
+        public ReqFuncional Requerimiento { get; set; }
         public Usuario ReqFunUsu { get; set; }
         public ReqFuncional RequerimientosF { get; set; }
           

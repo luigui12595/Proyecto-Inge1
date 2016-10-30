@@ -20,11 +20,11 @@ namespace ProyectoInge1.Controllers
     public class ReqFuncionalController : Controller
     {
 
-        // GET: ReqFuncional
+        /*// GET: ReqFuncional
         public ActionResult Index()
         {
             return View();
-        }
+        }*/
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
 
@@ -38,7 +38,7 @@ namespace ProyectoInge1.Controllers
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
             var requerimientos = from rfunc in BD.ReqFuncional
-                                 where rfunc.nomProyecto == "Aseguradora"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 where rfunc.nomProyecto == "Telecomunicaciones"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
             if (!String.IsNullOrEmpty(searchString))
             {

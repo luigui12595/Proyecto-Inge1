@@ -461,6 +461,7 @@
     <Content Include="Views\ReqFuncional\Index.cshtml" />
     <Content Include="Views\ReqFuncional\Create.cshtml" />
     <Content Include="Views\Proyectos\Create.cshtml" />
+    <Content Include="Views\ReqFuncional\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
