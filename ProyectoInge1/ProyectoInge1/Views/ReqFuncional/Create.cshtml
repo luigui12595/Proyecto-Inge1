@@ -1,16 +1,6 @@
 ﻿@model ProyectoInge1.Models.ModReqFuncionalInter
 
-<script>
-var c =[] ;
-var t;
-document.getElementById("demo").innerHTML = c;
 
-function listar() {
-    t="VVV";
-    c.push(t,"<button> Cambiar </button>  <button> Eliminiar </button>  <br> ");
-    document.getElementById("demo").innerHTML = c;
-}
-</script>
 
 
 
@@ -28,6 +18,13 @@ function listar() {
         <h4>Crear</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">id:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequerimientosF.id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             <label class="control-label col-md-2">Nombre:</label>
             <div class="col-md-10">
@@ -57,13 +54,6 @@ function listar() {
                 @Html.ValidationMessageFor(model => model.RequerimientosF.descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
-        <!--<div class="form-group">
-            <label class="control-label col-md-2">Prueba:</label>
-            <div class="col-md-10">
-                Html.TextAreaFor(model => model. , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.descripcion, "", new { class = "text-danger" })
-            </div>
-        </div>-->
         <div class="form-group">
             <label class="control-label col-md-2">Observaciones:</label>
             <div class="col-md-10">
@@ -76,17 +66,13 @@ function listar() {
             <div class="editor-field">
                 <input id="ImagePath" title="Upload a product image"
                        type="file" name="file" />
-                @Html.TextAreaFor(model => model.RequerimientosF.imagen , new { htmlAttributes = new { @class = "form-control" } })
+                <!--Html.TextAreaFor(model => model.RequerimientosF.imagen , new { htmlAttributes = new { class = "form-control" } })-->
                 @Html.ValidationMessageFor(model => model.RequerimientosF.imagen, "", new { @class = "text-danger" })
             </div>
         </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Fuente:</label>
                 <div class="col-md-10">
-
-                    <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
-
                 </div>
             </div>
             <div class="form-group">
@@ -100,9 +86,7 @@ function listar() {
             <div class="form-group">
                 <label class="control-label col-md-2">Responsable 2:</label>
                 <div class="col-md-10">
-                    <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
-
+                    @Html.DisplayFor(model => model.ReqFunUsu.nombre ) 
                 </div>
             </div>
             <div class="form-group">
@@ -130,6 +114,17 @@ function listar() {
 
         </form>
         <button onclick="listar()">Try it</button>
+        <script>
+var c =[] ;
+var t;
+document.getElementById("demo").innerHTML = c;
+
+function listar() {
+    t="VVV";
+    c.push(t,"<button> Cambiar </button>  <button> Eliminiar </button>  <br> ");
+    document.getElementById("demo").innerHTML = c;
+}
+        </script>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-5">
                         <input type="submit" value="Aceptar" class="btn btn-primary" />

@@ -15,6 +15,8 @@ using System.Diagnostics;
 using PagedList;
 using System.Text;
 
+
+
 namespace ProyectoInge1.Controllers
 {
     public class ReqFuncionalController : Controller
@@ -60,12 +62,12 @@ namespace ProyectoInge1.Controllers
             return View(requerimientos.ToList().ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create(/*string NombProy*/)
+        public ActionResult Create(string NombProy)
         {
             string id = "Aseguradora";
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            //RQ.ReqUsuario = BD.Usuario.Find(id);
+            RQ.ReqFunUsu = BD.Usuario.Find(id);
            /* RQ.ReqFunUsu=
            */ var usuarios =
                           from usersP in BD.Proyecto
@@ -75,7 +77,7 @@ namespace ProyectoInge1.Controllers
             //usuarios = usuarios.Where(x => x.nombre == NombProy);
             usuarios = usuarios.Where(x => x.nombre == id);
             // return View(usuarios.ToList() );*/
-            return View(/*RQusuarios.ToList()*/);
+            return View(/*RQusuarios.ToList()*/RQ);
         }
 
         public ActionResult Details(short id)
@@ -141,6 +143,9 @@ namespace ProyectoInge1.Controllers
                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
                 return View(modelo);
             }
+            return View();
         }
+        //return View();
+        //return true;
     }
 }
