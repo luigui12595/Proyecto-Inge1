@@ -11,7 +11,7 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    
     public partial class Proyecto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,17 +20,11 @@ namespace ProyectoInge1.Models
             this.ReqFuncional = new HashSet<ReqFuncional>();
             this.Usuario1 = new HashSet<Usuario>();
         }
-
-        [Display(Name = "Nombre")]
+    
         public string nombre { get; set; }
-        [Display(Name = "Descripción")]
-        [DataType(DataType.MultilineText)]
         public string descripcion { get; set; }
-        [Display(Name = "Fecha Inicio")]
         public System.DateTime fechaInicio { get; set; }
-        [Display(Name = "Fecha Final")]
         public Nullable<System.DateTime> fechaFinal { get; set; }
-        [Display(Name = "Líder")]
         public string lider { get; set; }
         public string estado { get; set; }
     
