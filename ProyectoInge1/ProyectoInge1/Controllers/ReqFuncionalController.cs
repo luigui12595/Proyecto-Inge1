@@ -123,5 +123,24 @@ namespace ProyectoInge1.Controllers
              return RedirectToAction("Index");
          }
          */
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                //var idRF;
+                var NReqFun = from RF in BD.ReqFuncional select RF;
+                // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
+                BD.ReqFuncional.Add(modelo.RequerimientosF);
+                BD.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                return View(modelo);
+            }
+        }
     }
 }
