@@ -51,7 +51,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id='@(item.id)' onclick="gotoDetails(this)">
+            <tr id='@(item.id)' onclick="gotoDetails(this)" >
                 <td>
                     @Html.DisplayFor(modelItem => item.nombre)
                 </td>
@@ -76,3 +76,4 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
 <script src="../../Scripts/jquery_ReqFuncionales.js"></script>
+

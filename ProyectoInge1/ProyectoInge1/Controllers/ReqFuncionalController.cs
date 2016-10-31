@@ -78,5 +78,50 @@ namespace ProyectoInge1.Controllers
             return View(/*RQusuarios.ToList()*/);
         }
 
+        public ActionResult Details(short id)
+        {
+            /*if (!revisarPermisos("Detalles de Usuario"))
+            {
+                return RedirectToAction("Index", "Usuario");
+            }*/
+            ModReqFuncionalInter modelo = new ModReqFuncionalInter();
+            string nombre = "Telecomunicaciones";
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, nombre);
+            return View(modelo);
+
+        }
+
+        /* [HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<ActionResult> Detalles(ModReqFuncionalInter modelo)
+         {
+             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
+             var id = modelo.modeloUsuario.cedula;
+             var roleId = modelo.Role;
+             var role = await RoleManager.FindByIdAsync(roleId);
+             // en ves de a;adir es modificar
+             await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
+             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+             for (int i = 0; i < modelo.listaTelefono.Count; i++)
+             {
+                 BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+             }
+             if (modelo.modeloTelefono1.numero != null)
+             {
+                 modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                 BD.Telefono.Add(modelo.modeloTelefono1);
+                 BD.SaveChanges();
+
+             }
+             if (modelo.modeloTelefono2.numero != null)
+             {
+                 modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
+                 BD.Telefono.Add(modelo.modeloTelefono2);
+                 BD.SaveChanges();
+
+             }
+             return RedirectToAction("Index");
+         }
+         */
     }
 }
