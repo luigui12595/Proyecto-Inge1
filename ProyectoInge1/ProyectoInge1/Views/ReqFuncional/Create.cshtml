@@ -1,5 +1,19 @@
 ﻿@model ProyectoInge1.Models.ModReqFuncionalInter
 
+<script>
+var c =[] ;
+var t;
+document.getElementById("demo").innerHTML = c;
+
+function listar() {
+    t="VVV";
+    c.push(t,"<button> Cambiar </button>  <button> Eliminiar </button>  <br> ");
+    document.getElementById("demo").innerHTML = c;
+}
+</script>
+
+
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -97,6 +111,7 @@
                     @Html.TextBoxFor(model => model.RequerimientosF.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="form-group">
                 <label class="control-label col-md-2">Fecha Final:</label>
                 <div class="col-md-10">
@@ -104,6 +119,17 @@
                 </div>
 
 
+        <div class="form-group">
+            <label class="control-label col-md-2">Criterios:</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+            </div>
+        </div>
+        <form action="demo_form.asp">
+            Criterio: <input type="text" name="t"><br>
+
+        </form>
+        <button onclick="listar()">Try it</button>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-5">
                         <input type="submit" value="Aceptar" class="btn btn-primary" />
@@ -114,7 +140,7 @@
                <!-- <div class="col-md-offset-2 col-md-5">-->
 
 
-                </div>
+                
         </div>
 
 }
