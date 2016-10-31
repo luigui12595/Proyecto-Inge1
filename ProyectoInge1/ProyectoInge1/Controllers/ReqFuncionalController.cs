@@ -67,15 +67,16 @@ namespace ProyectoInge1.Controllers
             string id = "Aseguradora";
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            RQ.ReqFunUsu = BD.Usuario.Find(id);
+            RQ.ReqUsuario = BD.Usuario.Include(x => x.Proyecto1.Equals(id)).ToList();
            /* RQ.ReqFunUsu=
            */ var usuarios =
-                          from usersP in BD.Proyecto
+                          from usersP in BD.Usuario
                           //where usersP.Proyecto = NombProy
                           select usersP;
 
             //usuarios = usuarios.Where(x => x.nombre == NombProy);
             usuarios = usuarios.Where(x => x.nombre == id);
+            //RQ.ReqUsuario = usuarios.ToList();
             // return View(usuarios.ToList() );*/
             return View(/*RQusuarios.ToList()*/RQ);
         }

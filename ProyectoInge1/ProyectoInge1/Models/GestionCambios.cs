@@ -17,10 +17,10 @@ namespace ProyectoInge1.Models
         public System.DateTime Fecha { get; set; }
         public string Razon { get; set; }
         public short idReqFunc { get; set; }
-        public string realizadoPor { get; set; }
         public string nomProyecto { get; set; }
+        public string realizadoPor { get; set; }
     
+        public virtual ReqFuncional ReqFuncional { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ReqFuncional ReqFuncional1 { get; set; }
     }
 }
