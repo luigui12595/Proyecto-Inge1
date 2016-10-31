@@ -3,15 +3,23 @@
 @model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
 <script>
-    function Cancelar(r) {
+    function Cancelar() {
        // BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-        var ProyectoB = BD.Proyecto.Find("pp"/*rmodel => model.proyecto.nombre*//*id*/);
+      //var ProyectoB = BD.Proyecto.Find("pp"/*rmodel => model.proyecto.nombre*//*id*/);
         //Condicion de estado
-        if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado") {
+        //if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado") {
             //solicitar una confirmacion para eliminar proyecto 
-            BD.Entry(ProyectoB).State = EntityState.Deleted;
-            BD.SaveChanges();
+          //  BD.Entry(ProyectoB).State = EntityState.Deleted;
+           // BD.SaveChanges();
+        // }
+        var txt;
+        var r = confirm("Desea eliminar este proyecto");
+        if (r == true) {
+            txt = "Eliminar";
+        } else {
+            txt = "No eliminar";
         }
+        document.getElementById("demo").innerHTML = txt;
         
     }
 </script>
@@ -68,8 +76,10 @@
                 <input type="submit" value="Aceptar" class="btn btn-primary" />
                 <div class="form-actions no-color">
                     <input type="submit" value="Eliminar" class="btn btn-default" />
-                    |
-                    @Html.ActionLink("Back to List", "Index")
+                    <button onclick="Cancelar()">Eliminar Pro</button>
+                    <!--
+            Html.ActionLink("Back to List", "Index")
+        -->
                 </div>
                 <div class="btn btn-danger" style="color:white;" />
                 @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })

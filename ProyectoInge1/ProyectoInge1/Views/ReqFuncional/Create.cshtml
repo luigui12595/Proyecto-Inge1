@@ -1,4 +1,4 @@
-﻿@model ProyectoInge1.Models.ReqFuncional
+﻿@model ProyectoInge1.Models.ModReqFuncionalInter
 
 @{
     ViewBag.Title = "Create";
@@ -17,30 +17,30 @@
         <div class="form-group">
             <label class="control-label col-md-2">Nombre:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RequerimientosF.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF.nombre, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Sprint:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.sprint, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.sprint, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RequerimientosF.sprint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF.sprint, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Modulo:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.modulo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.modulo, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RequerimientosF.modulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF.modulo, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Descripcion:</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.RequerimientosF.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF.descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
         <!--<div class="form-group">
@@ -53,8 +53,8 @@
         <div class="form-group">
             <label class="control-label col-md-2">Observaciones:</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.RequerimientosF.observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF.observaciones, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
@@ -62,11 +62,14 @@
             <div class="editor-field">
                 <input id="ImagePath" title="Upload a product image"
                        type="file" name="file" />
+                @Html.TextAreaFor(model => model.RequerimientosF.imagen , new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequerimientosF.imagen, "", new { @class = "text-danger" })
             </div>
         </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Fuente:</label>
                 <div class="col-md-10">
+
                     <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
                 Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
 
@@ -91,13 +94,13 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Fecha Inicial:</label>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
+                    @Html.TextBoxFor(model => model.RequerimientosF.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Fecha Final:</label>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+                    @Html.TextBoxFor(model => model.RequerimientosF.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
                 </div>
 
 
