@@ -118,8 +118,19 @@
                     @Html.ValidationMessageFor(model => model.criterios.criterio, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <form action="demo_form.asp">
-                Criterio: <input type="text" name="t"><br>
+        <div class="form-group">
+            <label class="control-label col-md-2">Criterios:</label>
+            <div class="col-md-10">
+                <input type="text" id="output"><br />
+                <button onclick="add_textbox()">nuevo criterio</button>
+                <button onclick="load_all()">Load All</button>
+                <div id="textboxes">
+                    </div>
+                </div>
+        </div>
+
+          <!--  <form action="demo_form.asp">
+                Criterio: <input type="text" id="output" value=" a|b|c|d"><br/>
 
             </form>
             <button onclick="listar()">Try it</button>
@@ -133,7 +144,7 @@
                     c.push(t, "<button> Cambiar </button>  <button> Eliminiar </button>  <br> ");
                     document.getElementById("demo").innerHTML = c;
                 }
-            </script>
+            </script>-->
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-5">
                     <input type="submit" value="Aceptar" class="btn btn-primary" />
@@ -162,6 +173,39 @@
                         $(".datepicker2").on("dp.change", function (e) {
                             $('.datepicker').data("DatePicker").setMaxDate(e.date);
                         });
+
+                        i = 0;
+
+                        function update_output() {
+                            var values = $(".multitextbox")
+                                      .map(function () { return $(this).val(); }).get().filter(v=>v != '').join(";");
+                            $("#output").val(values);
+                        }
+
+                        function delete_all(button) {
+                            $("#" + button.className).remove();
+                            update_output();
+                        }
+
+                        function add_textbox() {
+                            $("#textboxes").append("<div id='textbox" + i + "'><input type='text' class='multitextbox multitextbox" + i + "' oninput=update_output()> <button onclick='delete_all(this)' class= textbox" + i + ">x</button> <br/> </div>");
+                            var tbid = "multitextbox" + i;
+                            i++;
+
+                            return tbid;
+                        }
+
+                        function load_all() {
+                            var inputs = $("#output").val().split(";");
+                            for (var j = 0; j < inputs.length; j++) {
+                                var tbid = add_textbox();
+                                console.log("." + tbid)
+                                $("." + tbid).val(inputs[j]);
+                            }
+                        }
+
+                        window.onload = load_all
+
     </script>
 
 }
