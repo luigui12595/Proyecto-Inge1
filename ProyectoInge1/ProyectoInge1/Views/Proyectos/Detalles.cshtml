@@ -1,0 +1,121 @@
+﻿@model ProyectoInge1.Models.ModProyectoInter
+
+<script>
+    function esconderEditar() {
+        $('.elementoEditar').hide();
+        $('.elementoModificar').show();
+    }
+
+    function cancelar() {
+        window.location.replace('../../Proyectos')
+    }
+
+    function borrar(element) {
+        var elementid = element.id;
+        window.location.replace('../Eliminar/'+elementid)
+    }
+</script>
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="elementoEditar">Detalles de Proyecto</h2>
+<h2 class="elementoModificar" style="display:none">Modificación de Proyecto</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <div class="elementoModificar" style="display:none">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Aceptar" class="btn btn-primary" />
+                    <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*---------------------------------------Detalles------------------------------------------------*@
+    <div class="elementoEditar">
+        <div class="form-horizontal">
+            <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+            <div class="col-lg-2 col-lg-push-6">
+                <a class="btn btn-danger" id='@(Model.proyecto.nombre)' onclick="borrar(this)">Eliminar</a>
+            </div>
+            <br/><br/>
+            <dl class="dl-horizontal">
+                @*Nombre Detalles*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.proyecto.nombre, "", new { @class = "text-danger" })
+                </div>
+
+
+                @*Descripcion Detalles*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.TextAreaFor(model => model.proyecto.descripcion, new { @class = "form-control", rows = "4", @readonly = true })
+                    @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
+                </div>
+
+
+                @*Fecha Inicio Detalles*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.proyecto.fechaInicio, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.proyecto.fechaInicio, "", new { @class = "text-danger" })
+                </div>
+
+
+                @*Fecha Final Detalles*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.proyecto.fechaInicio, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.proyecto.fechaFinal, "", new { @class = "text-danger" })
+                </div>
+
+
+                @*Lider Detalles*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @{
+                        var id = Model.proyecto;
+                        var userList = Model.listaUsuarios;
+                        foreach (var user in userList)
+                        {
+                            if (user.cedula.Equals(id.lider))
+                            {
+                                @Html.EditorFor(modelItem => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } });
+                            }
+                        }
+
+                    }
+                    @Html.ValidationMessageFor(model => model.proyecto.lider, "", new { @class = "text-danger" })
+                </div>
+
+
+                @*Estado Detalles*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.proyecto.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.proyecto.estado, "", new { @class = "text-danger" })
+                </div>
+            </dl>
+            <div>
+                @Html.ActionLink("Volver", "Index")
+            </div>
+        </div>
+    </div>
+
+    <p>
+    </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
