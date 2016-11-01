@@ -88,12 +88,30 @@
         <br />
         @*cajas de seleccion*@
 
+
         <tr valign="top">
             <td>&nbsp;&nbsp;&nbsp;</td>
+
             <div>
-                Desarrolladores
-                <br/>
+                <td>
+                    <div class="control-label col-md-2">
+                        Lider
+                        
+                    </div>
+                    <select class="control-label col-md-2" id="a" size="1"></select>
+                    <br/>
+                </td>
+                <div>
+                    <td valign="center">
+                        <a onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
+                        <a onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
+                    </td>
+                </div>
             </div>
+                <div class = "control-label col-md-2">
+                    Desarrolladores
+                    <br />
+                </div>
             <div>
                 <td>
                     <select class="control-label col-md-2" id="s" size="10" multiple=""></select>
