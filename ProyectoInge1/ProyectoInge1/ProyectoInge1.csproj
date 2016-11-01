@@ -249,6 +249,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModProyectoInter.cs" />
+    <Compile Include="Models\ModReqFuncionalInter.cs" />
     <Compile Include="Models\ModRolesInter.cs" />
     <Compile Include="Models\ModuloUsuario.Context.cs">
       <AutoGen>True</AutoGen>
@@ -344,6 +345,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery_ReqFuncionales.js" />
     <Content Include="Scripts\jquery_Usuarios.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.ar.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.az.min.js" />
@@ -457,11 +459,13 @@
     <Content Include="Views\Usuarios\Detalles.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Usuarios\Eliminar.cshtml" />
+    <Content Include="Views\ReqFuncional\Index.cshtml" />
+    <Content Include="Views\ReqFuncional\Create.cshtml" />
     <Content Include="Views\Proyectos\Create.cshtml" />
+    <Content Include="Views\ReqFuncional\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ReqFuncional\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

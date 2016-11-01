@@ -7,11 +7,17 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-
+using System.Data.Entity;
+using System.Web.Security;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Diagnostics;
+using PagedList;
+using System.Text;
 namespace ProyectoInge1.Controllers
 {
     public class ProyectosController : Controller
     {
+        BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         // GET: Proyectos
         public ActionResult Index()
         {
@@ -25,7 +31,7 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModUsuarioInter modelo)
+        public async Task<ActionResult> Create(ModUsuarioInter modelo, string id)
         {
             /*if (ModelState.IsValid)
             {
@@ -74,6 +80,31 @@ namespace ProyectoInge1.Controllers
                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");*/
                 return View(modelo);
             //}
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Eliminar(/**/ModProyectoInter modelo/**//* string id*/)
+        {
+            //id ="pp";
+            var ProyectoB = BD.Proyecto.Find("pp"/*modelo.proyecto.nombre*//*id*/);
+            //Condicion de estado
+            if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
+            {
+                //solicitar una confirmacion para eliminar proyecto 
+                BD.Entry(ProyectoB).State = EntityState.Deleted;
+                BD.SaveChanges();
+            }
+            else {
+                //Desplegar mensaje de imposible eliminar el proyecto
+            }
+            
+            //Fin condicion estado
+            //  if (ProyectoB. ) { }
+            /*var usuario = BD.Usuario.Find(modelo. );
+            BD.Entry(usuario).State = EntityState.Deleted;
+            BD.SaveChanges();*/
+            return RedirectToAction("Index");
         }
     }
 }

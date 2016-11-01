@@ -96,7 +96,7 @@ namespace ProyectoInge1.Controllers
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (!revisarPermisos("Detalles de Usuario"))
+            if (!revisarPermisos("Index de usuario"))
             {
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Home");
@@ -138,6 +138,12 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Eliminar(string id)
         {
+            if (!revisarPermisos("Eliminar Usuario"))
+            {
+                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
+                return RedirectToAction("Index", "Usuario");
+            }
+
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             return View(modelo);
@@ -155,6 +161,12 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(string id)
         {
+
+            if (!revisarPermisos("Detalles de Usuario"))
+            {
+                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
+                return RedirectToAction("Index", "Usuario");
+            }
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
@@ -185,6 +197,7 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Detalles(ModUsuarioInter modelo)
         {
+
             var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
@@ -218,6 +231,12 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModUsuarioInter modelo)
         {
+            if (!revisarPermisos("Crear Usuario"))
+            {
+                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
+                return RedirectToAction("Index", "Usuario");
+            }
+
             if (ModelState.IsValid)
             {
 

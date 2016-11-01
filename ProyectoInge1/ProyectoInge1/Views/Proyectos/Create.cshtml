@@ -1,34 +1,43 @@
-﻿@model ProyectoInge1.Models.ModProyectoInter
+@model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
-
 <script>
-function listbox_moveacross(sourceID, destID) {
-	var src = document.getElementById(sourceID);
-	var dest = document.getElementById(destID);
+    function Cancelar(r) {
+       // BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
+        var ProyectoB = BD.Proyecto.Find("pp"/*rmodel => model.proyecto.nombre*//*id*/);
+        //Condicion de estado
+        if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado") {
+            //solicitar una confirmacion para eliminar proyecto 
+            BD.Entry(ProyectoB).State = EntityState.Deleted;
+            BD.SaveChanges();
+        }
+        
+    }
+    function listbox_moveacross(sourceID, destID) {
+        var src = document.getElementById(sourceID);
+        var dest = document.getElementById(destID);
 
-	for(var count=0; count < src.options.length; count++) {
+        for (var count = 0; count < src.options.length; count++) {
 
-		if(src.options[count].selected == true) {
-				var option = src.options[count];
+            if (src.options[count].selected == true) {
+                var option = src.options[count];
 
-				var newOption = document.createElement("option");
-				newOption.value = option.value;
-				newOption.text = option.text;
-				newOption.selected = true;
-				try {
-						 dest.add(newOption, null); //Standard
-						 src.remove(count, null);
-				 }catch(error) {
-						 dest.add(newOption); // IE only
-						 src.remove(count);
-				 }
-				count--;
-		}
-	}
-}
+                var newOption = document.createElement("option");
+                newOption.value = option.value;
+                newOption.text = option.text;
+                newOption.selected = true;
+                try {
+                    dest.add(newOption, null); //Standard
+                    src.remove(count, null);
+                } catch (error) {
+                    dest.add(newOption); // IE only
+                    src.remove(count);
+                }
+                count--;
+            }
+        }
+    }
 
 </script>
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,14 +50,19 @@ function listbox_moveacross(sourceID, destID) {
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    //var ProyectoB = BD.Proyecto.Find("pp"/*rmodel => model.proyecto.nombre*//*id*/);
+    //Condicion de estado
+   
+    }
     <div class="form-horizontal">
         <h4>Proyecto</h4>
         <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.CustomLabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.proyecto.nombre, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -70,102 +84,65 @@ function listbox_moveacross(sourceID, destID) {
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
             </div>
-        </div>*
-        <br/>
+        </div>
+        <br />
+        @*cajas de seleccion*@
+
+        <tr valign="top">
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <div>
+                Desarrolladores
+                <br/>
+            </div>
+            <div>
+                <td>
+                    <select class="control-label col-md-2" id="s" size="10" multiple=""></select>
+                </td>
+            </div>
+            <div>
+                <td valign="center">
+                    <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+                    <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+                </td>
+            </div>
+            <div>
+                <td>
+                    <select class="control-label col-md-2" id="d" size="10" multiple="">
+                        <option value="a">Afghanistan</option>
+                        <option value="b">Bahamas</option>
+
+                        @*Aqui se insertan los usuarios*@
+
+                    </select>
+                    <br/>
+                </td>
+            </div>
+        </tr>
+
+        @*Fin cajas de seleccion*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <div class="form-actions no-color">
+                    <input type="submit" value="Eliminar" class="btn btn-default" />
+                    |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
                 <div class="btn btn-danger" style="color:white;" />
                 @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+                 
             </div>
         </div>
 
         <br/>  
-        <tr valign="top">
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td>
-                <select class="control-label col-md-2" id="s" size="10" multiple="">
+        
 
-                </select>
-            </td>
-            <td valign="center">
-                <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
-                <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
-            </td>
-            <td>
-                <select class= "control-label col-md-2" id="d" size="10" multiple="">
-                    <option value="a">Afghanistan</option>
-                    <option value="b">Bahamas</option>
-                    <option value="c">Barbados</option>
-                    <option value="d">Belgium</option>
-                    <option value="e">Bhutan</option>
-                    <option value="f">China</option>
-                    <option value="g">Croatia</option>
-                    <option value="h">Denmark</option>
-                    <option value="i">France</option>
-                    <option value="c">Barbados</option>
-                    <option value="i">France</option>
-                    <option value="h">Denmark</option>
-                    <option value="g">Croatia</option>
-                    <option value="a">Afghanistan</option>
-                    <option value="b">Bahamas</option>
-                    <option value="d">Belgium</option>
-                    <option value="e">Bhutan</option>
-                    <option value="f">China</option>
-                </select>
-            </td>
-        </tr>
-        <br />
-
-        <asp:Button ID="btnSubmit" Text="Submit" runat="server" OnClick="Submit" />
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
-        <script type="text/javascript">
-
-    $(function () {
-
-        $("#left").bind("click", function () {
-
-            var options = $("[id*=lstRight] option:selected");
-
-            for (var i = 0; i < options.length; i++) {
-
-                var opt = $(options[i]).clone();
-
-                $(options[i]).remove();
-
-                $("[id*=lstLeft]").append(opt);
-
-            }
-
-        });
-
-        $("#right").bind("click", function () {
-
-            var options = $("[id*=lstLeft] option:selected");
-
-            for (var i = 0; i < options.length; i++) {
-
-                var opt = $(options[i]).clone();
-
-                $(options[i]).remove();
-
-                $("[id*=lstRight]").append(opt);
-
-            }
-
-        });
-
-    });
-
-        </script>
-    </div>
+</div>
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-
-<script type="text/javascript">
+    <script type="text/javascript">
     $(function () {
         $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
     });
@@ -175,5 +152,5 @@ function listbox_moveacross(sourceID, destID) {
     $(".datepicker2").on("dp.change", function (e) {
         $('.datepicker').data("DatePicker").setMaxDate(e.date);
     });
-</script>
+    </script>
 }

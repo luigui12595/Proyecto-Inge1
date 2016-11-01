@@ -8,19 +8,23 @@
         <EntityType Name="CriterioAceptacion">
           <Key>
             <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="nomProyecto" />
             <PropertyRef Name="criterio" />
           </Key>
           <Property Name="idReqFunc" Type="smallint" Nullable="false" />
+          <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="criterio" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="GestionCambios">
           <Key>
             <PropertyRef Name="Fecha" />
             <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="nomProyecto" />
           </Key>
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Razon" Type="varchar" MaxLength="50" />
           <Property Name="idReqFunc" Type="smallint" Nullable="false" />
+          <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="realizadoPor" Type="char" MaxLength="9" />
         </EntityType>
         <EntityType Name="NetRolesPermiso">
@@ -47,6 +51,7 @@
           <Property Name="fechaInicio" Type="date" Nullable="false" />
           <Property Name="fechaFinal" Type="date" />
           <Property Name="lider" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
         <EntityType Name="ProyectoUsuario">
           <Key>
@@ -59,6 +64,7 @@
         <EntityType Name="ReqFuncional">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="nomProyecto" />
           </Key>
           <Property Name="id" Type="smallint" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="20" />
@@ -67,8 +73,8 @@
           <Property Name="estado" Type="varchar" MaxLength="10" />
           <Property Name="fechaInicial" Type="date" />
           <Property Name="fechaFinal" Type="date" />
-          <Property Name="observaciones" Type="varchar" MaxLength="50" />
-          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="observaciones" Type="varchar" MaxLength="256" />
+          <Property Name="descripcion" Type="varchar" MaxLength="256" />
           <Property Name="esfuerzo" Type="smallint" />
           <Property Name="prioridad" Type="smallint" />
           <Property Name="imagen" Type="varbinary" MaxLength="1" />
@@ -138,9 +144,11 @@
           <ReferentialConstraint>
             <Principal Role="ReqFuncional">
               <PropertyRef Name="id" />
+              <PropertyRef Name="nomProyecto" />
             </Principal>
             <Dependent Role="CriterioAceptacion">
               <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -150,9 +158,11 @@
           <ReferentialConstraint>
             <Principal Role="ReqFuncional">
               <PropertyRef Name="id" />
+              <PropertyRef Name="nomProyecto" />
             </Principal>
             <Dependent Role="GestionCambios">
               <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -307,22 +317,26 @@
           <Key>
             <PropertyRef Name="idReqFunc" />
             <PropertyRef Name="criterio" />
+            <PropertyRef Name="nomProyecto" />
           </Key>
           <Property Name="idReqFunc" Type="Int16" Nullable="false" />
           <Property Name="criterio" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_ReqFunc_CritAceptacion" FromRole="CriterioAceptacion" ToRole="ReqFuncional" />
+          <Property Name="nomProyecto" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ReqFuncional1" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion1" FromRole="CriterioAceptacion" ToRole="ReqFuncional" />
         </EntityType>
         <EntityType Name="GestionCambios">
           <Key>
             <PropertyRef Name="Fecha" />
             <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="nomProyecto" />
           </Key>
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="idReqFunc" Type="Int16" Nullable="false" />
           <Property Name="realizadoPor" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_ReqFunc_GestCambios" FromRole="GestionCambios" ToRole="ReqFuncional" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_GestCambios" FromRole="GestionCambios" ToRole="Usuario" />
+          <Property Name="nomProyecto" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ReqFuncional1" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_GestCambios1" FromRole="GestionCambios" ToRole="ReqFuncional" />
         </EntityType>
         <EntityType Name="Permiso">
           <Key>
@@ -344,10 +358,12 @@
           <NavigationProperty Name="ReqFuncional" Relationship="Self.FK_Proyecto_ReqFunc" FromRole="Proyecto" ToRole="ReqFuncional" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Proyecto" FromRole="Proyecto" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="Self.ProyectoUsuario" FromRole="Proyecto" ToRole="Usuario" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ReqFuncional">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="nomProyecto" />
           </Key>
           <Property Name="id" Type="Int16" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -356,8 +372,8 @@
           <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="fechaInicial" Type="DateTime" Precision="0" />
           <Property Name="fechaFinal" Type="DateTime" Precision="0" />
-          <Property Name="observaciones" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="observaciones" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="esfuerzo" Type="Int16" />
           <Property Name="prioridad" Type="Int16" />
           <Property Name="imagen" Type="Binary" MaxLength="1" FixedLength="false" />
@@ -365,12 +381,12 @@
           <Property Name="responsable1" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="responsable2" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="nomProyecto" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="CriterioAceptacion" Relationship="Self.FK_ReqFunc_CritAceptacion" FromRole="ReqFuncional" ToRole="CriterioAceptacion" />
-          <NavigationProperty Name="GestionCambios" Relationship="Self.FK_ReqFunc_GestCambios" FromRole="ReqFuncional" ToRole="GestionCambios" />
           <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_ReqFunc" FromRole="ReqFuncional" ToRole="Proyecto" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_ReqFunc_Fuente" FromRole="ReqFuncional" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="Self.FK_Usuario_ReqFunc_Resp1" FromRole="ReqFuncional" ToRole="Usuario" />
           <NavigationProperty Name="Usuario2" Relationship="Self.FK_Usuario_ReqFunc_Resp2" FromRole="ReqFuncional" ToRole="Usuario" />
+          <NavigationProperty Name="CriterioAceptacion1" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion1" FromRole="ReqFuncional" ToRole="CriterioAceptacion" />
+          <NavigationProperty Name="GestionCambios1" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_GestCambios1" FromRole="ReqFuncional" ToRole="GestionCambios" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -399,30 +415,6 @@
           <NavigationProperty Name="Telefono" Relationship="Self.FK_Usuario_Telefono" FromRole="Usuario" ToRole="Telefono" />
           <NavigationProperty Name="Proyecto1" Relationship="Self.ProyectoUsuario" FromRole="Usuario" ToRole="Proyecto" />
         </EntityType>
-        <Association Name="FK_ReqFunc_CritAceptacion">
-          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
-          <End Role="CriterioAceptacion" Type="Self.CriterioAceptacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReqFuncional">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="CriterioAceptacion">
-              <PropertyRef Name="idReqFunc" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReqFunc_GestCambios">
-          <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
-          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReqFuncional">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="GestionCambios">
-              <PropertyRef Name="idReqFunc" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Usuario_GestCambios">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
           <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
@@ -519,14 +511,6 @@
           <EntitySet Name="ReqFuncional" EntityType="Self.ReqFuncional" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <AssociationSet Name="FK_ReqFunc_CritAceptacion" Association="Self.FK_ReqFunc_CritAceptacion">
-            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
-            <End Role="CriterioAceptacion" EntitySet="CriterioAceptacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReqFunc_GestCambios" Association="Self.FK_ReqFunc_GestCambios">
-            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
-            <End Role="GestionCambios" EntitySet="GestionCambios" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_GestCambios" Association="Self.FK_Usuario_GestCambios">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="GestionCambios" EntitySet="GestionCambios" />
@@ -564,6 +548,14 @@
             <End Role="Permiso" EntitySet="Permiso" />
             <End Role="NetRolesPermiso" EntitySet="NetRolesPermiso" />
           </AssociationSet>
+          <AssociationSet Name="FK_ReqFunc_CritAceptacion1" Association="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion1">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="CriterioAceptacion" EntitySet="CriterioAceptacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReqFunc_GestCambios1" Association="BD_IngeGrupo4Model.FK_ReqFunc_GestCambios1">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="GestionCambios" EntitySet="GestionCambios" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="NetRolesPermiso">
           <Key>
@@ -586,6 +578,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReqFunc_CritAceptacion1">
+          <End Type="BD_IngeGrupo4Model.ReqFuncional" Role="ReqFuncional" Multiplicity="1" />
+          <End Type="BD_IngeGrupo4Model.CriterioAceptacion" Role="CriterioAceptacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReqFuncional">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="nomProyecto" />
+            </Principal>
+            <Dependent Role="CriterioAceptacion">
+              <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReqFunc_GestCambios1">
+          <End Type="BD_IngeGrupo4Model.ReqFuncional" Role="ReqFuncional" Multiplicity="1" />
+          <End Type="BD_IngeGrupo4Model.GestionCambios" Role="GestionCambios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReqFuncional">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="nomProyecto" />
+            </Principal>
+            <Dependent Role="GestionCambios">
+              <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -595,6 +615,7 @@
           <EntitySetMapping Name="CriterioAceptacion">
             <EntityTypeMapping TypeName="BD_IngeGrupo4Model.CriterioAceptacion">
               <MappingFragment StoreEntitySet="CriterioAceptacion">
+                <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
                 <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
                 <ScalarProperty Name="criterio" ColumnName="criterio" />
               </MappingFragment>
@@ -603,6 +624,7 @@
           <EntitySetMapping Name="GestionCambios">
             <EntityTypeMapping TypeName="BD_IngeGrupo4Model.GestionCambios">
               <MappingFragment StoreEntitySet="GestionCambios">
+                <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Razon" ColumnName="Razon" />
                 <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
@@ -621,6 +643,7 @@
           <EntitySetMapping Name="Proyecto">
             <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Proyecto">
               <MappingFragment StoreEntitySet="Proyecto">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
