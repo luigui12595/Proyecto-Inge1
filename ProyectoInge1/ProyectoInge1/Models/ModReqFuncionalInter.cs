@@ -13,12 +13,11 @@ namespace ProyectoInge1.Models
     {
         public List<ReqFuncional> listaRequerimientos { get; set; }
         public List<ReqFuncional> ModeloReqFun { get; set; }
-        public List<Usuario> ReqUsuario { get; set; }
-        public ReqFuncional Requerimiento { get; set; }
-        public Usuario ReqFunUsu { get; set; }
-        public ReqFuncional requerimienrto { get; set; }
-        public ReqFuncional RequerimientosF { get; set; }
-        public List<CriterioAceptacion> CRQ { get; set; }   
+        public List<Usuario> listaUsuario { get; set; }
+        public Usuario Usuarios { get; set; }
+        public ReqFuncional Requerimientos { get; set; }
+        public List<CriterioAceptacion> listaCriterios { get; set; }   
+        public CriterioAceptacion criterios { get; set; }
 
         }
     }

@@ -89,7 +89,7 @@ namespace ProyectoInge1.Controllers
             }*/
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
             string nombre = "Telecomunicaciones";
-            modelo.Requerimiento = BD.ReqFuncional.Find(id, nombre);
+            modelo.Requerimientos = BD.ReqFuncional.Find(id, nombre);
             return View(modelo);
 
         }
@@ -133,7 +133,7 @@ namespace ProyectoInge1.Controllers
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
             // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
-            BD.ReqFuncional.Add(modelo.RequerimientosF);
+            BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
 
             /* if (ModelState.IsValid)

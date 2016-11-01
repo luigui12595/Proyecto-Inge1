@@ -4,28 +4,15 @@
 @using ProyectoInge1.Helpers
 <script>
     function Cancelar() {
-       // BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-
-      //var ProyectoB = BD.Proyecto.Find("pp"/*rmodel => model.proyecto.nombre*//*id*/);
-       // var ProyectoB = BD.Proyecto.Find("pp"/*rmodel => model.proyecto.nombre*//*id*/);
-        //Condicion de estado
-        //if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado") {
-            //solicitar una confirmacion para eliminar proyecto 
-          //  BD.Entry(ProyectoB).State = EntityState.Deleted
-           // BD.SaveChanges();
-        // }
-            //BD.SaveChanges();
-        //}
-        var txt;
-        var r = confirm("Desea eliminar este proyecto");
-        if (r == true) {
-            txt = "Eliminar";
+        if (confirm("Esta seguro que desea borrar este proyecto ?")) {
+            return true;
         } else {
-            txt = "No eliminar";
+            return false;
         }
-        document.getElementById("demo").innerHTML = txt;
 
     }
+
+   
 </script>
 @{
     ViewBag.Title = "Create";
@@ -78,14 +65,18 @@
                 <input type="submit" value="Aceptar" class="btn btn-primary" />
                 <div class="form-actions no-color">
                     <input type="submit" value="Eliminar" class="btn btn-default" />
-                    <button onclick="Cancelar()">Eliminar Pro</button>
-                    <!--
+                   <!-- <button onclick="Cancelar()">Eliminar Pro</button>
+                    
                     Html.ActionLink("Back to List", "Index")
                 --></div>
                 <div class="btn btn-danger" style="color:white;" />
                 @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
-                 
+                
+                
             </div>
+            <div class="btn btn-danger" style="color:white;" />
+            @Html.ActionLink("Delete", "Eliminar", null , new { confirm = true, Proyecto = "CCC"  } ,new { @onclick = "return Cancelar();" })
+            
         </div>
     </div>
 }
