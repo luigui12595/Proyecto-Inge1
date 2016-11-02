@@ -18,7 +18,8 @@ namespace ProyectoInge1.Models
         public Usuario ReqFunUsu { get; set; }
         public ReqFuncional requerimienrto { get; set; }
         public ReqFuncional RequerimientosF { get; set; }
-          
+        public String values { get; set; }
 
-        }
+
+    }
     }

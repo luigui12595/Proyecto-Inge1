@@ -4,12 +4,35 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"> </script>
+<script>
+i = 0;
+
+function update_output() {
+	var values = $(".multitextbox")
+              .map(function(){return $(this).val();}).get().filter(v=>v!='').join("|");
+	$("#output").val(values);
+}
+
+function delete_all(button) {
+	$("#" + button.className).remove();
+	update_output();
+}
+
+function add_textbox() {
+	$("#textboxes").append("<div id='textbox" + i +"'><input type='text' class='multitextbox multitextbox" + i + "' oninput=update_output()> <button onclick='delete_all(this)' class= textbox" + i + ">x</button> <br/> </div>");
+	var tbid = "multitextbox" + i;
+	i++;
+
+	return tbid;
+}
+
+</script>
+
 
 <h2>Requerimientos Funcionales</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
         <h4>Crear</h4>
         <hr />
@@ -35,7 +58,6 @@
                 @Html.ValidationMessageFor(model => model.modulo, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <label class="control-label col-md-2">Descripcion:</label>
             <div class="col-md-10">
@@ -99,8 +121,20 @@
                 <div class="col-md-10">
                     @Html.TextBoxFor(model => model.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
                 </div>
+                @*Criterio De Aceptacion*@
+
+                @Html.LabelFor(model => model)
+                <input type="text" id="output" value=" "><br />
+
+                <button onclick="add_textbox()">New Textbox</button>
+                <div id="textboxes">
+                </div>
 
 
+                @*Criterio De Aceptacion*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-5">
                         <input type="submit" value="Aceptar" class="btn btn-primary" />
@@ -109,12 +143,12 @@
                     </div>
                 </div>
                <!-- <div class="col-md-offset-2 col-md-5">-->
-
+}
 
                 </div>
         </div>
 
-}
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -129,6 +163,6 @@
                         $(".datepicker2").on("dp.change", function (e) {
                             $('.datepicker').data("DatePicker").setMaxDate(e.date);
                         });
-    </script>
+</script>
 
 }
