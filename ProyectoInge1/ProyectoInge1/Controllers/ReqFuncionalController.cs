@@ -67,7 +67,6 @@ namespace ProyectoInge1.Controllers
             string id = "Aseguradora";
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            //RQ.listaRequerimientos;
             var req= from usersP in BD.ReqFuncional
                      select usersP;
             req = req.Where(x => x.nombre == id);

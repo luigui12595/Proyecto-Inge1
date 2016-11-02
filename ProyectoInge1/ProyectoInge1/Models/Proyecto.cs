@@ -18,7 +18,7 @@ namespace ProyectoInge1.Models
         public Proyecto()
         {
             this.ReqFuncional = new HashSet<ReqFuncional>();
-            this.Usuario1 = new HashSet<Usuario>();
+            this.Usuario2 = new HashSet<Usuario>();
         }
     
         public string nombre { get; set; }
@@ -27,11 +27,13 @@ namespace ProyectoInge1.Models
         public Nullable<System.DateTime> fechaFinal { get; set; }
         public string lider { get; set; }
         public string estado { get; set; }
+        public string Cliente { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReqFuncional> ReqFuncional { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Usuario Usuario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Usuario> Usuario1 { get; set; }
+        public virtual ICollection<Usuario> Usuario2 { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace ProyectoInge1.Models
             this.GestionCambios = new HashSet<GestionCambios>();
         }
     
-        public short id { get; set; }
+        public int id { get; set; }
         public string nombre { get; set; }
         public Nullable<byte> sprint { get; set; }
         public Nullable<byte> modulo { get; set; }
