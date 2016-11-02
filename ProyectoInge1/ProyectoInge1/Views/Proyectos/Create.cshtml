@@ -1,6 +1,9 @@
 @model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
 <script>
+    window.onload = function (e) {
+        desarrolladores = [];
+    }
     function Cancelar() {
         if (confirm("Esta seguro que desea borrar este proyecto ?")) {
             return true;
@@ -10,6 +13,7 @@
 
     }
     function listbox_moveacross(sourceID, destID) {
+        
         var src = document.getElementById(sourceID);
         var dest = document.getElementById(destID);
 
@@ -24,6 +28,7 @@
                 newOption.selected = true;
                 try {
                     dest.add(newOption, null); //Standard
+                    desarrolladores.push(newOption.value);
                     src.remove(count, null);
                 } catch (error) {
                     dest.add(newOption); // IE only
@@ -91,7 +96,11 @@
     @*cajas de seleccion*@
     <div class="control-label">
         @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
-        <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>        
+        @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
+
+        <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>     
+        
+           
         <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
         <br/>
         <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
@@ -103,7 +112,12 @@
             <label class="control-label col-md-2">Desarrollador</label>
 
         </div>
-            <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+            <select class="form-control col-md-2" style="width:20em" id="s" size="10">
+
+
+
+
+            </select>
             
       
         <div>
@@ -120,7 +134,8 @@
                 @*Aqui se insertan los usuarios*@
                     @foreach (var item in Model.listaUsuarios)
                     {
-                        <option value=item.Cedula>
+                        var ced = item.cedula;
+                        <option value= @ced>
                             @Html.DisplayFor(modelItem => item.nombre)
                             @Html.DisplayFor(modelItem => item.apellidos)
                             @Html.Raw(" ")
