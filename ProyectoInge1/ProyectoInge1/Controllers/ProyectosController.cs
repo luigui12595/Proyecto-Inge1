@@ -26,7 +26,11 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var usuarios = from users in BD.Usuario
+                           select users;
+            ModProyectoInter model = new ModProyectoInter();
+            model.listaUsuarios = usuarios.ToList();
+            return View(model);
         }
 
         [HttpPost]
