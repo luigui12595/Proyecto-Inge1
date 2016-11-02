@@ -19,8 +19,9 @@
         <div class="col-md-10">
             <div class="form-group">
                
-                @Html.EditorFor(model => model.Requerimientos.id , new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Requerimientos.id, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.id, "", new { @class = "text-danger" })
+                @Html.DisplayFor(model => model.Requerimientos.id)
            </div>
              </div>
 
@@ -58,14 +59,14 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Descripcion:</label>
                 <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4"  })
+                    @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                     @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Observaciones:</label>
                 <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4" })
+                    @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                     @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -81,20 +82,81 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Fuente:</label>
                 <div class="col-md-10">
+                    @{
+                        var UserProyectList = Model.listaUsuario;
+                        var UserList = Model.UsuariosSistema;
+                        foreach (var userProj in UserProyectList)
+                        {
+                            foreach (var user in UserList)
+                            {
+                                if (userProj.cedula.Equals(user.cedula))
+                                {
+                                    <option value=user.cedula>
+                                        @Html.DisplayFor(modelItem => user.nombre)
+                                        @Html.DisplayFor(modelItem => user.apellidos)
+                                        @Html.Raw(" ")
+                                    </option>
+                                    @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
+                                }
+                            }
+
+                        }
+                    }
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Responsable 1:</label>
                 <div class="col-md-10">
-                    <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
+                   @{
+                       var UserProyectList2 = Model.listaUsuario;
+                       var UserList2 = Model.UsuariosSistema;
+                       foreach (var userProj2 in UserProyectList2)
+                       {
+                           foreach (var user2 in UserList2)
+                           {
+                               if (userProj2.cedula.Equals(user2.cedula))
+                               {
+                                <option value=user.cedula>
+                                    @Html.DisplayFor(modelItem => user2.nombre)
+                                    @Html.DisplayFor(modelItem => user2.apellidos)
+                                    @Html.Raw(" ")
+                                </option>
+                                    @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
+                               }
+                           }
+
+                       }
+                }
 
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Responsable 2:</label>
                 <div class="col-md-10">
-                    @Html.DisplayFor(model => model.Usuarios.nombre)
+                    @{  
+                        var UserProyectList3 = Model.listaUsuario;
+                        var UserList3 = Model.UsuariosSistema;
+                        string Nombre3="dd";
+                        foreach (var userProj3 in UserProyectList3)
+                        {
+                            foreach (var user3 in UserList3)
+                            {
+                                if (userProj3.cedula.Equals(user3.cedula))
+                                {
+                                   
+                                    <option value=user3.cedula>
+                                        @Html.DisplayFor(modelItem => user3.nombre)
+                                        @Html.DisplayFor(modelItem => user3.apellidos)
+                                        @Html.Raw(" ")
+                                    </option>
+                                        @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
+                                }
+                            }
+
+                        }
+                    }
+                    @Html.DropDownListFor(model => model.Requerimientos.responsable2 , new[] { new SelectListItem() })
+                    @Html.DisplayFor(model => model.listaUsuario.Count )
                 </div>
             </div>
             <div class="form-group">

@@ -67,18 +67,38 @@ namespace ProyectoInge1.Controllers
             string id = "Aseguradora";
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-           // RQ.ReqUsuario = BD.Usuario.Include(x => x.Proyecto1.Equals(id)).ToList();
-           /* RQ.ReqFunUsu=
-           */ var usuarios =
-                          from usersP in BD.Usuario
-                          //where usersP.Proyecto = NombProy
-                          select usersP;
+            //RQ.listaRequerimientos;
+            var req= from usersP in BD.ReqFuncional
+                     select usersP;
+            req = req.Where(x => x.nombre == id);
+            RQ.listaRequerimientos = req.ToList();
+            /* if (RQ.listaRequerimientos.Count == 0)
+             {
+                 RQ.Requerimientos.id = 0;
+             }
+             else {
+               Int32 d = RQ.listaRequerimientos.Count;
+                Int16 d2 = (Int16) (d + 1);
+                 d= (Int32)(d2);
+                 RQ.Requerimientos.id = (Int16)(d);
+             }*/
 
-            //usuarios = usuarios.Where(x => x.nombre == NombProy);
-            usuarios = usuarios.Where(x => x.nombre == id);
-            //RQ.ReqUsuario = usuarios.ToList();
+            /* var proy = from usersP in BD.Proyecto
+                            select usersP;
+
+             proy = proy.Where(x => x.nombre == id);
+
+             RQ.proyecto = proy;
+
+             for (int j=0; j<RQ.listaProyecto.Count;j++) {
+
+             }*/
+            RQ.UsuariosSistema = BD.Usuario.ToList();
+            RQ.proyecto = BD.Proyecto.Find(id);
+            RQ.listaUsuario = RQ.proyecto.Usuario1.ToList();
+            
             // return View(usuarios.ToList() );*/
-            return View(/*RQusuarios.ToList()*/RQ);
+            return View(RQ);
         }
 
         public ActionResult Details(short id)
