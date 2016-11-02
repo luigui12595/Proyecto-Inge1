@@ -23,8 +23,13 @@ CREATE TABLE Proyecto(
 	fechaFinal		DATE,
 	estado			VARCHAR(12)		NOT NULL,
 	lider			CHAR(9)			NOT NULL,
+	Cliente 		CHAR(9) 		NULL,
+	
+	CONSTRAINT CHK_cliente_Proyecto CHECK (cliente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	
 	CONSTRAINT PK_Proyecto	PRIMARY KEY CLUSTERED ( nombre ASC ),
+	CONSTRAINT FK_Usuario_Proyecto_Cliente FOREIGN KEY ( cliente ) REFERENCES Usuario ( cedula )
+									ON UPDATE CASCADE,
 	CONSTRAINT FK_Usuario_Proyecto	FOREIGN KEY ( lider ) REFERENCES Usuario ( cedula )
 									ON UPDATE CASCADE
 );
@@ -32,7 +37,7 @@ CREATE TABLE Proyecto(
 
 
 CREATE TABLE ReqFuncional(
-	id			SMALLINT		NOT NULL,				
+	id			INT IDENTITY	NOT NULl,				
 	nombre			VARCHAR(20),
 	sprint			TINYINT,
 	modulo			TINYINT,
@@ -64,7 +69,7 @@ CREATE TABLE ReqFuncional(
 CREATE TABLE GestionCambios(
 	Fecha			DATETIME		NOT NULL,
 	Razon			VARCHAR(50),
-	idReqFunc		SMALLINT,
+	idReqFunc		INT,
 	nomProyecto		VARCHAR(30), 
 	realizadoPor		CHAR(9),
 	
@@ -117,7 +122,7 @@ CREATE TABLE Telefono(
 );
 
 CREATE TABLE CriterioAceptacion(
-	idReqFunc	SMALLINT	NOT NULL,
+	idReqFunc	INT	NOT NULL,
 	nomProyecto	VARCHAR(30),
 	criterio	VARCHAR(128),
 	
