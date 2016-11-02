@@ -15,9 +15,9 @@ namespace ProyectoInge1.Models
     public partial class CriterioAceptacion
     {
         public short idReqFunc { get; set; }
-        public string criterio { get; set; }
         public string nomProyecto { get; set; }
+        public string criterio { get; set; }
     
-        public virtual ReqFuncional ReqFuncional1 { get; set; }
+        public virtual ReqFuncional ReqFuncional { get; set; }
     }
 }

@@ -33,6 +33,37 @@ namespace ProyectoInge1.Controllers
             return View(model);
         }
 
+        public ActionResult Eliminar(bool confirm, string Proyecto) {
+            if (confirm == true)
+            {
+
+                var ProyectoB = BD.Proyecto.Find(Proyecto/*modelo.proyecto.nombre*//*id*/);
+                //Condicion de estado
+                if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
+                {
+                    //solicitar una confirmacion para eliminar proyecto 
+                    BD.Entry(ProyectoB).State = EntityState.Deleted;
+                    BD.SaveChanges();
+                }
+                else
+                {
+                    //Desplegar mensaje de imposible eliminar el proyecto
+                    return View();
+                }
+
+            }
+
+
+            //Fin condicion estado
+            //  if (ProyectoB. ) { }
+            /*var usuario = BD.Usuario.Find(modelo. );
+            BD.Entry(usuario).State = EntityState.Deleted;
+            BD.SaveChanges();*/
+            return RedirectToAction("Index");
+        }
+         
+        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModUsuarioInter modelo, string id)
@@ -88,20 +119,27 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Eliminar(/**/ModProyectoInter modelo/**//* string id*/)
+        public ActionResult Eliminar2(/**/bool confirm,string Proyecto/**//* string id*/)
         {
             //id ="pp";
-            var ProyectoB = BD.Proyecto.Find("pp"/*modelo.proyecto.nombre*//*id*/);
-            //Condicion de estado
-            if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
-            {
-                //solicitar una confirmacion para eliminar proyecto 
-                BD.Entry(ProyectoB).State = EntityState.Deleted;
-                BD.SaveChanges();
+            if (confirm==true) {
+
+                var ProyectoB = BD.Proyecto.Find(Proyecto/*modelo.proyecto.nombre*//*id*/);
+                //Condicion de estado
+                if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
+                {
+                    //solicitar una confirmacion para eliminar proyecto 
+                    BD.Entry(ProyectoB).State = EntityState.Deleted;
+                    BD.SaveChanges();
+                }
+                else
+                {
+                    //Desplegar mensaje de imposible eliminar el proyecto
+                    return View();
+                }
+
             }
-            else {
-                //Desplegar mensaje de imposible eliminar el proyecto
-            }
+           
             
             //Fin condicion estado
             //  if (ProyectoB. ) { }
@@ -111,4 +149,5 @@ namespace ProyectoInge1.Controllers
             return RedirectToAction("Index");
         }
     }
+
 }

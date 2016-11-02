@@ -1,4 +1,4 @@
-﻿@model ProyectoInge1.Models.ReqFuncional
+﻿@model ProyectoInge1.Models.ModReqFuncionalInter
 
 @{
     ViewBag.Title = "Create";
@@ -15,83 +15,99 @@ function update_output() {
 }
 
 function delete_all(button) {
-	$("#" + button.className).remove();
+	$("#" + button.id).remove();
 	update_output();
 }
 
 function add_textbox() {
-	$("#textboxes").append("<div id='textbox" + i +"'><input type='text' class='multitextbox multitextbox" + i + "' oninput=update_output()> <button onclick='delete_all(this)' class= textbox" + i + ">x</button> <br/> </div>");
+    $("#textboxes").append("<div id='textbox" + i + "'><input type='text' style='width:20em; margin-left:15em;' class='form-control col-md-2 multitextbox multitextbox" + i + "' oninput=update_output()> <button onclick='delete_all(this)' class='btn' id= textbox" + i + ">x</button> <br/><br/> </div>");
 	var tbid = "multitextbox" + i;
 	i++;
 
 	return tbid;
 }
+function load_all() {
+    var inputs = $("#output").val().split("|");
+    for (var j = 0; j < inputs.length; j++) {
+        var tbid = add_textbox();
+        console.log("." + tbid)
+        $("." + tbid).val(inputs[j]);
+    }
+}
 
+window.onload = load_all
 </script>
 
 
 <h2>Requerimientos Funcionales</h2>
 
 
-    <div class="form-horizontal">
         <h4>Crear</h4>
         <hr />
+@using (Html.BeginForm())
+{
+        @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label class="control-label col-md-2">Nombre:</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+        <!--AGREGAR UN ID DE REQUERIMIENTO-->
+        
+
+            <!--AGREGAR UN PROYECTO DE REQUERIMIENTO-->
+            <div class="form-group">
+                <label class="control-label col-md-2">proyecto</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimientos.nomProyecto, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Sprint:</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.sprint, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.sprint, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Nombre:</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Requerimientos.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimientos.nombre, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Modulo:</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.modulo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.modulo, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label col-md-2">Sprint:</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Requerimientos.sprint, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimientos.sprint, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Descripcion:</label>
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label col-md-2">Modulo:</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Requerimientos.modulo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <!--<div class="form-group">
-            <label class="control-label col-md-2">Prueba:</label>
-            <div class="col-md-10">
-                Html.TextAreaFor(model => model. , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.descripcion, "", new { class = "text-danger" })
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Descripcion:</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4"  })
+                    @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>-->
-        <div class="form-group">
-            <label class="control-label col-md-2">Observaciones:</label>
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label col-md-2">Observaciones:</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4" })
+                    @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Imagen:</label>
-            <div class="editor-field">
-                <input id="ImagePath" title="Upload a product image"
-                       type="file" name="file" />
+            <div class="form-group">
+                <label class="control-label col-md-2">Imagen:</label>
+                <div class="editor-field">
+                    <input id="ImagePath" title="Upload a product image"
+                           type="file" name="file" />
+                    <!--Html.TextAreaFor(model => model.RequerimientosF.imagen , new { htmlAttributes = new { class = "form-control" } })-->
+                    @Html.ValidationMessageFor(model => model.Requerimientos.imagen, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Fuente:</label>
                 <div class="col-md-10">
-                    <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
-
                 </div>
             </div>
             <div class="form-group">
@@ -105,36 +121,36 @@ function add_textbox() {
             <div class="form-group">
                 <label class="control-label col-md-2">Responsable 2:</label>
                 <div class="col-md-10">
-                    <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
-                Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
-
+                    @Html.DisplayFor(model => model.Usuarios.nombre)
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Fecha Inicial:</label>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
+                    @Html.TextBoxFor(model => model.Requerimientos.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                 </div>
             </div>
+
             <div class="form-group">
                 <label class="control-label col-md-2">Fecha Final:</label>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+                    @Html.TextBoxFor(model => model.Requerimientos.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
                 </div>
+            </div>
+
                 @*Criterio De Aceptacion*@
+                <label class="control-label col-md-2">Criterios de aceptacion:</label><br />
+                @Html.HiddenFor(model => model.values, new { @id = "output" })
+                <input type="text" id="output" value=" " style="display:none"><br/>
 
-                @Html.LabelFor(model => model)
-                <input type="text" id="output" value=" "><br />
-
-                <button onclick="add_textbox()">New Textbox</button>
+                <a onclick="add_textbox()" class="btn btn-primary">Agregar Criterio</a>
                 <div id="textboxes">
+                <br/>
                 </div>
 
 
                 @*Criterio De Aceptacion*@
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-5">
                         <input type="submit" value="Aceptar" class="btn btn-primary" />
@@ -142,11 +158,8 @@ function add_textbox() {
                         @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
                     </div>
                 </div>
-               <!-- <div class="col-md-offset-2 col-md-5">-->
 }
-
-                </div>
-        </div>
+           
 
 
 
@@ -163,6 +176,12 @@ function add_textbox() {
                         $(".datepicker2").on("dp.change", function (e) {
                             $('.datepicker').data("DatePicker").setMaxDate(e.date);
                         });
-</script>
+
+
+                        i = 0;
+
+                        
+
+    </script>
 
 }
