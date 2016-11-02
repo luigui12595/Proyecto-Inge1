@@ -92,9 +92,7 @@
                                 if (userProj.cedula.Equals(user.cedula))
                                 {
                                     <option value=user.cedula>
-                                        @Html.DisplayFor(modelItem => user.nombre)
-                                        @Html.DisplayFor(modelItem => user.apellidos)
-                                        @Html.Raw(" ")
+                                        @Html.DropDownListFor(model => model.Requerimientos.responsable2, new[] { new SelectListItem() { Text = user.nombre.ToString() + " " + user.apellidos.ToString(), Value = user.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
                                     </option>
                                     @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
                                 }
@@ -117,9 +115,7 @@
                                if (userProj2.cedula.Equals(user2.cedula))
                                {
                                 <option value=user.cedula>
-                                    @Html.DisplayFor(modelItem => user2.nombre)
-                                    @Html.DisplayFor(modelItem => user2.apellidos)
-                                    @Html.Raw(" ")
+                                    @Html.DropDownListFor(model => model.Requerimientos.responsable2, new[] { new SelectListItem() { Text = user2.nombre.ToString() + " " + user2.apellidos.ToString(), Value = user2.cedula } }, "--Responsable no asignado--", new { @class = "form-control" })
                                 </option>
                                     @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
                                }
@@ -145,18 +141,14 @@
                                 {
                                    
                                     <option value=user3.cedula>
-                                        @Html.DisplayFor(modelItem => user3.nombre)
-                                        @Html.DisplayFor(modelItem => user3.apellidos)
-                                        @Html.Raw(" ")
+                                        @Html.DropDownListFor(model => model.Requerimientos.responsable2, new[] { new SelectListItem() { Text = user3.nombre.ToString()+" "+ user3.apellidos.ToString(), Value = user3.cedula } },"--Responsable no asignado--", new { @class = "form-control" } )
+ 
                                     </option>
-                                        @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
                                 }
                             }
 
                         }
                     }
-                    @Html.DropDownListFor(model => model.Requerimientos.responsable2 , new[] { new SelectListItem() })
-                    @Html.DisplayFor(model => model.listaUsuario.Count )
                 </div>
             </div>
             <div class="form-group">
