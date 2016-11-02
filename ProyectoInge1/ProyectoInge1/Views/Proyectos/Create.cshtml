@@ -64,18 +64,14 @@
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="Aceptar" class="btn btn-primary" />
                 <div class="form-actions no-color">
-                    <input type="submit" value="Eliminar" class="btn btn-default" />
-                   <!-- <button onclick="Cancelar()">Eliminar Pro</button>
-                    
-                    Html.ActionLink("Back to List", "Index")
-                --></div>
+                   </div>
                 <div class="btn btn-danger" style="color:white;" />
                 @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
                 
                 
             </div>
-            <div class="btn btn-danger" style="color:white;" />
-            @Html.ActionLink("Delete", "Eliminar", null , new { confirm = true, Proyecto = "CCC"  } ,new { @onclick = "return Cancelar();" })
+            
+           
             
         </div>
     </div>

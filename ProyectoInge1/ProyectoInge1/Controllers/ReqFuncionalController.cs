@@ -106,11 +106,15 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Index", "Usuario");
             }*/
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
-            string nombre = "Telecomunicaciones";
-            modelo.Requerimientos = BD.ReqFuncional.Find(id, nombre);
+            string nombre = "Aseguradora";
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, nombre);
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             return View(modelo);
 
         }
+
 
         /* [HttpPost]
          [ValidateAntiForgeryToken]
