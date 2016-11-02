@@ -1,5 +1,5 @@
 ﻿using System;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -94,8 +94,7 @@ namespace ProyectoInge1.Controllers
              }*/
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
-            RQ.listaUsuario = RQ.proyecto.Usuario1.ToList();
-            
+            RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
             // return View(usuarios.ToList() );*/
             return View(RQ);
         }
@@ -148,26 +147,25 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
+        public ActionResult Create(ModReqFuncionalInter modelo)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
 
-            /* if (ModelState.IsValid)
+             if (ModelState.IsValid)
              {
                  //var idRF;
-                 var NReqFun = from RF in BD.ReqFuncional select RF;
+                  NReqFun = from RF in BD.ReqFuncional select RF;
                  // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
-                 BD.ReqFuncional.Add(modelo.RequerimientosF);
+                 BD.ReqFuncional.Add(modelo.Requerimientos);
                  BD.SaveChanges();
              }
              else
              {
                  ModelState.AddModelError("", "Debe completar toda la información necesaria.");
                  return View(modelo);
-             }*/
+             }
             return View();
         }
         //return View();

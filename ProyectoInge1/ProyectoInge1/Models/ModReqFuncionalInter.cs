@@ -20,7 +20,7 @@ namespace ProyectoInge1.Models
         public List<CriterioAceptacion> listaCriterios { get; set; }   
         public CriterioAceptacion criterios { get; set; }
         public List<Proyecto> listaProyecto { get; set; }
-        public List<Usuario> UsuariosSistema;
+        public List<Usuario> UsuariosSistema { get; set; }
 
-        }
+    }
     }
