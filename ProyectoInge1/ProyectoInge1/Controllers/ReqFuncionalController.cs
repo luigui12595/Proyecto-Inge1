@@ -147,13 +147,13 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModReqFuncionalInter modelo)
+        public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
 
-             if (ModelState.IsValid)
+            /* if (ModelState.IsValid)
              {
                  //var idRF;
                   NReqFun = from RF in BD.ReqFuncional select RF;
@@ -165,7 +165,7 @@ namespace ProyectoInge1.Controllers
              {
                  ModelState.AddModelError("", "Debe completar toda la información necesaria.");
                  return View(modelo);
-             }
+             }*/
             return View();
         }
         //return View();
