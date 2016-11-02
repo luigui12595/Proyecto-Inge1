@@ -14,6 +14,11 @@
         var elementid = element.id;
         window.location.replace('../Eliminar/'+elementid)
     }
+
+    function goToReqFun(element) {
+        var elementId = element.id;
+        window.location.replace('../../ReqFuncional/Index/' + elementId)
+    }
 </script>
 
 @{
@@ -26,7 +31,8 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken(){
+
     <div class="form-horizontal">
         <hr />
         <div class="elementoModificar" style="display:none">
@@ -38,10 +44,15 @@
             </div>
         </div>
     </div>
+    }
+}
     @*---------------------------------------Detalles------------------------------------------------*@
     <div class="elementoEditar">
         <div class="form-horizontal">
             <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+            <div class="col-lg-2 ">
+                <a class="btn btn-default" id='@(Model.proyecto.nombre)' onclick="goToReqFun(this)">Requerimientos Funcionales</a>
+            </div>
             <div class="col-lg-2 col-lg-push-6">
                 <a class="btn btn-danger" id='@(Model.proyecto.nombre)' onclick="borrar(this)">Eliminar</a>
             </div>
@@ -105,6 +116,35 @@
                     @Html.EditorFor(model => model.proyecto.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                     @Html.ValidationMessageFor(model => model.proyecto.estado, "", new { @class = "text-danger" })
                 </div>
+
+                @*Estado Detalles*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.proyecto.Usuario1, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <select class="form-control col-md-2 " style="width:20em;" id="d" size="10">
+                        @{
+                            var UserProyectList = Model.listaUsuariosProyecto;
+                            var UserList = Model.listaUsuarios;
+                            foreach (var userProj in UserProyectList)
+                            {
+                                foreach (var user in UserList)
+                                {
+                                    if (userProj.cedula.Equals(user.cedula))
+                                    {
+                                        <option value=user.cedula>
+                                            @Html.DisplayFor(modelItem => user.nombre)
+                                            @Html.DisplayFor(modelItem => user.apellidos)
+                                            @Html.Raw(" ")
+                                        </option>
+                                       @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
+                                    }
+                                }
+                            }
+                        }
+                       
+                    </select>
+                   
+                    @Html.ValidationMessageFor(model => model.proyecto.Usuario1, "", new { @class = "text-danger" })
+                </div>
             </dl>
             <div>
                 @Html.ActionLink("Volver", "Index")
@@ -112,10 +152,8 @@
         </div>
     </div>
 
-    <p>
-    </p>
-}
-
+                            
+                        
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

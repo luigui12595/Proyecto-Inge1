@@ -19,5 +19,6 @@ namespace ProyectoInge1.Models
         public CriterioAceptacion criterio { get; set; }
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
+        public List<Usuario> listaUsuariosProyecto { get; set; }
     }
 }
