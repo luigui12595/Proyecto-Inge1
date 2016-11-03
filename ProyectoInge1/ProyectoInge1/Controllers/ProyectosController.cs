@@ -109,24 +109,11 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(string id)
         {
-            id = "Aseguradora";
+            
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
             modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
-            //modelo. = BD.Telefono.Where(x => x.usuario == id).ToList();
-            //modelo.Role = BD.NetRolesPermiso.Find(id).Permiso;
-            /*if (1 <= modelo.listaTelefono.Count)
-            {
-                modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
-
-            }
-            if (1 < modelo.listaTelefono.Count)
-            {
-                modelo.modeloTelefono2 = modelo.listaTelefono.ElementAt(1);
-
-            }*/
-
             return View(modelo);
 
         }

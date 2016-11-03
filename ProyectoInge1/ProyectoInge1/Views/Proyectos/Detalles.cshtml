@@ -12,7 +12,7 @@
 
     function borrar(element) {
         var elementid = element.id;
-        window.location.replace('../Eliminar/'+elementid)
+        window.location.replace('../Index')
     }
 
     function goToReqFun(element) {
@@ -59,111 +59,135 @@
 @*---------------------------------------Detalles------------------------------------------------*@
 <div class="elementoEditar">
     <div class="form-horizontal">
-        <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
-        <div class="col-lg-2 ">
-            <a class="btn btn-default" id='@(Model.proyecto.nombre)' onclick="goToReqFun(this)">Requerimientos Funcionales</a>
-        </div>
-        <div class="col-lg-2 col-lg-push-6">
-            <!--<a class="btn btn-danger" id='(Model.proyecto.nombre)' onclick="borrar(this)">Eliminar</a>-->
-            <div class="btn btn-danger" style="color:white;" />
-            @Html.ActionLink("Delete", "Eliminar", null, new { confirm = true, Proyecto = "CCC" }, new { @onclick = "return Cancelar();" })
-        </div>
-        <br /><br />
-        <dl class="dl-horizontal">
+            <div class="col-lg-2 ">
+                <a class="btn btn-success" style="margin-left:2.5em;" onclick="esconderEditar()">Modificar</a>
+            </div>
+            <div class="col-lg-2 " > 
+                <div class="btn btn-danger" style="color:white;" >
+                    @Html.ActionLink("Eliminar", "Index", "Proyectos", new { confirm = true, Proyecto = Model.proyecto.nombre }, new { @style = "color:white;" , @onclick = "return Cancelar();" })
+                </div>
+            </div>
+            <div class="col-lg-2 "  style="margin-left:-2.5em;">
+                <a class="btn btn-info" id='@(Model.proyecto.nombre)' onclick="goToReqFun(this)">Requerimientos Funcionales</a>
+            </div>
+
+        <br /><br /><br/>
             @*Nombre Detalles*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.proyecto.nombre, "", new { @class = "text-danger" })
+            <div class="col-lg-12">
+                <div class="col-lg-6 ">
+                    @Html.LabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label" })<br/>
+                    <div style="width:25em;">
+                    @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    </div>
+                </div> 
+                @*Descripcion Detalles*@
+                <div class="col-lg-6 form-group">
+                    <div class="col-lg-2 col-lg-pull-1">
+                        @Html.LabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label" })
+                    </div><br/><br/>
+                    <div class="col-lg-4 col-lg-pull-1 " style="width:25em;">
+                        @Html.TextAreaFor(model => model.proyecto.descripcion, new { @class = "form-control", rows = "4", @readonly = true })
+                    </div>
+                </div>
             </div>
-
-
-            @*Descripcion Detalles*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextAreaFor(model => model.proyecto.descripcion, new { @class = "form-control", rows = "4", @readonly = true })
-                @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
+            <div class="col-lg-12"  >
+                @*Fecha Inicio Detalles*@
+                <div class="col-lg-6">
+                   @Html.LabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label" })
+                   <br/>
+                   <div  style="width:25em;">
+                      @Html.EditorFor(model => model.proyecto.fechaInicio, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                   </div>
+                </div>
+                @*Fecha Final Detalles*@
+                <div class="col-lg-6 form-group">
+                    <div class="col-lg-5 col-lg-pull-1">
+                        @Html.LabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label" })
+                    </div><br />
+                    <div class="col-lg-4 col-lg-pull-1 " style="width:25em;">
+                        @Html.EditorFor(model => model.proyecto.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
             </div>
-
-
-            @*Fecha Inicio Detalles*@
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.proyecto.fechaInicio, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.proyecto.fechaInicio, "", new { @class = "text-danger" })
-            </div>
-
-
-            @*Fecha Final Detalles*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.proyecto.fechaInicio, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.proyecto.fechaFinal, "", new { @class = "text-danger" })
-            </div>
-
-
-            @*Lider Detalles*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
-                @{
-                    var id = Model.proyecto;
-                    var userList = Model.listaUsuarios;
-                    foreach (var user in userList)
-                    {
-                        if (user.cedula.Equals(id.lider))
-                        {
-                            @Html.EditorFor(modelItem => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } });
-                        }
-                    }
-
-                }
-                @Html.ValidationMessageFor(model => model.proyecto.lider, "", new { @class = "text-danger" })
-            </div>
-
-
-            @*Estado Detalles*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.estado, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.proyecto.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.proyecto.estado, "", new { @class = "text-danger" })
-            </div>
-
-            @*Estado Detalles*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.proyecto.Usuario1, htmlAttributes: new { @class = "control-label col-md-2" })
-                <select class="form-control col-md-2 " style="width:20em;" id="d" size="10">
-                    @{
-                        var UserProyectList = Model.listaUsuariosProyecto;
-                        var UserList = Model.listaUsuarios;
-                        foreach (var userProj in UserProyectList)
-                        {
-                            foreach (var user in UserList)
+            <div class="col-lg-12 col-lg-pull-1" >
+                @*Lider Detalles*@
+                <div class="col-lg-6 col-lg-push-1" >
+                    @Html.LabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label" })
+                    <br/>
+                    <div style="width:25em; ">
+                        @{
+                            var id = Model.proyecto;
+                            var userList = Model.listaUsuarios;
+                            foreach (var user in userList)
                             {
-                                if (userProj.cedula.Equals(user.cedula))
+                                if (user.cedula.Equals(id.lider))
                                 {
-                                    <option value=user.cedula>
-                                        @Html.DisplayFor(modelItem => user.nombre)
-                                        @Html.DisplayFor(modelItem => user.apellidos)
-                                        @Html.Raw(" ")
-                                    </option>
-                                        @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })*@
+                                    @Html.EditorFor(modelItem => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } });
                                 }
+                            }
+
+                        }
+                    </div>
+                </div>
+                @*Cliente Detalles*@
+                <div class="col-lg-5 " style="margin-left:3.5em;">
+                    @Html.LabelFor(model => model.proyecto.Cliente, htmlAttributes: new { @class = "control-label" })<br/>
+                    @{
+                        var idUsr = Model.proyecto.Cliente;
+                        var usersList = Model.listaUsuarios;
+                        foreach (var user in usersList)
+                        {
+                            if (user.cedula.Equals(idUsr))
+                            {
+                                @Html.EditorFor(modelItem => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } });
                             }
                         }
                     }
-
-                </select>
-
-                @Html.ValidationMessageFor(model => model.proyecto.Usuario1, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </dl>
-        <div>
-            @Html.ActionLink("Volver", "Index")
-        </div>
-    </div>
-</div>
+            <div class="col-lg-12 col-lg-pull-1" >
+                <div class="col-lg-6 col-lg-push-1">
+                    @*Estado Detalles*@
+                    <div class="form-group" style="margin-left:0em;">
+                        @Html.LabelFor(model => model.proyecto.estado, htmlAttributes: new { @class = "control-label" })<br />
+                        @Html.EditorFor(model => model.proyecto.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+                <div class="col-lg-6 col-lg-push-1">
+                    @*Estado Detalles*@
+                    <div class="form-group">
 
+                        <div class="col-lg-5 col-lg-pull-1">
+                            @Html.LabelFor(model => model.proyecto.Usuario1, htmlAttributes: new { @class = "control-label " })<br />
+                        </div><br/><br/>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <select class="form-control " style="width:20em;" id="d" size="10">
+                                @{
+                                    var UserProyectList = Model.listaUsuariosProyecto;
+                                    var UserList = Model.listaUsuarios;
+                                    foreach (var userProj in UserProyectList)
+                                    {
+                                        foreach (var user in UserList)
+                                        {
+                                            if (userProj.cedula.Equals(user.cedula))
+                                            {
+                                                <option value=user.cedula>
+                                                    @Html.DisplayFor(modelItem => user.nombre)
+                                                    @Html.DisplayFor(modelItem => user.apellidos)
+                                                    @Html.Raw(" ")
+                                                </option>
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.ActionLink("Volver", "Index")
+        </div>       
+    </div>
 
 
 @section Scripts {
