@@ -1,0 +1,183 @@
+﻿@model ProyectoInge1.Models.ModReqFuncionalInter
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Requerimientos Funcionales</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Crear</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">id:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requerimientos.id, new { htmlAttributes = new { @class = "form-control" } })
+                               @Html.ValidationMessageFor(model => model.Requerimientos, "", new { @class = "text-danger" })
+                               @Html.ValidationMessageFor(model => model.Requerimientos.id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+                        <label class="control-label col-md-2">proyecto:</label>
+                        <div class="col-md-10">
+                               @Html.EditorFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Requerimientos.nomProyecto, "", new { @class = "text-danger" })
+                
+            </div>
+            
+        </div>
+        
+               <div class="form-group">
+            <label class="control-label col-md-2">Nombre:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requerimientos.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Requerimientos.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Sprint:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requerimientos.sprint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Requerimientos.sprint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Modulo:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requerimientos.modulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Descripcion:</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
+                @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Observaciones:</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
+                @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Imagen:</label>
+            <div class="editor-field">
+                <input id="ImagePath" title="Upload a product image"
+                       type="file" name="file" />
+                <!--Html.TextAreaFor(model => model.RequerimientosF.imagen , new { htmlAttributes = new { class = "form-control" } })-->
+                @Html.ValidationMessageFor(model => model.Requerimientos.imagen, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Fuente:</label>
+            <div class="col-md-10">
+              @*  @{
+                    var UserProyectList = Model.listaUsuario;
+                    var UserList = Model.UsuariosSistema;
+                    foreach (var userProj in UserProyectList)
+                    {
+                        foreach (var user in UserList)
+                        {
+                            if (userProj.cedula.Equals(user.cedula))
+                            {
+                                <option value=user.cedula>
+                                    @Html.DropDownListFor(model => model.Requerimientos.fuente, new[] { new SelectListItem() { Text = user.nombre.ToString() + " " + user.apellidos.ToString(), Value = user.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
+                                </option>
+                                    @* @Html.EditorFor(usr => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                            }
+                        }
+
+                    }
+                }*@
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Responsable 1:</label>
+            <div class="col-md-10">
+                <!--Html.EditorFor(model => model , new { htmlAttributes = new { class = "form-control" } })
+                Html.ValidationMessageFor(model => model.modulo, "", new { class = "text-danger" })-->
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Responsable 2:</label>
+            <div class="col-md-10">
+               
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Fecha Inicial:</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Requerimientos.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Fecha Final:</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Requerimientos.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Criterios:</label>
+            <div class="col-md-10">
+
+            </div>
+        </div>
+        <form action="demo_form.asp">
+            Criterio: <input type="text" name="t"><br>
+
+        </form>
+        <button onclick="listar()">Try it</button>
+        <script>
+ var c =[] ;
+ var t;
+ document.getElementById("demo").innerHTML = c;
+
+ function listar() {
+     t="VVV";
+     c.push(t,"<button> Cambiar </button>  <button> Eliminiar </button>  <br> ");
+     document.getElementById("demo").innerHTML = c;
+ }
+        </script>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <div class="btn btn-danger" style="color:white;" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+            </div>
+        </div>
+        <!-- <div class="col-md-offset-2 col-md-5">-->
+
+
+
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+                         $(function () {
+                             $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+                         });
+                         $(".datepicker").on("dp.change", function (e) {
+                             $('.datepicker2').data("DatePicker").setMinDate(e.date);
+                         });
+                         $(".datepicker2").on("dp.change", function (e) {
+                             $('.datepicker').data("DatePicker").setMaxDate(e.date);
+                         });
+    </script>
+
+}

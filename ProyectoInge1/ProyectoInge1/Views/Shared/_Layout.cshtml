@@ -3,10 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Control de proyectos</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+    <script type='text/javascript'>
+    $(function(){
+      $('.date-picker').datepicker();
+    })
+    </script>
+    <meta charset="utf-8">
+    <title>JS Bin</title>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,14 +26,38 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Control de proyectos", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+                    <li>@Html.ActionLink("Requerimientos", "Create", "ReqFuncional")</li> 
+                    <li>@Html.ActionLink("eliminar", "Create", "Proyectos")</li> 
+                    @if (Request.IsAuthenticated)
+                    {
+                       
+                        <li>@Html.ActionLink("Requerimientos", "Index", "ReqFuncional")</li>
+                        <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                        <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                        <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
+                       <!--ESTE IF CONTIENE LOS AQUELLAS PESTAÑAS QUE SOLO UN ADMINISTRADOR PODRIA VER-->
+                        /*string[] roles = Roles.GetRolesForUser();
+                        foreach (string role in roles)
+                        {
+                            if (role.Contains("Administrador"))
+                            {
+                                <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                                break;
+                            }
+                        }
+
+                        */
+                        /*if (Page.User.IsInRole("Administrador"))
+                    {
+                      <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                    }*/
+                    }    
+                    <li>@Html.ActionLink("Prueba", "Create", "ReqFuncional")</li>               
+                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -33,7 +66,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Control de proyectos</p>
         </footer>
     </div>
 
