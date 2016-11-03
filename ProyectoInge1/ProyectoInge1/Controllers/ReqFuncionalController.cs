@@ -154,11 +154,12 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            var NombreP = modelo.Requerimientos.nomProyecto;
-            var idReq = modelo.Requerimientos.id;
+            var NombreP = modelo.Requerimientos.nomProyecto;         
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
-
+            List<ReqFuncional> LR;
+            LR = BD.ReqFuncional.ToList();
+            var idReq = LR.Last().id;
             if (modelo.values != null) {
                 String[] substrings = modelo.values.Split('|');
                 foreach (var substring in substrings)
