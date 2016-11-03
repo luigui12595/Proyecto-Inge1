@@ -154,23 +154,37 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
+            var NombreP = modelo.Requerimientos.nomProyecto;
+            var idReq = modelo.Requerimientos.id;
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
 
-            /* if (ModelState.IsValid)
-             {
-                 //var idRF;
-                  NReqFun = from RF in BD.ReqFuncional select RF;
-                 // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
-                 BD.ReqFuncional.Add(modelo.Requerimientos);
-                 BD.SaveChanges();
-             }
-             else
-             {
-                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
-                 return View(modelo);
-             }*/
-            return View();
+            if (modelo.values != null) {
+                String[] substrings = modelo.values.Split('|');
+                foreach (var substring in substrings)
+                {
+                   CriterioAceptacion mod= new CriterioAceptacion();
+                    mod.idReqFunc = idReq;
+                    mod.nomProyecto = NombreP;
+                    mod.criterio = substring;
+                    BD.CriterioAceptacion.Add(mod);
+                    BD.SaveChanges();
+                }
+            }
+                /* if (ModelState.IsValid)
+                 {
+                     //var idRF;
+                     var NReqFun = from RF in BD.ReqFuncional select RF;
+                     // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
+                     BD.ReqFuncional.Add(modelo.RequerimientosF);
+                     BD.SaveChanges();
+                 }
+                 else
+                 {
+                     ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                     return View(modelo);
+                 }*/
+                return View();
         }
         //return View();
         //return true;

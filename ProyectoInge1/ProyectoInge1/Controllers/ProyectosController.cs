@@ -113,7 +113,7 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            //modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             return View(modelo);
 
         }
@@ -128,7 +128,11 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var usuarios = from users in BD.Usuario
+                           select users;
+            ModProyectoInter model = new ModProyectoInter();
+            model.listaUsuarios = usuarios.ToList();
+            return View(model);
         }
 
         [HttpPost]
