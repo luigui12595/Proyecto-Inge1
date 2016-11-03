@@ -192,4 +192,20 @@ BEGIN
 	DEALLOCATE cursorRF
 END;
 
+CREATE TRIGGER borrar_proyecto
+ON Proyecto INSTEAD OF DELETE
+AS
+BEGIN
+	DELETE FROM ProyectoUsuario
+	WHERE proyecto IN (SELECT nombre
+		              FROM deleted);
 
+	DELETE FROM ReqFuncional
+	WHERE nomProyecto IN (SELECT nombre
+		              FROM deleted);
+	
+	DELETE FROM Proyecto
+	WHERE nombre IN (SELECT nombre
+					FROM deleted);
+
+END;
