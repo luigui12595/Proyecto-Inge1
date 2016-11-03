@@ -51,7 +51,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id='@(item.id)' onclick="gotoDetails(this)" >
+            <tr id='@(item.id)' onclick="gotoDetails(this)">
                 <td>
                     @Html.DisplayFor(modelItem => item.nombre)
                 </td>
@@ -64,8 +64,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.estado)
                 </td>
-           </tr>
-                    }
+            </tr>
+        }
     </tbody>
 </table>
 

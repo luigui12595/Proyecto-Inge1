@@ -19,11 +19,12 @@ namespace ProyectoInge1.Models
         {
             this.GestionCambios = new HashSet<GestionCambios>();
             this.Proyecto = new HashSet<Proyecto>();
+            this.Proyecto1 = new HashSet<Proyecto>();
             this.ReqFuncional = new HashSet<ReqFuncional>();
             this.ReqFuncional1 = new HashSet<ReqFuncional>();
             this.ReqFuncional2 = new HashSet<ReqFuncional>();
             this.Telefono = new HashSet<Telefono>();
-            this.Proyecto1 = new HashSet<Proyecto>();
+            this.Proyecto2 = new HashSet<Proyecto>();
         }
     
         public string cedula { get; set; }
@@ -38,6 +39,8 @@ namespace ProyectoInge1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyecto> Proyecto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proyecto> Proyecto1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReqFuncional> ReqFuncional { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReqFuncional> ReqFuncional1 { get; set; }
@@ -46,6 +49,6 @@ namespace ProyectoInge1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Telefono> Telefono { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto> Proyecto1 { get; set; }
+        public virtual ICollection<Proyecto> Proyecto2 { get; set; }
     }
 }

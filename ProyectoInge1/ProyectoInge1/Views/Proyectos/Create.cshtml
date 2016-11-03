@@ -91,72 +91,90 @@
         <div class="col-md-10">
             @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
         </div>
+
     </div>
-    <br />
-    @*cajas de seleccion*@
-    <div class="control-label">
-        @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+            </div>
+        </div>*
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <div class="form-actions no-color">
+                </div>
+                <div class="btn btn-danger" style="color:white;" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
 
-        <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>     
-        
-           
-        <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
-        <br/>
-        <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
-        
-    </div>
-        <br/><br/><br/>
-    <div>
-        <div class="control-label">
-            <label class="control-label col-md-2">Desarrollador</label>
 
+            </div>
+
+            <br />
+            @*cajas de seleccion*@
+            <div class="control-label">
+                @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
+
+                <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>
+
+
+                <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
+                <br />
+                <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
+
+            </div>
+            <br /><br /><br />
+            <div>
+                <div class="control-label">
+                    <label class="control-label col-md-2">Desarrollador</label>
+
+                </div>
+                <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+
+
+
+
+
+
+                <div>
+
+                    <br />
+                    <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+
+                    <br />
+                    <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+                </div>
+                <div>
+                    <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
+
+                        @*Aqui se insertan los usuarios*@
+                        @foreach (var item in Model.listaUsuarios)
+                        {
+                            var ced = item.cedula;
+                            <option value=@ced>
+                                @Html.DisplayFor(modelItem => item.nombre)
+                                @Html.DisplayFor(modelItem => item.apellidos)
+                                @Html.Raw(" ")
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+
+            @*Fin cajas de seleccion*@
+            <div class="form-group">
+                <div class=" col-md-8">
+                    <input type="submit" value="Aceptar" class="btn btn-primary" />
+
+                    <div class="btn btn-danger" style="color:white;" />
+                    @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+
+                </div>
+            </div>
         </div>
-            <select class="form-control col-md-2" style="width:20em" id="s" size="10">
-
-
-
-
-            </select>
-            
-      
-        <div>
-            
-            <br/>
-            <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
-            
-            <br/>
-            <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
-        </div>
-        <div>
-            <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
-
-                @*Aqui se insertan los usuarios*@
-                    @foreach (var item in Model.listaUsuarios)
-                    {
-                        var ced = item.cedula;
-                        <option value= @ced>
-                            @Html.DisplayFor(modelItem => item.nombre)
-                            @Html.DisplayFor(modelItem => item.apellidos)
-                            @Html.Raw(" ")
-                        </option>
-                    }
-            </select>
-        </div>
-    </div>
-
-
-    @*Fin cajas de seleccion*@
-    <div class="form-group">
-        <div class=" col-md-8">
-            <input type="submit" value="Aceptar" class="btn btn-primary" />
-
-            <div class="btn btn-danger" style="color:white;" />
-            @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
-
-        </div>
-    </div>
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

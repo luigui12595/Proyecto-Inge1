@@ -1,5 +1,5 @@
 ﻿using System;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -40,7 +40,7 @@ namespace ProyectoInge1.Controllers
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
             var requerimientos = from rfunc in BD.ReqFuncional
-                                 where rfunc.nomProyecto == "Telecomunicaciones"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 where rfunc.nomProyecto == "Aseguradora"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -67,18 +67,36 @@ namespace ProyectoInge1.Controllers
             string id = "Aseguradora";
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-           // RQ.ReqUsuario = BD.Usuario.Include(x => x.Proyecto1.Equals(id)).ToList();
-           /* RQ.ReqFunUsu=
-           */ var usuarios =
-                          from usersP in BD.Usuario
-                          //where usersP.Proyecto = NombProy
-                          select usersP;
+            var req= from usersP in BD.ReqFuncional
+                     select usersP;
+            req = req.Where(x => x.nombre == id);
+            RQ.listaRequerimientos = req.ToList();
+            /* if (RQ.listaRequerimientos.Count == 0)
+             {
+                 RQ.Requerimientos.id = 0;
+             }
+             else {
+               Int32 d = RQ.listaRequerimientos.Count;
+                Int16 d2 = (Int16) (d + 1);
+                 d= (Int32)(d2);
+                 RQ.Requerimientos.id = (Int16)(d);
+             }*/
 
-            //usuarios = usuarios.Where(x => x.nombre == NombProy);
-            usuarios = usuarios.Where(x => x.nombre == id);
-            //RQ.ReqUsuario = usuarios.ToList();
+            /* var proy = from usersP in BD.Proyecto
+                            select usersP;
+
+             proy = proy.Where(x => x.nombre == id);
+
+             RQ.proyecto = proy;
+
+             for (int j=0; j<RQ.listaProyecto.Count;j++) {
+
+             }*/
+            RQ.UsuariosSistema = BD.Usuario.ToList();
+            RQ.proyecto = BD.Proyecto.Find(id);
+            RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
             // return View(usuarios.ToList() );*/
-            return View(/*RQusuarios.ToList()*/RQ);
+            return View(RQ);
         }
 
         public ActionResult Details(short id)
@@ -88,11 +106,15 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Index", "Usuario");
             }*/
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
-            string nombre = "Telecomunicaciones";
-            modelo.Requerimientos = BD.ReqFuncional.Find(id, nombre);
+            string nombre = "Aseguradora";
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, nombre);
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             return View(modelo);
 
         }
+
 
         /* [HttpPost]
          [ValidateAntiForgeryToken]
@@ -132,18 +154,22 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
+            var NombreP = modelo.Requerimientos.nomProyecto;
+            var idReq = modelo.Requerimientos.id;
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
 
-            String[] substrings = modelo.values.Split('|');
-            foreach (var substring in substrings)
-            {
-                modelo.criterios.nomProyecto = modelo.requerimienrto.nomProyecto;
-                modelo.criterios.idReqFunc = modelo.requerimienrto.id;
-                modelo.criterios.criterio = substring;
-                BD.CriterioAceptacion.Add(modelo.criterios);
-                BD.SaveChanges();
+            if (modelo.values != null) {
+                String[] substrings = modelo.values.Split('|');
+                foreach (var substring in substrings)
+                {
+                   CriterioAceptacion mod= new CriterioAceptacion();
+                    mod.idReqFunc = idReq;
+                    mod.nomProyecto = NombreP;
+                    mod.criterio = substring;
+                    BD.CriterioAceptacion.Add(mod);
+                    BD.SaveChanges();
+                }
             }
                 /* if (ModelState.IsValid)
                  {

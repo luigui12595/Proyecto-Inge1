@@ -18,6 +18,9 @@ namespace ProyectoInge1.Models
         public List<CriterioAceptacion> listaCriterio { get; set; }
         public CriterioAceptacion criterio { get; set; }
         public DateTime ReleaseDate { get; set; }
+
         public String Participantes { get; set; }
+
+        public List<Usuario> listaUsuariosProyecto { get; set; }
     }
 }

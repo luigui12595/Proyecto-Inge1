@@ -1,3 +1,4 @@
+
 USE BD_IngeGrupo4;
 
 CREATE TABLE Usuario(
@@ -22,16 +23,19 @@ CREATE TABLE Proyecto(
 	fechaFinal		DATE,
 	estado			VARCHAR(12)		NOT NULL,
 	lider			CHAR(9)			NOT NULL,
+	Cliente 		CHAR(9) 		NULL,
+	
+	CONSTRAINT CHK_cliente_Proyecto CHECK (cliente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	
 	CONSTRAINT PK_Proyecto	PRIMARY KEY CLUSTERED ( nombre ASC ),
+	CONSTRAINT FK_Usuario_Proyecto_Cliente FOREIGN KEY ( cliente ) REFERENCES Usuario ( cedula ),
 	CONSTRAINT FK_Usuario_Proyecto	FOREIGN KEY ( lider ) REFERENCES Usuario ( cedula )
-									ON UPDATE CASCADE
 );
 -- Atributo Duración es un atributo calculado, y por ende no se almacena en esta tabla.
 
 
 CREATE TABLE ReqFuncional(
-	id			SMALLINT		NOT NULL,				
+	id			INT IDENTITY	NOT NULl,				
 	nombre			VARCHAR(20),
 	sprint			TINYINT,
 	modulo			TINYINT,
@@ -48,9 +52,7 @@ CREATE TABLE ReqFuncional(
 	responsable2		CHAR(9),
 	nomProyecto		VARCHAR(30)		NOT NULL,
 	
-
 	CONSTRAINT PK_ReqFuncional 	PRIMARY KEY CLUSTERED ( id, nomProyecto ASC ),
-
 	
 	CONSTRAINT CHK_fuente_reqFuncional	CHECK (fuente LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT CHK_resp1_reqFuncional	CHECK (responsable1 LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
@@ -65,7 +67,7 @@ CREATE TABLE ReqFuncional(
 CREATE TABLE GestionCambios(
 	Fecha			DATETIME		NOT NULL,
 	Razon			VARCHAR(50),
-	idReqFunc		SMALLINT,
+	idReqFunc		INT,
 	nomProyecto		VARCHAR(30), 
 	realizadoPor		CHAR(9),
 	
@@ -118,7 +120,7 @@ CREATE TABLE Telefono(
 );
 
 CREATE TABLE CriterioAceptacion(
-	idReqFunc	SMALLINT	NOT NULL,
+	idReqFunc	INT	NOT NULL,
 	nomProyecto	VARCHAR(30),
 	criterio	VARCHAR(128),
 	
@@ -162,8 +164,30 @@ BEGIN
 	WHERE id IN (SELECT id
 	             FROM deleted);
 
-
 END;
 
 
+CREATE TRIGGER borrar_reqFuncional
+ON ReqFuncional INSTEAD OF DELETE
+AS
+BEGIN
+	DECLARE @id INT
+	DECLARE @nombre VARCHAR(30)
+	DECLARE cursorRF CURSOR FOR SELECT id, nomProyecto FROM deleted
+	OPEN cursorRF
+	FETCH NEXT FROM cursorRF INTO @id, @nombre
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		DELETE FROM CriterioAceptacion
+		WHERE idReqFunc = @id
+		AND nomProyecto = @nombre
+		
+		FETCH NEXT FROM cursorRF INTO @id, @nombre
+	END
+	DELETE FROM ReqFuncional
+	WHERE id = @id
+	AND nomProyecto = @nombre
 
+	CLOSE cursorRF
+	DEALLOCATE cursorRF
+END;

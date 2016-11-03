@@ -16,7 +16,7 @@ namespace ProyectoInge1.Models
     {
         public System.DateTime Fecha { get; set; }
         public string Razon { get; set; }
-        public short idReqFunc { get; set; }
+        public int idReqFunc { get; set; }
         public string nomProyecto { get; set; }
         public string realizadoPor { get; set; }
     
