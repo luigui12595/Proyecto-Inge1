@@ -40,7 +40,7 @@ namespace ProyectoInge1.Controllers
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
             var requerimientos = from rfunc in BD.ReqFuncional
-                                 where rfunc.nomProyecto == "Telecomunicaciones"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 where rfunc.nomProyecto == "Aseguradora"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
             if (!String.IsNullOrEmpty(searchString))
             {
