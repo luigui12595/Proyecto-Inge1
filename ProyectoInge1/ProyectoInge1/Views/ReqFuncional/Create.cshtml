@@ -58,7 +58,7 @@ window.onload = load_all
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Requerimientos.nomProyecto, "", new { @class = "text-danger" })
-                </div>
+                </div><br/>
 
             </div>
         
@@ -67,21 +67,21 @@ window.onload = load_all
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Requerimientos.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.nombre, "", new { @class = "text-danger" })
-            </div>
+            </div><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Sprint:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Requerimientos.sprint, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.sprint, "", new { @class = "text-danger" })
-            </div>
+            </div><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Modulo:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Requerimientos.modulo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
-            </div>
+            </div><br />
         </div>
 
         <div class="form-group">
@@ -89,14 +89,14 @@ window.onload = load_all
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                 @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
-            </div>
+            </div><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Observaciones:</label>
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                 @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
-            </div>
+            </div><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Imagen:</label>
