@@ -165,21 +165,24 @@
                                 @{
                                     var UserProyectList = Model.listaUsuariosProyecto;
                                     var UserList = Model.listaUsuarios;
-                                    foreach (var userProj in UserProyectList)
+                                    if ( UserProyectList != null )
                                     {
-                                        foreach (var user in UserList)
+                                        foreach (var userProj in UserProyectList)
                                         {
-                                            if (userProj.cedula.Equals(user.cedula))
+                                            foreach (var user in UserList)
                                             {
+                                                if (userProj.cedula.Equals(user.cedula))
+                                                {
                                                 <option value=user.cedula>
                                                     @Html.DisplayFor(modelItem => user.nombre)
                                                     @Html.DisplayFor(modelItem => user.apellidos)
                                                     @Html.Raw(" ")
                                                 </option>
+                                                    }
+                                                }
                                             }
                                         }
                                     }
-                                }
                             </select>
                         </div>
                     </div>
