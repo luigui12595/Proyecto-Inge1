@@ -246,24 +246,27 @@
                         </div><br/><br/>
                         <div class="col-lg-4 col-lg-pull-1">
                             <select class="form-control " style="width:20em;" id="d" size="4">
-                              @*  @{
-        var UserProyectList = Model.listaUsuariosProyecto;
-        var UserList = Model.listaUsuarios;
-        foreach (var userProj in UserProyectList)
-        {
-            foreach (var user in UserList)
-            {
-                if (userProj.cedula.Equals(user.cedula))
-                {
-                    <option value=user.cedula>
-                        @Html.DisplayFor(modelItem => user.nombre)
-                        @Html.DisplayFor(modelItem => user.apellidos)
-                        @Html.Raw(" ")
-                    </option>
-                }
-            }
-        }
-    }*@
+                                @{
+                                    var UserProyectList = Model.listaUsuariosProyecto;
+                                    var UserList = Model.listaUsuarios;
+                                    if ( UserProyectList != null )
+                                    {
+                                        foreach (var userProj in UserProyectList)
+                                        {
+                                            foreach (var user in UserList)
+                                            {
+                                                if (userProj.cedula.Equals(user.cedula))
+                                                {
+                                                <option value=user.cedula>
+                                                    @Html.DisplayFor(modelItem => user.nombre)
+                                                    @Html.DisplayFor(modelItem => user.apellidos)
+                                                    @Html.Raw(" ")
+                                                </option>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                             </select>
                         </div>
                     </div>
