@@ -25,20 +25,20 @@ namespace ProyectoInge1.Models
         [Display(Name = "Nombre:")]
         public string nombre { get; set; }
 
-        [Display(Name = "Descripción:")]
+        [Display(Name = "Descripcion:")]
         public string descripcion { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
         [Display(Name = "Fecha de Inicio:")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public Nullable<System.DateTime> fechaInicio { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha Final:")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public Nullable<System.DateTime> fechaFinal { get; set; }
 
-        [Display(Name = "Líder:")]
+        [Display(Name = "Lider:")]
         public string lider { get; set; }
 
         [Display(Name = "Estado:")]
@@ -50,10 +50,9 @@ namespace ProyectoInge1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReqFuncional> ReqFuncional { get; set; }
         public virtual Usuario Usuario { get; set; }
-        [Display(Name = "Desarrolladores:")]
         public virtual Usuario Usuario1 { get; set; }
-        [Display(Name = "Desarrolladores:")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [Display(Name = "Desarrolladores:")]
         public virtual ICollection<Usuario> Usuario2 { get; set; }
     }
 }

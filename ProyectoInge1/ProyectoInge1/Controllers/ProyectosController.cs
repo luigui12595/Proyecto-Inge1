@@ -113,7 +113,7 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            //modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             return View(modelo);
 
         }
@@ -123,6 +123,7 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Detalles(ModProyectoInter modelo)
         {
             BD.Entry(modelo.proyecto).State = EntityState.Modified;
+            BD.SaveChanges();
             return RedirectToAction("Index");
         }
 

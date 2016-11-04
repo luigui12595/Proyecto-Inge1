@@ -9,6 +9,7 @@ namespace ProyectoInge1.Models
 {
     public class ModProyectoInter
     {
+
         public Usuario usuario { get; set; }
         public Proyecto proyecto { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
@@ -18,7 +19,7 @@ namespace ProyectoInge1.Models
         public List<CriterioAceptacion> listaCriterio { get; set; }
         public CriterioAceptacion criterio { get; set; }
         public DateTime ReleaseDate { get; set; }
-
+        public string lider { get; set; }
         public String Participantes { get; set; }
 
         public List<Usuario> listaUsuariosProyecto { get; set; }
