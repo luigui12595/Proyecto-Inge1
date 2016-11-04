@@ -9,6 +9,6 @@ function goToProjectDetails(element) {
 }
 
 function goToReqFun(element) {
-    var elementId = element.id;
-    window.location.replace('ReqFuncional/Index/' + elementId)
+    var elementNombre = element.id;
+    window.location.replace('ReqFuncional/Index/' + elementNombre)
 }

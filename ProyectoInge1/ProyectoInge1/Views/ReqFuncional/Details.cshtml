@@ -109,6 +109,15 @@
                         @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
                     </div>
                 </fieldset>
+                <fieldset name="generalinfo">
+                    <legend>Criterios de aceptacion</legend>
+                    @foreach (var criterio in Model.listaCriterios)
+                    {
+                        <label class="control-label col-md-2">* Criterio:</label>
+                        @Html.EditorFor(model => criterio.criterio, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        <br/><br />
+                    }
+                </fieldset>
             </dl>
         </div>
     </div>
