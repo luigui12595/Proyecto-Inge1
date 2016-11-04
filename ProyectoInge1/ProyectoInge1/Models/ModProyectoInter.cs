@@ -9,6 +9,7 @@ namespace ProyectoInge1.Models
 {
     public class ModProyectoInter
     {
+
         public Usuario usuario { get; set; }
         public Proyecto proyecto { get; set; }
         public List<Usuario> listaUsuarios { get; set; }

@@ -113,7 +113,7 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            //modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             return View(modelo);
 
         }

@@ -58,13 +58,14 @@
 }
 @*---------------------------------------Detalles------------------------------------------------*@
 <div class="elementoEditar">
-    <div class="form-horizontal">
+@using (Html.BeginForm("Eliminar", "Proyectos", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display:inline;padding-left:5px;" }))
+{ 
             <div class="col-lg-2 ">
                 <a class="btn btn-success" style="margin-left:2.5em;" onclick="esconderEditar()">Modificar</a>
             </div>
             <div class="col-lg-2 " > 
                 <div class="btn btn-danger" style="color:white;" >
-                    @Html.ActionLink("Eliminar", "Index", "Proyectos", new { confirm = true, Proyecto = Model.proyecto.nombre }, new { @style = "color:white;" , @onclick = "return Cancelar();" })
+                    @Html.ActionLink("Eliminar", "Index", "Proyectos", new { confirm = true, Proyecto = Model.proyecto.nombre }, new { @style = "color:white;", @onclick = "confirm(¿Seguro que desea eliminar el requerimiento?)" })
                 </div>
             </div>
             <div class="col-lg-2 "  style="margin-left:-2.5em;">
@@ -73,30 +74,30 @@
 
         <br /><br /><br/>
             @*Nombre Detalles*@
-            <div class="col-lg-12">
                 <div class="col-lg-6 ">
                     @Html.LabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label" })<br/>
                     <div style="width:25em;">
-                    @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.DisplayFor(model => model.proyecto.nombre)
                     </div>
                 </div> 
+
                 @*Descripcion Detalles*@
                 <div class="col-lg-6 form-group">
                     <div class="col-lg-2 col-lg-pull-1">
                         @Html.LabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label" })
                     </div><br/><br/>
                     <div class="col-lg-4 col-lg-pull-1 " style="width:25em;">
-                        @Html.TextAreaFor(model => model.proyecto.descripcion, new { @class = "form-control", rows = "4", @readonly = true })
+                        @Html.DisplayFor(model => model.proyecto.descripcion)
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12"  >
+            
+            
                 @*Fecha Inicio Detalles*@
                 <div class="col-lg-6">
                    @Html.LabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label" })
                    <br/>
                    <div  style="width:25em;">
-                      @Html.EditorFor(model => model.proyecto.fechaInicio, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                       @Html.DisplayFor(modelItem => modelItem.proyecto.fechaInicio, "{0:dd/MM/yyyy}")
                    </div>
                 </div>
                 @*Fecha Final Detalles*@
@@ -105,13 +106,12 @@
                         @Html.LabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label" })
                     </div><br />
                     <div class="col-lg-4 col-lg-pull-1 " style="width:25em;">
-                        @Html.EditorFor(model => model.proyecto.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        @Html.DisplayFor(modelItem => modelItem.proyecto.fechaFinal, "{0:dd/MM/yyyy}")
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 col-lg-pull-1" >
+
                 @*Lider Detalles*@
-                <div class="col-lg-6 col-lg-push-1" >
+                <div class="col-lg-6 " >
                     @Html.LabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label" })
                     <br/>
                     <div style="width:25em; ">
@@ -122,7 +122,8 @@
                             {
                                 if (user.cedula.Equals(id.lider))
                                 {
-                                    @Html.EditorFor(modelItem => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } });
+                                    var lider = user.nombre + " " + user.apellidos;
+                                    @Html.DisplayFor(modelItem => lider);
                                 }
                             }
 
@@ -130,7 +131,7 @@
                     </div>
                 </div>
                 @*Cliente Detalles*@
-                <div class="col-lg-5 " style="margin-left:3.5em;">
+                <div class="col-lg-5 col-lg-pull-1" style="margin-left:3.5em;">
                     @Html.LabelFor(model => model.proyecto.Cliente, htmlAttributes: new { @class = "control-label" })<br/>
                     @{
                         var idUsr = Model.proyecto.Cliente;
@@ -139,33 +140,35 @@
                         {
                             if (user.cedula.Equals(idUsr))
                             {
-                                @Html.EditorFor(modelItem => user.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } });
+                                var cliente = user.nombre + " " + user.apellidos;
+                                @Html.DisplayFor(modelItem => cliente);
                             }
                         }
                     }
                 </div>
-            </div>
-            <div class="col-lg-12 col-lg-pull-1" >
-                <div class="col-lg-6 col-lg-push-1">
+            
+            
+                <div class="col-lg-6">
                     @*Estado Detalles*@
                     <div class="form-group" style="margin-left:0em;">
                         @Html.LabelFor(model => model.proyecto.estado, htmlAttributes: new { @class = "control-label" })<br />
-                        @Html.EditorFor(model => model.proyecto.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        @Html.DisplayFor(model => model.proyecto.estado)
                     </div>
                 </div>
-                <div class="col-lg-6 col-lg-push-1">
+
+                <div class="col-lg-6">
                     @*Estado Detalles*@
                     <div class="form-group">
 
-                        <div class="col-lg-5 col-lg-pull-1">
-                            @Html.LabelFor(model => model.proyecto.Usuario1, htmlAttributes: new { @class = "control-label " })<br />
+                        <div class="col-lg-5 col-lg-pull-1 ">
+                            @Html.LabelFor(model => model.proyecto.Usuario2, htmlAttributes: new { @class = "control-label " })<br />
                         </div><br/><br/>
                         <div class="col-lg-4 col-lg-pull-1">
                             <select class="form-control " style="width:20em;" id="d" size="4">
                                 @{
                                     var UserProyectList = Model.listaUsuariosProyecto;
                                     var UserList = Model.listaUsuarios;
-                                    if ( UserProyectList != null )
+                                    if (UserProyectList != null)
                                     {
                                         foreach (var userProj in UserProyectList)
                                         {
@@ -178,20 +181,22 @@
                                                     @Html.DisplayFor(modelItem => user.apellidos)
                                                     @Html.Raw(" ")
                                                 </option>
-                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                    }
                             </select>
                         </div>
                     </div>
-                </div>
-            </div>
-            @Html.ActionLink("Volver", "Index")
-        </div>       
-    </div>
-
+                </div><br/><br/><br/>
+              
+                <div class="col-lg-12">
+                @Html.ActionLink("Volver", "Index")
+                </div> 
+          
+                                    }
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

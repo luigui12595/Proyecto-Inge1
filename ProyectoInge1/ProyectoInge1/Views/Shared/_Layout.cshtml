@@ -30,12 +30,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Requerimientos", "Create", "ReqFuncional")</li> 
-                    <li>@Html.ActionLink("eliminar", "Create", "Proyectos")</li> 
-                    @*if (Request.IsAuthenticated)
-                    {*@
-                       
-                        <li>@Html.ActionLink("Requerimientos", "Index", "ReqFuncional")</li>
+                    @if (Request.IsAuthenticated)
+                    {
                         <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
                         <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
                         <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
@@ -55,8 +51,8 @@
                     {
                       <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
                     }*@
-                    @*}*@    
-                    <li>@Html.ActionLink("Prueba", "Create", "ReqFuncional")</li>               
+                    }
+
                  </ul>
                 @Html.Partial("_LoginPartial")
             </div>

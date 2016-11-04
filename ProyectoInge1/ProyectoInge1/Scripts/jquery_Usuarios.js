@@ -5,7 +5,6 @@
 
 function goToProjectDetails(element) {
     var elementId = element.id;
-    alert(elementId);
     window.location.replace('Proyectos/Detalles/' + elementId)
 }
 

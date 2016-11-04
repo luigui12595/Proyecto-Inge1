@@ -11,7 +11,8 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Proyecto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,13 +21,30 @@ namespace ProyectoInge1.Models
             this.ReqFuncional = new HashSet<ReqFuncional>();
             this.Usuario2 = new HashSet<Usuario>();
         }
-    
+
+        [Display(Name = "Nombre:")]
         public string nombre { get; set; }
+
+        [Display(Name = "Descripcion:")]
         public string descripcion { get; set; }
-        public System.DateTime fechaInicio { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
+        [Display(Name = "Fecha de Inicio:")]
+        public Nullable<System.DateTime> fechaInicio { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha Final:")]
         public Nullable<System.DateTime> fechaFinal { get; set; }
+
+        [Display(Name = "Lider:")]
         public string lider { get; set; }
+
+        [Display(Name = "Estado:")]
         public string estado { get; set; }
+
+        [Display(Name = "Cliente:")]
         public string Cliente { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -34,6 +52,7 @@ namespace ProyectoInge1.Models
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [Display(Name = "Desarrolladores:")]
         public virtual ICollection<Usuario> Usuario2 { get; set; }
     }
 }

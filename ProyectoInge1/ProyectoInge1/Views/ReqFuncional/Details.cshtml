@@ -17,6 +17,7 @@
             <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
             <div class="col-lg-2 col-lg-push-6">
                 <a class="btn btn-danger" id='@(Model.Requerimiento.id)' onclick="borrar(this)">Eliminar</a>
+                @Html.ActionLink("Eliminar", "Eliminar", "ReqFuncional", new { confirm = true, Req = Model.Requerimiento.id }, new { @style = "color:white;", @onclick = "return Cancelar();" })
             </div>
             <dl class="dl-horizontal">
                 <div class="form-group">
