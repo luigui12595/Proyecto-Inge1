@@ -54,11 +54,11 @@ window.onload = load_all
 
             <!--AGREGAR UN PROYECTO DE REQUERIMIENTO-->
             <div class="form-group">
-                <label class="control-label col-md-2">proyecto</label>
+                <label class="control-label col-md-2">Proyecto</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Requerimientos.nomProyecto, "", new { @class = "text-danger" })
-                </div><br/>
+                </div><br/><br />
 
             </div>
         
@@ -67,21 +67,21 @@ window.onload = load_all
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Requerimientos.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.nombre, "", new { @class = "text-danger" })
-            </div><br />
+            </div><br /><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Sprint:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Requerimientos.sprint, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.sprint, "", new { @class = "text-danger" })
-            </div><br />
+            </div><br /><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Modulo:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Requerimientos.modulo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
-            </div><br />
+            </div><br /><br />
         </div>
 
         <div class="form-group">
@@ -89,14 +89,14 @@ window.onload = load_all
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                 @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
-            </div><br />
+            </div><br /><br /><br /><br /><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Observaciones:</label>
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                 @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
-            </div><br />
+            </div><br /><br /><br /><br /><br />
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Imagen:</label>
@@ -107,11 +107,11 @@ window.onload = load_all
                 @Html.ValidationMessageFor(model => model.Requerimientos.imagen, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           
             <div class="col-md-10">
                 <label class="control-label col-md-2">Fuente:</label>
-                @{
+               @** @{
                     
                     var UserProyectList =  Model.listaUsuario;
                     var UserList = Model.UsuariosSistema;
@@ -131,13 +131,14 @@ window.onload = load_all
                         }
 
                     }
-    }
+    }*@
             </div>
-        </div>
+        </div> -->
+    <!--
         <div class="form-group">
             <label class="control-label col-md-2">Responsable 1:</label>
             <div class="col-md-2">
-                @{ var UserProyectList2 = Model.listaUsuario;
+                @*@{ var UserProyectList2 = Model.listaUsuario;
                     var UserList2 = Model.UsuariosSistema;
 
                     foreach (var userProj2 in UserProyectList2)
@@ -154,13 +155,13 @@ window.onload = load_all
                         }
 
                     }
-                }
+                }*@
 
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-10">Responsable 2:</label>
-            <div class="col-md-10">
+            <div class="col-md-10">@*
                 @{var UserProyectList3 = Model.listaUsuario;
                     var UserList3 = Model.UsuariosSistema;
 
@@ -179,22 +180,23 @@ window.onload = load_all
 
                     }
                 }
-               
+               *@
             </div>
-        </div>
+        </div> -->
+        <br /><br />
         <div class="form-group">
             <label class="control-label col-md-10">Fecha Inicial:</label>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.Requerimientos.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
             </div>
-        </div>
+        </div><br /><br />
 
         <div class="form-group">
             <label class="control-label col-md-10">Fecha Final:</label>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.Requerimientos.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
             </div>
-        </div>
+        </div><br /><br />
 
 
                 @*Criterio De Aceptacion*@
@@ -204,7 +206,7 @@ window.onload = load_all
 
                 <a onclick="add_textbox()" class="btn btn-primary">Agregar Criterio</a>
                 <div id="textboxes">
-                <br/>
+                <br/><br />
                 </div>
 
 
@@ -216,7 +218,7 @@ window.onload = load_all
                         <div class="btn btn-danger" style="color:white;" />
                         @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
                     </div>
-                </div>
+                </div><br /><br />
 }
            
 

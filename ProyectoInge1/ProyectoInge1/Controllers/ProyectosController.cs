@@ -113,7 +113,7 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            //modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             return View(modelo);
 
         }
@@ -122,7 +122,8 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Detalles(ModProyectoInter modelo)
         {
-
+            BD.Entry(modelo.proyecto).State = EntityState.Modified;
+            BD.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -137,24 +138,24 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModUsuarioInter modelo, string id)
-        {
-            /*if (ModelState.IsValid)
-            {
-                
-                var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
-                var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
-                var result = await UserManager.CreateAsync(user, password);
-                */
-            /*if (result.Succeeded)
-            {
-                modelo.modeloUsuario.id = user.Id;
 
-                BD.Usuario.Add(modelo.modeloUsuario);
+        public ActionResult Create(ModProyectoInter modelo/*, string id*/)
+        {
+            if (ModelState.IsValid)
+            {
+                //var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                //var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
+                //var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
+                //var result = await UserManager.CreateAsync(user, password);
+                
+            //if (result.Succeeded)
+            //{
+                //modelo.modeloUsuario.id = user.Id;
+
+                BD.Proyecto.Add(modelo.proyecto);
                 BD.SaveChanges();
 
-                if (modelo.modeloTelefono1.numero != null)
+                /*if (modelo.modeloTelefono1.numero != null)
                 {
                     modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
                     BD.Telefono.Add(modelo.modeloTelefono1);
@@ -163,29 +164,29 @@ namespace ProyectoInge1.Controllers
                 {
                     modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
                     BD.Telefono.Add(modelo.modeloTelefono2);
-                }
+                }*/
                 BD.SaveChanges();
 
-                var roleId = modelo.Role;
-                var role = await RoleManager.FindByIdAsync(roleId);
-                var result2 = await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
+                //var roleId = modelo.Role;
+                //var role = await RoleManager.FindByIdAsync(roleId);
+                //var result2 = await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
 
-                if (result2.Succeeded)
+                /*if (result2.Succeeded)
                 {
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(modelo.modeloUsuario.id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(modelo.modeloUsuario.id, "Ingreso al sistema", "Su contraseña temporal asignada es " + password + "\n" + "Por favor confirme su cuenta pulsando click <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                }
+                }*/
 
-            }
+            //}
             return RedirectToAction("Index");
         }
         else
         {
-            ModelState.AddModelError("", "Debe completar toda la información necesaria.");*/
+            ModelState.AddModelError("", "Debe completar toda la información necesaria.");
             return View(modelo);
-            //}
+            }
         }
 
         [HttpPost]

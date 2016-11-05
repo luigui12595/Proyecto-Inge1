@@ -39,6 +39,7 @@ namespace ProyectoInge1.Controllers
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
+           string param1 = this.Request.QueryString["Proyecto"];
             var requerimientos = from rfunc in BD.ReqFuncional
                                  where rfunc.nomProyecto == "Aseguradora"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
@@ -111,6 +112,8 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
+            modelo.listaCriterios = BD.CriterioAceptacion.ToList();
+
             return View(modelo);
 
         }
