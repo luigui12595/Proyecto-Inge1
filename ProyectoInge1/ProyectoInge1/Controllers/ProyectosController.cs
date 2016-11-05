@@ -118,6 +118,31 @@ namespace ProyectoInge1.Controllers
 
         }
 
+        public ActionResult Eliminar(bool confirm, string Proyecto)
+        {
+           /* bool confirm = true;
+            string Proyecto = "pruebaB";*/
+            if (confirm == true)
+            {
+
+                var ProyectoB = BD.Proyecto.Find(Proyecto/*modelo.proyecto.nombre*//*id*/);
+                //Condicion de estado
+                if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
+                {
+                    //solicitar una confirmacion para eliminar proyecto 
+                    BD.Entry(ProyectoB).State = EntityState.Deleted;
+                    BD.SaveChanges();
+                }
+                else
+                {
+                    //Desplegar mensaje de imposible eliminar el proyecto
+                    return View();
+                }
+                return RedirectToAction("Index"); 
+            }
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Detalles(ModProyectoInter modelo)
@@ -191,8 +216,10 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Eliminar(bool confirm, string Proyecto)
+        public ActionResult Eliminar1(/*bool confirm, string Proyecto*/)
         {
+            bool confirm = true;
+            string Proyecto = "pruebaB";
             if (confirm == true)
             {
 

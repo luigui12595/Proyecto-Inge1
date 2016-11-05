@@ -83,6 +83,20 @@ window.onload = load_all
                 @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Prioridad:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requerimientos.prioridad , new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Requerimientos.prioridad, "", new { @class = "text-danger" })
+            </div><br /><br />
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Esfuerzo:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requerimientos.esfuerzo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Requerimientos.esfuerzo, "", new { @class = "text-danger" })
+            </div><br /><br />
+        </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Descripcion:</label>
