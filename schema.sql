@@ -196,16 +196,24 @@ CREATE TRIGGER borrar_proyecto
 ON Proyecto INSTEAD OF DELETE
 AS
 BEGIN
-	DELETE FROM ProyectoUsuario
-	WHERE proyecto IN (SELECT nombre
-		              FROM deleted);
+	DECLARE @nombre VARCHAR(30)
+	DECLARE cursorP CURSOR FOR SELECT nombre FROM deleted
+	OPEN cursorP
+	FETCH NEXT FROM cursorP INTO @nombre
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		DELETE FROM ProyectoUsuario
+		WHERE proyecto = @nombre
 
-	DELETE FROM ReqFuncional
-	WHERE nomProyecto IN (SELECT nombre
-		              FROM deleted);
+		DELETE FROM ReqFuncional
+		WHERE nomProyecto = @nombre
+		
+		FETCH NEXT FROM cursorP INTO @nombre
+	END
 	
 	DELETE FROM Proyecto
-	WHERE nombre IN (SELECT nombre
-					FROM deleted);
+	WHERE nombre = @nombre
 
+	CLOSE cursorP
+	DEALLOCATE cursorP
 END;
