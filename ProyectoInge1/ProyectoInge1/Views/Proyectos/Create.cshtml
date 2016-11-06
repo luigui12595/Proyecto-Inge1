@@ -2,7 +2,7 @@
 @using ProyectoInge1.Helpers
 <script>
     window.onload = function (e) {
-        desarrolladores = [];
+        desarrolladores = "";
     }
     function Cancelar() {
         if (confirm("Esta seguro que desea borrar este proyecto ?")) {
@@ -27,7 +27,7 @@
                 newOption.selected = true;
                 try {
                     dest.add(newOption, null); //Standard
-                    desarrolladores.push(newOption.value);
+                    desarrolladores=desarrolladores +"/"+(newOption.value);
                     src.remove(count, null);
                 } catch (error) {
                     dest.add(newOption); // IE only
@@ -61,7 +61,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.CustomLabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">* Nombre:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.proyecto.nombre, "", new { @class = "text-danger" })
@@ -75,71 +75,79 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.CustomLabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">* Fecha de Inicio:</label>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.proyecto.fechaInicio, new { @class = "form-control datepicker", placeholder = "DATE" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.CustomLabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
             </div>
         </div>
+        
         <div class="form-group">
-            @Html.CustomLabelFor(model => model.proyecto.estado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.proyecto.estado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.proyecto.estado, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">* Rol:</label>
+            <label class="control-label col-md-2">* Estado:</label>
             <div class="col-md-10" style="padding-top:0.5em;">
                 @Html.DropDownListFor(model => model.proyecto.estado, new[] { new SelectListItem() { Text = "Iniciado" }, new SelectListItem() { Text = "En Desarrollo" },
                                                                       new SelectListItem() { Text = "Cancelado" }, new SelectListItem() { Text = "Suspendido" } },
-                                                                       "--Rol no asignado--", new { @class = "form-control" })
+                                                                       "-- No asignado--", new { @class = "form-control" })
             </div>
         </div>
         <br />
         @*cajas de seleccion*@
-        <div class="control-label">
-            @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
-            <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>
-            <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
-            <br />
-            <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
+        <div class="form-group">
+            <label class="control-label col-md-2">* Lider:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.proyecto.lider, new { htmlAttributes = new { @class = "form-control", placeholder = "Numero de cedula" } })
+                @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
+            </div>
         </div>
-        <br /><br /><br />
-        <div>
-            <div class="control-label">
-                <label class="control-label col-md-2">Desarrollador</label>
+@*
+    <div class="control-label"style="display:none">
+        @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
+        <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>
+        <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
+        <br />
+        <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
+    </div>
+    <br /><br /><br />
+    <div>
+        <div class="control-label">
 
-            </div>
-            <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
-            <div>
-                <br />
-                <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
-                <br />
-                <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
-            </div>
+            <label class="control-label col-md-2">Desarrollador</label>
+
+        </div>
+        <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+        <div>
+            <br />
+            <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+            <br />
+            <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+        </div>
+        <div>
+
             <div>
                 <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
 
-                    @*Aqui se insertan los usuarios*@
-                    @foreach (var item in Model.listaUsuarios)
-                    {
-                        var ced = item.cedula;
-                        <option value=@ced>
-                            @Html.DisplayFor(modelItem => item.nombre)
-                            @Html.DisplayFor(modelItem => item.apellidos)
-                            @Html.Raw(" ")
-                        </option>
-                    }
-                </select>
+                    Aqui se insertan los usuarios*@
+                        
+                       @* @foreach (var item in Model.listaUsuarios)
+    {
+        var ced = item.cedula;
+        <option value=@ced>
+            @Html.DisplayFor(modelItem => item.nombre)
+            @Html.DisplayFor(modelItem => item.apellidos)
+            @Html.Raw(" ")
+        </option>
+    }
+                    </select>
+                </div>
             </div>
-        </div>
+        </div>*@
         @*Fin cajas de seleccion*@
         <div class="form-group">
             <div class=" col-md-8">
