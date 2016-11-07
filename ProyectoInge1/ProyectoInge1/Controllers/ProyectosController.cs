@@ -113,21 +113,22 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            if(modelo.proyecto.Usuario2.Count>0 || !modelo.proyecto.Usuario2.Equals(null)) { 
+                modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            }
             return View(modelo);
 
         }
 
         public ActionResult Eliminar(bool confirm, string Proyecto)
         {
-           /* bool confirm = true;
-            string Proyecto = "pruebaB";*/
+          
             if (confirm == true)
             {
 
-                var ProyectoB = BD.Proyecto.Find(Proyecto/*modelo.proyecto.nombre*//*id*/);
+                var ProyectoB = BD.Proyecto.Find(Proyecto);
                 //Condicion de estado
-                if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
+                if (ProyectoB.estado == "Finalizado" || ProyectoB.estado == "Cancelado"|| ProyectoB.estado == "Suspendido")
                 {
                     //solicitar una confirmacion para eliminar proyecto 
                     BD.Entry(ProyectoB).State = EntityState.Deleted;

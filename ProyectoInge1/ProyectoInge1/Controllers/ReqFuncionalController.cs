@@ -153,6 +153,22 @@ namespace ProyectoInge1.Controllers
          }
          */
 
+        public ActionResult Eliminar(bool confirm, string Requerimiento)
+        {
+
+            if (confirm == true)
+            {
+
+                var RequerimientoFun = BD.ReqFuncional.Find(Requerimiento);
+                BD.Entry(RequerimientoFun).State = EntityState.Deleted;
+                BD.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else {                 
+                return RedirectToAction("Details/"+Requerimiento);
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
