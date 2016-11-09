@@ -69,9 +69,10 @@ namespace ProyectoInge1.Controllers
             string id = "Aseguradora";
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            var req= from usersP in BD.ReqFuncional
-                     select usersP;
+            var req = from usersP in BD.ReqFuncional
+                      select usersP;
             req = req.Where(x => x.nombre == id);
+            //  req = req.Where(x => x.nombre == NombProy);
             RQ.listaRequerimientos = req.ToList();
             /* if (RQ.listaRequerimientos.Count == 0)
              {
@@ -96,10 +97,24 @@ namespace ProyectoInge1.Controllers
              }*/
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
-            RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
+           // RQ.proyecto = BD.Proyecto.Find(NombProy);
+            RQ.listaUsuario = /*CrearL(id); //*/RQ.proyecto.Usuario2.ToList();
             // return View(usuarios.ToList() );*/
             return View(RQ);
         }
+
+       /* public List<Usuario> CrearL (string id) {
+            ModReqFuncionalInter RQ = new ModReqFuncionalInter();
+            List<Usuario> Lista = new List<Usuario>();
+            List<Proyecto> L2 = new List<Proyecto>();
+            //RQ.UsuariosSistema = BD.Usuario.ToList();
+            //RQ.proyecto = BD.Proyecto.Find(id);
+            // RQ.proyecto = BD.Proyecto.Find(NombProy);
+            L2 = BD.Proyecto.ToListAsync(id);
+
+            Lista = RQ.proyecto.Usuario2.ToList();
+            return Lista;
+        }*/
 
         public ActionResult Details(short id)
         {
@@ -174,7 +189,10 @@ namespace ProyectoInge1.Controllers
         public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            var NombreP = modelo.Requerimientos.nomProyecto;         
+            var NombreP = modelo.Requerimientos.nomProyecto;
+           /* var Temp = modelo.ImagenR;
+            byte[] Imagen = System.Text.Encoding.ASCII.GetBytes (Temp) ;
+            modelo.Requerimientos.imagen = Imagen;  */
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
             List<ReqFuncional> LR;
@@ -192,20 +210,53 @@ namespace ProyectoInge1.Controllers
                     BD.SaveChanges();
                 }
             }
-                /* if (ModelState.IsValid)
-                 {
-                     //var idRF;
-                     var NReqFun = from RF in BD.ReqFuncional select RF;
-                     // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
-                     BD.ReqFuncional.Add(modelo.RequerimientosF);
-                     BD.SaveChanges();
-                 }
-                 else
-                 {
-                     ModelState.AddModelError("", "Debe completar toda la información necesaria.");
-                     return View(modelo);
-                 }*/
-                return View();
+            /* if (ModelState.IsValid)
+             {
+                 //var idRF;
+                 var NReqFun = from RF in BD.ReqFuncional select RF;
+                 // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
+                 BD.ReqFuncional.Add(modelo.RequerimientosF);
+                 BD.SaveChanges();
+             }
+             else
+             {
+                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                 return View(modelo);
+             }*/
+            string id = "Aseguradora";
+            ModReqFuncionalInter RQ = new ModReqFuncionalInter();
+            var req = from usersP in BD.ReqFuncional
+                      select usersP;
+            req = req.Where(x => x.nombre == id);
+            //  req = req.Where(x => x.nombre == NombProy);
+            RQ.listaRequerimientos = req.ToList();
+            /* if (RQ.listaRequerimientos.Count == 0)
+             {
+                 RQ.Requerimientos.id = 0;
+             }
+             else {
+               Int32 d = RQ.listaRequerimientos.Count;
+                Int16 d2 = (Int16) (d + 1);
+                 d= (Int32)(d2);
+                 RQ.Requerimientos.id = (Int16)(d);
+             }*/
+
+            /* var proy = from usersP in BD.Proyecto
+                            select usersP;
+
+             proy = proy.Where(x => x.nombre == id);
+
+             RQ.proyecto = proy;
+
+             for (int j=0; j<RQ.listaProyecto.Count;j++) {
+
+             }*/
+            RQ.UsuariosSistema = BD.Usuario.ToList();
+            RQ.proyecto = BD.Proyecto.Find(id);
+            // RQ.proyecto = BD.Proyecto.Find(NombProy);
+            RQ.listaUsuario = /*CrearL(id); //*/RQ.proyecto.Usuario2.ToList();
+            // return View(usuarios.ToList() );*/
+            return View(RQ);
         }
         //return View();
         //return true;

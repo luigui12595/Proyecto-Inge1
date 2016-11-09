@@ -35,9 +35,20 @@ function load_all() {
     }
 }
 
+function cambio() {
+    var input = document.getElementById("uploadBtn");
+
+    var fReader1 = new FileReader();
+    fReader1.readAsDataURL(input.files[0]);
+    fReader1.onloadend = function (event) {
+        var img = document.getElementById("RuPic");
+        img.src = event.target.result;
+        document.getElementById("rutaImagen").value = event.target.result;
+    }
+}
+
 window.onload = load_all
 </script>
-
 
 <h2>Requerimientos Funcionales</h2>
 
@@ -112,28 +123,27 @@ window.onload = load_all
                 @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
             </div><br /><br /><br /><br /><br />
         </div>
+
+
         <div class="form-group">
-            <label class="control-label col-md-2">Imagen:</label>
-            <div class="editor-field">
-                <input id="ImagePath" title="Upload a product image"
-                       type="file" name="file" />
-                <!--Html.TextAreaFor(model => model.RequerimientosF.imagen , new { htmlAttributes = new { class = "form-control" } })-->
-                @Html.ValidationMessageFor(model => model.Requerimientos.imagen, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.ImagenR , htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImagenR, new { htmlAttributes = new { @id = "rutaImagen", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImagenR, "", new { @class = "text-danger" })
+                <div class="fileUpload btn btn-primary">
+                    <span>Cargar</span>
+                    <input id="uploadBtn" type="file" class="upload" onchange="cambio()" />
+                </div>
             </div>
         </div>
-        <!-- <div class="form-group">
+         <div class="form-group">
           
             <div class="col-md-10">
                 <label class="control-label col-md-2">Fuente:</label>
-               @** @{
-                    
-                    var UserProyectList =  Model.listaUsuario;
-                    var UserList = Model.UsuariosSistema;
-
-
-                    foreach (var userProj in UserProyectList)
+                @{
+                    foreach (var userProj in Model.listaUsuario)
                     {
-                        foreach (var  user in UserList)
+                        foreach (var  user in Model.UsuariosSistema)
                         {
                             if (userProj.cedula.Equals(user.cedula))
                             {
@@ -145,14 +155,14 @@ window.onload = load_all
                         }
 
                     }
-    }*@
+    }
             </div>
-        </div> -->
-    <!--
+        </div> 
+    
         <div class="form-group">
             <label class="control-label col-md-2">Responsable 1:</label>
             <div class="col-md-2">
-                @*@{ var UserProyectList2 = Model.listaUsuario;
+                @{ var UserProyectList2 = Model.listaUsuario;
                     var UserList2 = Model.UsuariosSistema;
 
                     foreach (var userProj2 in UserProyectList2)
@@ -169,13 +179,13 @@ window.onload = load_all
                         }
 
                     }
-                }*@
+                }
 
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-10">Responsable 2:</label>
-            <div class="col-md-10">@*
+            <div class="col-md-10">
                 @{var UserProyectList3 = Model.listaUsuario;
                     var UserList3 = Model.UsuariosSistema;
 
@@ -194,9 +204,9 @@ window.onload = load_all
 
                     }
                 }
-               *@
+               
             </div>
-        </div> -->
+        </div> 
 
         <div class="form-group">
             <label class="control-label col-md-10">Fecha Inicial:</label>
