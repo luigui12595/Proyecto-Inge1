@@ -112,8 +112,16 @@ namespace ProyectoInge1.Controllers
             
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
-            modelo.listaUsuarios = BD.Usuario.ToList();
             modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            if (modelo.listaUsuariosProyecto != null)
+            {
+                foreach (var item in modelo.listaUsuariosProyecto)
+                {
+                    //modelo.proyecto.Usuario2
+                    //BD.Entry(item).State = EntityState.Deleted; //borrar usuarios para reincertar en proyecto.
+                }
+            }
+           
             return View(modelo);
 
         }
@@ -124,6 +132,14 @@ namespace ProyectoInge1.Controllers
         {
             BD.Entry(modelo.proyecto).State = EntityState.Modified;
             BD.SaveChanges();
+
+            //Agregar participantes
+            if (modelo.listaUsuarios != null) {
+                foreach (var item in modelo.listaUsuarios) {
+                    //pUsuario.usuario = item.cedula;
+                    
+                }
+            }
             return RedirectToAction("Index");
         }
 
