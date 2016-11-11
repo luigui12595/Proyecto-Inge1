@@ -47,10 +47,28 @@
 
 
 
+http://stackoverflow.com/questions/37104063/how-to-display-store-and-retrieve-image-as-varbinarymax-using-asp-net-mvc-view
 
 
+public class ImageViewModel
+   {
+    public string ImageName {get; set;}
+    public HttpPostedFileBase ImagePic {get; set;}
+   }
+   
+   @model ExmpleProject.Models.ImageViewModel
 
+@using (Html.BeginForm("Create", "ControllerName", FormMethod.Post, new {enctype="multipart/form-data"})){ 
 
+         @Html.AntiForgeryToken() 
+         @Html.LabelFor(m => m.ImageName)
+         @Html.TextBoxFor(m => m.ImageName)
+
+         @Html.LabelFor(m => m.ImagePic )
+         @Html.TextBoxFor(m => m.ImagePic , new { type = "file" })
+         <br />
+         <input type="submit" name="Submit" id="Submit" value="Upload" />
+    }
 
 
 
