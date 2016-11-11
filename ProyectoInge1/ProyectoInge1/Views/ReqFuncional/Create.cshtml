@@ -43,7 +43,7 @@ function cambio() {
     fReader1.onloadend = function (event) {
         var img = document.getElementById("RuPic");
         img.src = event.target.result;
-        document.getElementById("rutaImagen").value = event.target.result;
+        document.getElementById("ImagenR").value = event.target.result;
     }
 }
 
@@ -128,12 +128,18 @@ window.onload = load_all
         <div class="form-group">
             @Html.LabelFor(model => model.ImagenR , htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ImagenR, new { htmlAttributes = new { @id = "rutaImagen", @class = "form-control" } })
+                @Html.EditorFor(model => model.ImagenR, new { htmlAttributes = new { @id2 = "ImagenR", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ImagenR, "", new { @class = "text-danger" })
                 <div class="fileUpload btn btn-primary">
                     <span>Cargar</span>
                     <input id="uploadBtn" type="file" class="upload" onchange="cambio()" />
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Vista de imagen", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <img id="RuPic" src="@(Model.ImagenR)" width="200" />
             </div>
         </div>
          <div class="form-group">

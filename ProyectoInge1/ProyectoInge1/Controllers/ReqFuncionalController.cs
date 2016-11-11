@@ -186,13 +186,20 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
+        public async Task<ActionResult> Create(ModReqFuncionalInter modelo, string id2)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
             var NombreP = modelo.Requerimientos.nomProyecto;
-           /* var Temp = modelo.ImagenR;
-            byte[] Imagen = System.Text.Encoding.ASCII.GetBytes (Temp) ;
-            modelo.Requerimientos.imagen = Imagen;  */
+            if (modelo.ImagenR!=null) {
+                var Temp = modelo.ImagenR;
+                byte[] Imagen = System.Text.Encoding.ASCII.GetBytes(Temp);
+                byte[] IM = System.IO.File.ReadAllBytes(Temp);
+                //System.IO.Path.GetFileName(file.FileName);
+                // byte[] II = Convert.FromBase64String(Temp);
+                // byte[] IM= System.Text.Encoding.ASCII.GetBytes(id2);
+                modelo.Requerimientos.imagen = IM;
+            }
+            
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
             List<ReqFuncional> LR;
