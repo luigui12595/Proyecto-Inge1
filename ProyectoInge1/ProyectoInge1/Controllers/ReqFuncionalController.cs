@@ -17,6 +17,7 @@ using System.Text;
 
 
 
+
 namespace ProyectoInge1.Controllers
 {
     public class ReqFuncionalController : Controller
@@ -186,20 +187,32 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModReqFuncionalInter modelo, string id2)
+        public ActionResult Create(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
             var NombreP = modelo.Requerimientos.nomProyecto;
-            if (modelo.ImagenR!=null) {
-                var Temp = modelo.ImagenR;
-                byte[] Imagen = System.Text.Encoding.ASCII.GetBytes(Temp);
-                byte[] IM = System.IO.File.ReadAllBytes(Temp);
-                //System.IO.Path.GetFileName(file.FileName);
-                // byte[] II = Convert.FromBase64String(Temp);
-                // byte[] IM= System.Text.Encoding.ASCII.GetBytes(id2);
-                modelo.Requerimientos.imagen = IM;
+            /* if (modelo.ImagenR!=null) {
+                 var Temp = modelo.ImagenR;
+                 byte[] Imagen = System.Text.Encoding.ASCII.GetBytes(Temp);
+                 byte[] IM = System.IO.File.ReadAllBytes(Temp);
+                 //System.IO.Path.GetFileName(file.FileName);
+                 // byte[] II = Convert.FromBase64String(Temp);
+                 // byte[] IM= System.Text.Encoding.ASCII.GetBytes(id2);
+                 modelo.Requerimientos.imagen = IM;
+             }*/
+
+            /*Funcion para poder guardar una imagen*/
+
+
+            if (imagen1 != null) {
+                //modelo.ImagenRF = new byte[imagen1.ContentLength];
+                modelo.Requerimientos.imagen = new byte[imagen1.ContentLength];
+                imagen1.InputStream.Read(modelo.Requerimientos.imagen, 0, imagen1.ContentLength);
             }
-            
+
+            /*Funcion para poder guardar una imagen*/
+
+
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
             List<ReqFuncional> LR;

@@ -36,7 +36,9 @@ namespace ProyectoInge1.Models
         public Usuario UsuarioResponsable2 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
         
         public string ImagenR { get; set; }
+        public byte[] ImagenRF { get; set; }
 
+        
 
     }
 

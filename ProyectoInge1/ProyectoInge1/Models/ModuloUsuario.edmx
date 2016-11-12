@@ -78,7 +78,7 @@
           <Property Name="descripcion" Type="varchar" MaxLength="256" />
           <Property Name="esfuerzo" Type="smallint" />
           <Property Name="prioridad" Type="smallint" />
-          <Property Name="imagen" Type="varbinary" MaxLength="1" />
+          <Property Name="imagen" Type="varbinary" MaxLength="8000" />
           <Property Name="fuente" Type="char" MaxLength="9" />
           <Property Name="responsable1" Type="char" MaxLength="9" />
           <Property Name="responsable2" Type="char" MaxLength="9" />
@@ -462,7 +462,7 @@
           <Property Name="descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="esfuerzo" Type="Int16" />
           <Property Name="prioridad" Type="Int16" />
-          <Property Name="imagen" Type="Binary" MaxLength="1" FixedLength="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="8000" FixedLength="false" />
           <Property Name="fuente" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="responsable1" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="responsable2" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />

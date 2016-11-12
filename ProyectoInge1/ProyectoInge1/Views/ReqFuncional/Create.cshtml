@@ -55,7 +55,7 @@ window.onload = load_all
 
         <h4>Crear</h4>
         <hr />
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -126,22 +126,20 @@ window.onload = load_all
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ImagenR , htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ImagenR, new { htmlAttributes = new { @id2 = "ImagenR", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ImagenR, "", new { @class = "text-danger" })
-                <div class="fileUpload btn btn-primary">
-                    <span>Cargar</span>
-                    <input id="uploadBtn" type="file" class="upload" onchange="cambio()" />
-                </div>
-            </div>
+            @Html.LabelFor(model => model.ImagenRF , htmlAttributes: new { @class = "control-label col-md-2" })
+            
+    
+                <div class="col-md-10">
+    <input type="file" id="image1" name="imagen1"/>
+    </div>
+           
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.Label("Vista de imagen", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <img id="RuPic" src="@(Model.ImagenR)" width="200" />
             </div>
-        </div>
+        </div>*@
          <div class="form-group">
           
             <div class="col-md-10">
