@@ -1,4 +1,3 @@
-
 USE BD_IngeGrupo4;
 
 CREATE TABLE Usuario(
@@ -190,4 +189,26 @@ BEGIN
 
 	CLOSE cursorRF
 	DEALLOCATE cursorRF
+END;
+
+CREATE TRIGGER borrar_proyecto
+ON Proyecto INSTEAD OF DELETE
+AS
+BEGIN
+	DELETE FROM ProyectoUsuario
+	WHERE proyecto IN (SELECT nombre
+						FROM deleted);
+	DECLARE @cantidad INT
+	SET @cantidad = (SELECT COUNT(*) FROM ReqFuncional WHERE nomProyecto IN (SELECT nombre FROM deleted) );
+	WHILE @cantidad != 0
+	BEGIN
+		DELETE FROM ReqFuncional
+		WHERE nomProyecto IN (SELECT nombre
+								FROM deleted)
+		SET @cantidad = @cantidad - 1
+	END
+
+	DELETE FROM Proyecto
+	WHERE nombre IN (SELECT nombre
+						FROM deleted);
 END;

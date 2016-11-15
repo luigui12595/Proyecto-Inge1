@@ -112,18 +112,36 @@ namespace ProyectoInge1.Controllers
             
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
-            modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
-            if (modelo.listaUsuariosProyecto != null)
-            {
-                foreach (var item in modelo.listaUsuariosProyecto)
-                {
-                    //modelo.proyecto.Usuario2
-                    //BD.Entry(item).State = EntityState.Deleted; //borrar usuarios para reincertar en proyecto.
-                }
+            modelo.listaUsuarios = BD.Usuario.ToList();
+            if(modelo.proyecto.Usuario2.Count>0 || !modelo.proyecto.Usuario2.Equals(null)) { 
+                modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             }
-           
             return View(modelo);
 
+        }
+
+        public ActionResult Eliminar(bool confirm, string Proyecto)
+        {
+          
+            if (confirm == true)
+            {
+
+                var ProyectoB = BD.Proyecto.Find(Proyecto);
+                //Condicion de estado
+                if (ProyectoB.estado == "Finalizado" || ProyectoB.estado == "Cancelado"|| ProyectoB.estado == "Suspendido")
+                {
+                    //solicitar una confirmacion para eliminar proyecto 
+                    BD.Entry(ProyectoB).State = EntityState.Deleted;
+                    BD.SaveChanges();
+                }
+                else
+                {
+                    //Desplegar mensaje de imposible eliminar el proyecto
+                    return View();
+                }
+                return RedirectToAction("Index"); 
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -207,8 +225,10 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Eliminar(bool confirm, string Proyecto)
+        public ActionResult Eliminar1(/*bool confirm, string Proyecto*/)
         {
+            bool confirm = true;
+            string Proyecto = "pruebaB";
             if (confirm == true)
             {
 

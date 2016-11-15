@@ -39,9 +39,10 @@ namespace ProyectoInge1.Controllers
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-           string param1 = this.Request.QueryString["Proyecto"];
+            string param1 = this.Request.QueryString["Proyecto"];
+
             var requerimientos = from rfunc in BD.ReqFuncional
-                                 where rfunc.nomProyecto == "Aseguradora"  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -151,6 +152,22 @@ namespace ProyectoInge1.Controllers
              return RedirectToAction("Index");
          }
          */
+
+        public ActionResult Eliminar(bool confirm, string Requerimiento)
+        {
+
+            if (confirm == true)
+            {
+
+                var RequerimientoFun = BD.ReqFuncional.Find(Requerimiento);
+                BD.Entry(RequerimientoFun).State = EntityState.Deleted;
+                BD.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else {                 
+                return RedirectToAction("Details/"+Requerimiento);
+            }
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
