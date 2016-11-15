@@ -12,15 +12,19 @@ namespace ProyectoInge1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GestionCambios
+    public partial class Solicitud
     {
-        public System.DateTime Fecha { get; set; }
-        public string Razon { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string estado { get; set; }
+        public string razon { get; set; }
+        public string realizadoPor { get; set; }
+        public string aprobadoPor { get; set; }
+        public short versionRF { get; set; }
         public int idReqFunc { get; set; }
         public string nomProyecto { get; set; }
-        public string realizadoPor { get; set; }
     
-        public virtual ReqFuncional ReqFuncional { get; set; }
+        public virtual HistVersiones HistVersiones { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Usuario Usuario1 { get; set; }
     }
 }

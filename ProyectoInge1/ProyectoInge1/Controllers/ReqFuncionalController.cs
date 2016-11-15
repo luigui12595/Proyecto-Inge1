@@ -39,7 +39,7 @@ namespace ProyectoInge1.Controllers
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-            string param1 = this.Request.QueryString["Proyecto"];
+            string param1 = "Aseguradora";
 
             var requerimientos = from rfunc in BD.ReqFuncional
                                  where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.

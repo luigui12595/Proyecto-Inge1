@@ -243,7 +243,7 @@
     <Compile Include="Models\CriterioAceptacion.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GestionCambios.cs">
+    <Compile Include="Models\HistVersiones.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -277,6 +277,9 @@
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReqFuncional.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Solicitud.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Telefono.cs">
