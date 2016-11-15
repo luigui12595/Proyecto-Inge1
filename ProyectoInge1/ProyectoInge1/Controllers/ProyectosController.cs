@@ -153,11 +153,31 @@ namespace ProyectoInge1.Controllers
             return RedirectToAction("Index");
         }
 
+        /*public bool UserIsDeveloper( string id, IQueryable<ApplicationUser> desarrolladores )
+        {
+            for (int i = 0; i < desarrolladores.Count(); i++)
+                if (id == desarrolladores.ElementAt(i).Id)
+                    return true;
+            return false;
+        }*/
+
         public ActionResult Create()
         {
             var usuarios = from users in BD.Usuario
                            select users;
+            var context = new ApplicationDbContext();
+            var desarrolladores = from developer in context.Users
+                                  where developer.Roles.Any(r => r.RoleId == "2")
+                                  select developer;
             ModProyectoInter model = new ModProyectoInter();
+            model.DesarrolladoresNoLider = new List<Usuario>();
+            foreach ( var x in usuarios) {
+                foreach ( var y in desarrolladores) {
+                    if ( x.id == y.Id && x.lider == false ) {
+                        model.DesarrolladoresNoLider.Add(x);
+                    }
+                }
+            }
             model.listaUsuarios = usuarios.ToList();
             return View(model);
         }

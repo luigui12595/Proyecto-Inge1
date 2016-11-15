@@ -18,7 +18,7 @@ namespace ProyectoInge1.Models
         public ReqFuncional()
         {
             this.CriterioAceptacion = new HashSet<CriterioAceptacion>();
-            this.GestionCambios = new HashSet<GestionCambios>();
+            this.HistVersiones = new HashSet<HistVersiones>();
         }
     
         public int id { get; set; }
@@ -41,7 +41,7 @@ namespace ProyectoInge1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CriterioAceptacion> CriterioAceptacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GestionCambios> GestionCambios { get; set; }
+        public virtual ICollection<HistVersiones> HistVersiones { get; set; }
         public virtual Proyecto Proyecto { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }

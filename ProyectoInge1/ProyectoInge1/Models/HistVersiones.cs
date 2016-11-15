@@ -12,28 +12,24 @@ namespace ProyectoInge1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Proyecto
+    public partial class HistVersiones
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Proyecto()
+        public HistVersiones()
         {
-            this.ReqFuncional = new HashSet<ReqFuncional>();
-            this.Usuario2 = new HashSet<Usuario>();
+            this.Solicitud = new HashSet<Solicitud>();
         }
     
-        public string nombre { get; set; }
-        public string descripcion { get; set; }
-        public System.DateTime fechaInicio { get; set; }
-        public Nullable<System.DateTime> fechaFinal { get; set; }
-        public string lider { get; set; }
-        public string estado { get; set; }
-        public string Cliente { get; set; }
+        public short versionRF { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string razon { get; set; }
+        public string realizadoPor { get; set; }
+        public int idReqFunc { get; set; }
+        public string nomProyecto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReqFuncional> ReqFuncional { get; set; }
+        public virtual ICollection<Solicitud> Solicitud { get; set; }
+        public virtual ReqFuncional ReqFuncional { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual Usuario Usuario1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Usuario> Usuario2 { get; set; }
     }
 }
