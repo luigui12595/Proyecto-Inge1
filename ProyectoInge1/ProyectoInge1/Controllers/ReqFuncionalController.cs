@@ -30,6 +30,7 @@ namespace ProyectoInge1.Controllers
         }*/
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
+        String ProY;
 
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -67,55 +68,19 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Create(string NombProy)
         {
-            string id = "Aseguradora";
+            string id = NombProy;
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            var req = from usersP in BD.ReqFuncional
-                      select usersP;
-            req = req.Where(x => x.nombre == id);
-            //  req = req.Where(x => x.nombre == NombProy);
-            RQ.listaRequerimientos = req.ToList();
-            /* if (RQ.listaRequerimientos.Count == 0)
-             {
-                 RQ.Requerimientos.id = 0;
-             }
-             else {
-               Int32 d = RQ.listaRequerimientos.Count;
-                Int16 d2 = (Int16) (d + 1);
-                 d= (Int32)(d2);
-                 RQ.Requerimientos.id = (Int16)(d);
-             }*/
-
-            /* var proy = from usersP in BD.Proyecto
-                            select usersP;
-
-             proy = proy.Where(x => x.nombre == id);
-
-             RQ.proyecto = proy;
-
-             for (int j=0; j<RQ.listaProyecto.Count;j++) {
-
-             }*/
+           
+            RQ.nProy = NombProy;
+            
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
-           // RQ.proyecto = BD.Proyecto.Find(NombProy);
-            RQ.listaUsuario = /*CrearL(id); //*/RQ.proyecto.Usuario2.ToList();
-            // return View(usuarios.ToList() );*/
+            RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
             return View(RQ);
         }
 
-       /* public List<Usuario> CrearL (string id) {
-            ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            List<Usuario> Lista = new List<Usuario>();
-            List<Proyecto> L2 = new List<Proyecto>();
-            //RQ.UsuariosSistema = BD.Usuario.ToList();
-            //RQ.proyecto = BD.Proyecto.Find(id);
-            // RQ.proyecto = BD.Proyecto.Find(NombProy);
-            L2 = BD.Proyecto.ToListAsync(id);
-
-            Lista = RQ.proyecto.Usuario2.ToList();
-            return Lista;
-        }*/
+    
 
         public ActionResult Details(short id)
         {
@@ -187,32 +152,20 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1)
+        public ActionResult Create(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1,String NProyecto)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            var NombreP = modelo.Requerimientos.nomProyecto;
-            /* if (modelo.ImagenR!=null) {
-                 var Temp = modelo.ImagenR;
-                 byte[] Imagen = System.Text.Encoding.ASCII.GetBytes(Temp);
-                 byte[] IM = System.IO.File.ReadAllBytes(Temp);
-                 //System.IO.Path.GetFileName(file.FileName);
-                 // byte[] II = Convert.FromBase64String(Temp);
-                 // byte[] IM= System.Text.Encoding.ASCII.GetBytes(id2);
-                 modelo.Requerimientos.imagen = IM;
-             }*/
-
+            
+            modelo.Requerimientos.nomProyecto = modelo.nProy;
+           var NombreP = modelo.Requerimientos.nomProyecto;
+            modelo.Requerimientos.estado = "Iniciado";
             /*Funcion para poder guardar una imagen*/
-
-
-            if (imagen1 != null) {
-                //modelo.ImagenRF = new byte[imagen1.ContentLength];
+            if (imagen1 != null) { 
                 modelo.Requerimientos.imagen = new byte[imagen1.ContentLength];
                 imagen1.InputStream.Read(modelo.Requerimientos.imagen, 0, imagen1.ContentLength);
             }
 
             /*Funcion para poder guardar una imagen*/
-
-
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
             List<ReqFuncional> LR;
@@ -243,12 +196,11 @@ namespace ProyectoInge1.Controllers
                  ModelState.AddModelError("", "Debe completar toda la información necesaria.");
                  return View(modelo);
              }*/
-            string id = "Aseguradora";
+            string id = modelo.Requerimientos.nomProyecto;
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
             var req = from usersP in BD.ReqFuncional
                       select usersP;
             req = req.Where(x => x.nombre == id);
-            //  req = req.Where(x => x.nombre == NombProy);
             RQ.listaRequerimientos = req.ToList();
             /* if (RQ.listaRequerimientos.Count == 0)
              {
@@ -271,14 +223,12 @@ namespace ProyectoInge1.Controllers
              for (int j=0; j<RQ.listaProyecto.Count;j++) {
 
              }*/
+            RQ.nProy = id;
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
-            // RQ.proyecto = BD.Proyecto.Find(NombProy);
-            RQ.listaUsuario = /*CrearL(id); //*/RQ.proyecto.Usuario2.ToList();
-            // return View(usuarios.ToList() );*/
+            RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
             return View(RQ);
         }
-        //return View();
-        //return true;
+      
     }
 }

@@ -34,7 +34,7 @@ namespace ProyectoInge1.Models
         public Usuario UsuarioFuente { get; set; } //Específico para obtener la fuente el requerimiento al desplegar los detalles  NO BORRAR
         public Usuario UsuarioResponsable1 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
         public Usuario UsuarioResponsable2 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
-        
+        public string nProy { get; set; }
         public string ImagenR { get; set; }
         public byte[] ImagenRF { get; set; }
 

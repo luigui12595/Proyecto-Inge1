@@ -15,17 +15,18 @@
           <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="criterio" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="GestionCambios">
+        <EntityType Name="HistVersiones">
           <Key>
-            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="versionRF" />
             <PropertyRef Name="idReqFunc" />
             <PropertyRef Name="nomProyecto" />
           </Key>
-          <Property Name="Fecha" Type="datetime" Nullable="false" />
-          <Property Name="Razon" Type="varchar" MaxLength="50" />
+          <Property Name="versionRF" Type="smallint" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="razon" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="realizadoPor" Type="char" MaxLength="9" />
           <Property Name="idReqFunc" Type="int" Nullable="false" />
           <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="realizadoPor" Type="char" MaxLength="9" />
         </EntityType>
         <EntityType Name="NetRolesPermiso">
           <Key>
@@ -84,6 +85,22 @@
           <Property Name="responsable2" Type="char" MaxLength="9" />
           <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <EntityType Name="Solicitud">
+          <Key>
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="versionRF" />
+            <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="nomProyecto" />
+          </Key>
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="razon" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="realizadoPor" Type="char" MaxLength="9" />
+          <Property Name="aprobadoPor" Type="char" MaxLength="9" />
+          <Property Name="versionRF" Type="smallint" Nullable="false" />
+          <Property Name="idReqFunc" Type="int" Nullable="false" />
+          <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="Telefono">
           <Key>
             <PropertyRef Name="usuario" />
@@ -103,6 +120,22 @@
           <Property Name="lider" Type="bit" />
           <Property Name="id" Type="nvarchar" MaxLength="128" />
         </EntityType>
+        <Association Name="FK_HistVersiones_Solicitud">
+          <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HistVersiones">
+              <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
+              <PropertyRef Name="versionRF" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
+              <PropertyRef Name="versionRF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Permiso_NetRolesUsers">
           <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
           <End Role="NetRolesPermiso" Type="Self.NetRolesPermiso" Multiplicity="*" />
@@ -153,28 +186,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ReqFunc_GestCambios">
+        <Association Name="FK_ReqFunc_HistVersiones">
           <End Role="ReqFuncional" Type="Self.ReqFuncional" Multiplicity="1" />
-          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
+          <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ReqFuncional">
               <PropertyRef Name="id" />
               <PropertyRef Name="nomProyecto" />
             </Principal>
-            <Dependent Role="GestionCambios">
+            <Dependent Role="HistVersiones">
               <PropertyRef Name="idReqFunc" />
               <PropertyRef Name="nomProyecto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_GestCambios">
+        <Association Name="FK_Usuario_HistVersiones">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
-          <End Role="GestionCambios" Type="Self.GestionCambios" Multiplicity="*" />
+          <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
               <PropertyRef Name="cedula" />
             </Principal>
-            <Dependent Role="GestionCambios">
+            <Dependent Role="HistVersiones">
               <PropertyRef Name="realizadoPor" />
             </Dependent>
           </ReferentialConstraint>
@@ -251,6 +284,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuario_Solicitud_aprobadoPor">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="aprobadoPor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Solicitud_realizadoPor">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="realizadoPor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Telefono">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Telefono" Type="Self.Telefono" Multiplicity="*" />
@@ -265,14 +322,19 @@
         </Association>
         <EntityContainer Name="BD_IngeGrupo4ModelStoreContainer">
           <EntitySet Name="CriterioAceptacion" EntityType="Self.CriterioAceptacion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GestionCambios" EntityType="Self.GestionCambios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistVersiones" EntityType="Self.HistVersiones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NetRolesPermiso" EntityType="Self.NetRolesPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProyectoUsuario" EntityType="Self.ProyectoUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReqFuncional" EntityType="Self.ReqFuncional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solicitud" EntityType="Self.Solicitud" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HistVersiones_Solicitud" Association="Self.FK_HistVersiones_Solicitud">
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
           <AssociationSet Name="FK_Permiso_NetRolesUsers" Association="Self.FK_Permiso_NetRolesUsers">
             <End Role="Permiso" EntitySet="Permiso" />
             <End Role="NetRolesPermiso" EntitySet="NetRolesPermiso" />
@@ -289,13 +351,13 @@
             <End Role="ReqFuncional" EntitySet="ReqFuncional" />
             <End Role="CriterioAceptacion" EntitySet="CriterioAceptacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReqFunc_GestCambios" Association="Self.FK_ReqFunc_GestCambios">
+          <AssociationSet Name="FK_ReqFunc_HistVersiones" Association="Self.FK_ReqFunc_HistVersiones">
             <End Role="ReqFuncional" EntitySet="ReqFuncional" />
-            <End Role="GestionCambios" EntitySet="GestionCambios" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_GestCambios" Association="Self.FK_Usuario_GestCambios">
+          <AssociationSet Name="FK_Usuario_HistVersiones" Association="Self.FK_Usuario_HistVersiones">
             <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="GestionCambios" EntitySet="GestionCambios" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_Proyecto" Association="Self.FK_Usuario_Proyecto">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -321,6 +383,14 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="ReqFuncional" EntitySet="ReqFuncional" />
           </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_aprobadoPor" Association="Self.FK_Usuario_Solicitud_aprobadoPor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_realizadoPor" Association="Self.FK_Usuario_Solicitud_realizadoPor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Telefono" Association="Self.FK_Usuario_Telefono">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Telefono" EntitySet="Telefono" />
@@ -332,24 +402,29 @@
       <Schema Namespace="BD_IngeGrupo4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BD_IngeGrupo4Entities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CriterioAceptacion" EntityType="BD_IngeGrupo4Model.CriterioAceptacion" />
-          <EntitySet Name="GestionCambios" EntityType="BD_IngeGrupo4Model.GestionCambios" />
+          <EntitySet Name="HistVersiones" EntityType="BD_IngeGrupo4Model.HistVersiones" />
           <EntitySet Name="NetRolesPermiso" EntityType="BD_IngeGrupo4Model.NetRolesPermiso" />
           <EntitySet Name="Permiso" EntityType="BD_IngeGrupo4Model.Permiso" />
           <EntitySet Name="Proyecto" EntityType="BD_IngeGrupo4Model.Proyecto" />
           <EntitySet Name="ReqFuncional" EntityType="BD_IngeGrupo4Model.ReqFuncional" />
+          <EntitySet Name="Solicitud" EntityType="BD_IngeGrupo4Model.Solicitud" />
           <EntitySet Name="Telefono" EntityType="BD_IngeGrupo4Model.Telefono" />
           <EntitySet Name="Usuario" EntityType="BD_IngeGrupo4Model.Usuario" />
           <AssociationSet Name="FK_ReqFunc_CritAceptacion" Association="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion">
             <End Role="ReqFuncional" EntitySet="ReqFuncional" />
             <End Role="CriterioAceptacion" EntitySet="CriterioAceptacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReqFunc_GestCambios" Association="BD_IngeGrupo4Model.FK_ReqFunc_GestCambios">
-            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
-            <End Role="GestionCambios" EntitySet="GestionCambios" />
+          <AssociationSet Name="FK_HistVersiones_Solicitud" Association="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud">
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_GestCambios" Association="BD_IngeGrupo4Model.FK_Usuario_GestCambios">
+          <AssociationSet Name="FK_ReqFunc_HistVersiones" Association="BD_IngeGrupo4Model.FK_ReqFunc_HistVersiones">
+            <End Role="ReqFuncional" EntitySet="ReqFuncional" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_HistVersiones" Association="BD_IngeGrupo4Model.FK_Usuario_HistVersiones">
             <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="GestionCambios" EntitySet="GestionCambios" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
           </AssociationSet>
           <AssociationSet Name="FK_Permiso_NetRolesUsers" Association="BD_IngeGrupo4Model.FK_Permiso_NetRolesUsers">
             <End Role="Permiso" EntitySet="Permiso" />
@@ -379,6 +454,14 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="ReqFuncional" EntitySet="ReqFuncional" />
           </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_aprobadoPor" Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_realizadoPor" Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Telefono" Association="BD_IngeGrupo4Model.FK_Usuario_Telefono">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Telefono" EntitySet="Telefono" />
@@ -399,19 +482,21 @@
           <Property Name="criterio" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ReqFuncional" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion" FromRole="CriterioAceptacion" ToRole="ReqFuncional" />
         </EntityType>
-        <EntityType Name="GestionCambios">
+        <EntityType Name="HistVersiones">
           <Key>
-            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="versionRF" />
             <PropertyRef Name="idReqFunc" />
             <PropertyRef Name="nomProyecto" />
           </Key>
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="versionRF" Type="Int16" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="razon" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="realizadoPor" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="idReqFunc" Type="Int32" Nullable="false" />
           <Property Name="nomProyecto" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="realizadoPor" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="ReqFuncional" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_GestCambios" FromRole="GestionCambios" ToRole="ReqFuncional" />
-          <NavigationProperty Name="Usuario" Relationship="BD_IngeGrupo4Model.FK_Usuario_GestCambios" FromRole="GestionCambios" ToRole="Usuario" />
+          <NavigationProperty Name="Solicitud" Relationship="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud" FromRole="HistVersiones" ToRole="Solicitud" />
+          <NavigationProperty Name="ReqFuncional" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_HistVersiones" FromRole="HistVersiones" ToRole="ReqFuncional" />
+          <NavigationProperty Name="Usuario" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersiones" FromRole="HistVersiones" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="NetRolesPermiso">
           <Key>
@@ -468,11 +553,30 @@
           <Property Name="responsable2" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="nomProyecto" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CriterioAceptacion" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion" FromRole="ReqFuncional" ToRole="CriterioAceptacion" />
-          <NavigationProperty Name="GestionCambios" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_GestCambios" FromRole="ReqFuncional" ToRole="GestionCambios" />
+          <NavigationProperty Name="HistVersiones" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_HistVersiones" FromRole="ReqFuncional" ToRole="HistVersiones" />
           <NavigationProperty Name="Proyecto" Relationship="BD_IngeGrupo4Model.FK_Proyecto_ReqFunc" FromRole="ReqFuncional" ToRole="Proyecto" />
           <NavigationProperty Name="Usuario" Relationship="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Fuente" FromRole="ReqFuncional" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Resp1" FromRole="ReqFuncional" ToRole="Usuario" />
           <NavigationProperty Name="Usuario2" Relationship="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Resp2" FromRole="ReqFuncional" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Solicitud">
+          <Key>
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="versionRF" />
+            <PropertyRef Name="idReqFunc" />
+            <PropertyRef Name="nomProyecto" />
+          </Key>
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="razon" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="realizadoPor" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="aprobadoPor" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="versionRF" Type="Int16" Nullable="false" />
+          <Property Name="idReqFunc" Type="Int32" Nullable="false" />
+          <Property Name="nomProyecto" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="HistVersiones" Relationship="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud" FromRole="Solicitud" ToRole="HistVersiones" />
+          <NavigationProperty Name="Usuario" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" FromRole="Solicitud" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" FromRole="Solicitud" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -493,12 +597,14 @@
           <Property Name="correo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="lider" Type="Boolean" />
           <Property Name="id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GestionCambios" Relationship="BD_IngeGrupo4Model.FK_Usuario_GestCambios" FromRole="Usuario" ToRole="GestionCambios" />
+          <NavigationProperty Name="HistVersiones" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersiones" FromRole="Usuario" ToRole="HistVersiones" />
           <NavigationProperty Name="Proyecto" Relationship="BD_IngeGrupo4Model.FK_Usuario_Proyecto" FromRole="Usuario" ToRole="Proyecto" />
           <NavigationProperty Name="Proyecto1" Relationship="BD_IngeGrupo4Model.FK_Usuario_Proyecto_Cliente" FromRole="Usuario" ToRole="Proyecto" />
           <NavigationProperty Name="ReqFuncional" Relationship="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Fuente" FromRole="Usuario" ToRole="ReqFuncional" />
           <NavigationProperty Name="ReqFuncional1" Relationship="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Resp1" FromRole="Usuario" ToRole="ReqFuncional" />
           <NavigationProperty Name="ReqFuncional2" Relationship="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Resp2" FromRole="Usuario" ToRole="ReqFuncional" />
+          <NavigationProperty Name="Solicitud" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" FromRole="Usuario" ToRole="Solicitud" />
+          <NavigationProperty Name="Solicitud1" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" FromRole="Usuario" ToRole="Solicitud" />
           <NavigationProperty Name="Telefono" Relationship="BD_IngeGrupo4Model.FK_Usuario_Telefono" FromRole="Usuario" ToRole="Telefono" />
           <NavigationProperty Name="Proyecto2" Relationship="BD_IngeGrupo4Model.ProyectoUsuario" FromRole="Usuario" ToRole="Proyecto" />
         </EntityType>
@@ -516,28 +622,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ReqFunc_GestCambios">
+        <Association Name="FK_HistVersiones_Solicitud">
+          <End Type="BD_IngeGrupo4Model.HistVersiones" Role="HistVersiones" Multiplicity="1" />
+          <End Type="BD_IngeGrupo4Model.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HistVersiones">
+              <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
+              <PropertyRef Name="versionRF" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="idReqFunc" />
+              <PropertyRef Name="nomProyecto" />
+              <PropertyRef Name="versionRF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReqFunc_HistVersiones">
           <End Type="BD_IngeGrupo4Model.ReqFuncional" Role="ReqFuncional" Multiplicity="1" />
-          <End Type="BD_IngeGrupo4Model.GestionCambios" Role="GestionCambios" Multiplicity="*" />
+          <End Type="BD_IngeGrupo4Model.HistVersiones" Role="HistVersiones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ReqFuncional">
               <PropertyRef Name="id" />
               <PropertyRef Name="nomProyecto" />
             </Principal>
-            <Dependent Role="GestionCambios">
+            <Dependent Role="HistVersiones">
               <PropertyRef Name="idReqFunc" />
               <PropertyRef Name="nomProyecto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_GestCambios">
+        <Association Name="FK_Usuario_HistVersiones">
           <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
-          <End Type="BD_IngeGrupo4Model.GestionCambios" Role="GestionCambios" Multiplicity="*" />
+          <End Type="BD_IngeGrupo4Model.HistVersiones" Role="HistVersiones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
               <PropertyRef Name="cedula" />
             </Principal>
-            <Dependent Role="GestionCambios">
+            <Dependent Role="HistVersiones">
               <PropertyRef Name="realizadoPor" />
             </Dependent>
           </ReferentialConstraint>
@@ -626,6 +748,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuario_Solicitud_aprobadoPor">
+          <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="BD_IngeGrupo4Model.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="aprobadoPor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Solicitud_realizadoPor">
+          <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="BD_IngeGrupo4Model.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="realizadoPor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Telefono">
           <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="1" />
           <End Type="BD_IngeGrupo4Model.Telefono" Role="Telefono" Multiplicity="*" />
@@ -657,14 +803,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GestionCambios">
-            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.GestionCambios">
-              <MappingFragment StoreEntitySet="GestionCambios">
-                <ScalarProperty Name="realizadoPor" ColumnName="realizadoPor" />
+          <EntitySetMapping Name="HistVersiones">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.HistVersiones">
+              <MappingFragment StoreEntitySet="HistVersiones">
                 <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
                 <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
-                <ScalarProperty Name="Razon" ColumnName="Razon" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="realizadoPor" ColumnName="realizadoPor" />
+                <ScalarProperty Name="razon" ColumnName="razon" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="versionRF" ColumnName="versionRF" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -716,6 +863,20 @@
                 <ScalarProperty Name="sprint" ColumnName="sprint" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Solicitud">
+            <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Solicitud">
+              <MappingFragment StoreEntitySet="Solicitud">
+                <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
+                <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
+                <ScalarProperty Name="versionRF" ColumnName="versionRF" />
+                <ScalarProperty Name="aprobadoPor" ColumnName="aprobadoPor" />
+                <ScalarProperty Name="realizadoPor" ColumnName="realizadoPor" />
+                <ScalarProperty Name="razon" ColumnName="razon" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

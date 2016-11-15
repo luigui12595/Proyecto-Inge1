@@ -26,11 +26,12 @@ namespace ProyectoInge1.Models
         }
     
         public virtual DbSet<CriterioAceptacion> CriterioAceptacion { get; set; }
-        public virtual DbSet<GestionCambios> GestionCambios { get; set; }
+        public virtual DbSet<HistVersiones> HistVersiones { get; set; }
         public virtual DbSet<NetRolesPermiso> NetRolesPermiso { get; set; }
         public virtual DbSet<Permiso> Permiso { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<ReqFuncional> ReqFuncional { get; set; }
+        public virtual DbSet<Solicitud> Solicitud { get; set; }
         public virtual DbSet<Telefono> Telefono { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
     }

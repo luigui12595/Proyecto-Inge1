@@ -17,12 +17,14 @@ namespace ProyectoInge1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Usuario()
         {
-            this.GestionCambios = new HashSet<GestionCambios>();
+            this.HistVersiones = new HashSet<HistVersiones>();
             this.Proyecto = new HashSet<Proyecto>();
             this.Proyecto1 = new HashSet<Proyecto>();
             this.ReqFuncional = new HashSet<ReqFuncional>();
             this.ReqFuncional1 = new HashSet<ReqFuncional>();
             this.ReqFuncional2 = new HashSet<ReqFuncional>();
+            this.Solicitud = new HashSet<Solicitud>();
+            this.Solicitud1 = new HashSet<Solicitud>();
             this.Telefono = new HashSet<Telefono>();
             this.Proyecto2 = new HashSet<Proyecto>();
         }
@@ -35,7 +37,7 @@ namespace ProyectoInge1.Models
         public string id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GestionCambios> GestionCambios { get; set; }
+        public virtual ICollection<HistVersiones> HistVersiones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyecto> Proyecto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -46,6 +48,10 @@ namespace ProyectoInge1.Models
         public virtual ICollection<ReqFuncional> ReqFuncional1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReqFuncional> ReqFuncional2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solicitud> Solicitud { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solicitud> Solicitud1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Telefono> Telefono { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

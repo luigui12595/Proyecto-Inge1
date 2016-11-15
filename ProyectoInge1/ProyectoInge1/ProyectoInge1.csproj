@@ -227,6 +227,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
@@ -243,11 +244,12 @@
     <Compile Include="Models\CriterioAceptacion.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GestionCambios.cs">
+    <Compile Include="Models\HistVersiones.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModGestionInter.cs" />
     <Compile Include="Models\ModProyectoInter.cs" />
     <Compile Include="Models\ModReqFuncionalInter.cs" />
     <Compile Include="Models\ModRolesInter.cs" />
@@ -277,6 +279,9 @@
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReqFuncional.cs">
+      <DependentUpon>ModuloUsuario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Solicitud.cs">
       <DependentUpon>ModuloUsuario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Telefono.cs">
@@ -465,6 +470,7 @@
     <Content Include="Views\ReqFuncional\Details.cshtml" />
     <Content Include="Views\Proyectos\Detalles.cshtml" />
     <Content Include="Views\Proyectos\Index.cshtml" />
+    <Content Include="Views\Gestion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
