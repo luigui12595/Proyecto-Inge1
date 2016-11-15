@@ -29,6 +29,31 @@
         }
 
     }
+    function listbox_moveacross(sourceID, destID) {
+
+        var src = document.getElementById(sourceID);
+        var dest = document.getElementById(destID);
+
+        for (var count = 0; count < src.options.length; count++) {
+
+            if (src.options[count].selected == true) {
+                var option = src.options[count];
+
+                var newOption = document.createElement("option");
+                newOption.value = option.value;
+                newOption.text = option.text;
+                newOption.selected = true;
+                try {
+                    dest.add(newOption, null); //Standard
+                    src.remove(count, null);
+                } catch (error) {
+                    dest.add(newOption); // IE only
+                    src.remove(count);
+                }
+                count--;
+            }
+        }
+    }
 
 </script>
 
@@ -141,9 +166,8 @@
                 </div>
 
                 <div class="col-lg-6">
-                    @*Estado Detalles*@
+                    @*Usuarios Detalles*@
                     <div class="form-group">
-
                         <div class="col-lg-5 col-lg-pull-1 ">
                             @Html.LabelFor(model => model.proyecto.Usuario2, htmlAttributes: new { @class = "control-label " })<br />
                         </div><br /><br />
@@ -239,7 +263,7 @@
                                 if (user.cedula.Equals(id.lider))
                                 {
                                     var lider = user.nombre + " " + user.apellidos;
-                                   @Html.DropDownListFor(model => model.proyecto.lider,new[]{ new SelectListItem() { Text = lider }})
+                                   @Html.DropDownListFor(model => model.proyecto.lider,(SelectList)ViewBag.desarrolladores, new SelectListItem() { Text = lider })
                                 }
                              }
 
@@ -275,27 +299,93 @@
 
                     </div>
                 </div>
-                @*Viejo ///-----------------------------------*@
 
-
-                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-  
-                <div class="form-horizontal">
-                    <hr />
-                    <div class="elementoModificar" style="display:none">
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Aceptar" class="btn btn-primary" />
-                                <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
-                            </div>
-                        </div>
+                @*Desarri editar*@
+                <div class="form-group">
+                    <div class="col-lg-5 col-lg-pull-1 ">
+                        @Html.LabelFor(model => model.proyecto.Usuario2, htmlAttributes: new { @class = "control-label " })<br />
                     </div>
-                </div>
-           
-            </div>
-        }
-    }
-</div>
+
+                    <div class="col-lg-4 col-lg-pull-1">
+                        @Html.TextBoxFor(model => model.Participantes, new { @id = "output" })
+                        <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="s" size="10">
+                            @{
+                                var UserProyectList = Model.listaUsuariosProyecto;
+                                var UserList = Model.listaUsuarios;
+                                if (UserProyectList != null)
+                                {
+                                    foreach (var userProj in UserProyectList)
+                                    {
+                                        foreach (var user in UserList)
+                                        {
+                                            if (userProj.cedula.Equals(user.cedula))
+                                            {
+                                                <option value=user.cedula>
+                                                    @Html.DisplayFor(modelItem => user.nombre)
+                                                    @Html.DisplayFor(modelItem => user.apellidos)
+                                                    @Html.Raw(" ")
+                                                </option>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                        <div>
+                            <br />
+                            <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+                            <br />
+                            <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+                        </div>
+                        <div>
+                            <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
+                                @foreach (var item in Model.listaUsuarios){
+                                    var ced = item.cedula;
+                                    <option value=@ced>
+                                        @Html.DisplayFor(modelItem => item.nombre)
+                                        @Html.DisplayFor(modelItem => item.apellidos)
+                                        @Html.Raw(" ")
+                                    </option>
+                                }
+                            </select>
+                         </div>
+                      </div>
+                  </div>
+
+
+
+                                @*Viejo ///-----------------------------------*@
+
+
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+
+                                <div class="form-horizontal">
+                                    <hr />
+                                    <div class="elementoModificar" style="display:none">
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                                                <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                        }
+                        }
+                    </div>
 
     
 

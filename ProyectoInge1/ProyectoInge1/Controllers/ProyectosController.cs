@@ -109,13 +109,25 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(string id)
         {
-            
+
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            if(modelo.proyecto.Usuario2.Count>0 || !modelo.proyecto.Usuario2.Equals(null)) { 
+            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null)) {
                 modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             }
+            // bolsa de desarrolladores disponibles
+            List<Usuario> listadesarrolladores = new List<Usuario>();
+            string RolDesarrollador = context.Roles.Where(m => m.Name == "Desarrollador").First().Id;
+            foreach (var user in context.Users.ToArray())
+            {
+                string p1 = user.Roles.First().RoleId;
+                if (user.Roles.First().RoleId.Equals(RolDesarrollador)) {
+                    listadesarrolladores.Add(BD.Usuario.Where(m => m.id == user.Id).First());
+                }
+            }
+            ViewBag.desarrolladores = new SelectList(listadesarrolladores, "nombre", "apellidos");
+            ViewBag.desarDisponibles = listadesarrolladores;
             return View(modelo);
 
         }
