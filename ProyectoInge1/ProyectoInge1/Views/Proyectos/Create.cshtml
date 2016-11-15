@@ -1,0 +1,176 @@
+@model ProyectoInge1.Models.ModProyectoInter
+@using ProyectoInge1.Helpers
+<script>
+    window.onload = function (e) {
+        desarrolladores = "";
+    }
+    function Cancelar() {
+        if (confirm("Esta seguro que desea borrar este proyecto ?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function listbox_moveacross(sourceID, destID) {
+        
+        var src = document.getElementById(sourceID);
+        var dest = document.getElementById(destID);
+
+        for (var count = 0; count < src.options.length; count++) {
+
+            if (src.options[count].selected == true) {
+                var option = src.options[count];
+
+                var newOption = document.createElement("option");
+                newOption.value = option.value;
+                newOption.text = option.text;
+                newOption.selected = true;
+                try {
+                    dest.add(newOption, null); //Standard
+                    desarrolladores=desarrolladores +"/"+(newOption.value);
+                    src.remove(count, null);
+                } catch (error) {
+                    dest.add(newOption); // IE only
+                    src.remove(count);
+                }
+                count--;
+            }
+        }
+    }
+    var form = document.getElementById('descriptiveFormName');
+    form.elements.description1.onchange = function () {
+        var option = this.options[this.selectedIndex];
+        this.form.elements.descValue.value = option.value;
+        this.form.elements.descText.value = option.innerHTML;
+    }
+</script>
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/datepicker")
+@Scripts.Render("~/bundles/datePicker")
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Proyecto</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">* Nombre:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.proyecto.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.proyecto.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.proyecto.descripcion, new { htmlAttributes = new { @class = "form-control", placeholder = "50 Carácteres máximo" } })
+                @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">* Fecha de Inicio:</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.proyecto.fechaInicio, new { @class = "form-control datepicker", placeholder = "DATE" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.CustomLabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-md-2">* Estado:</label>
+            <div class="col-md-10" style="padding-top:0.5em;">
+                @Html.DropDownListFor(model => model.proyecto.estado, new[] { new SelectListItem() { Text = "Iniciado" }, new SelectListItem() { Text = "En Desarrollo" },
+                                                                      new SelectListItem() { Text = "Cancelado" }, new SelectListItem() { Text = "Suspendido" } },
+                                                                       "-- No asignado--", new { @class = "form-control" })
+            </div>
+        </div>
+        <br />
+        @*cajas de seleccion*@
+        <div class="form-group">
+            <label class="control-label col-md-2">* Lider:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.proyecto.lider, new { htmlAttributes = new { @class = "form-control", placeholder = "Numero de cedula" } })
+                @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+@*
+    <div class="control-label"style="display:none">
+        @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
+        <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>
+        <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
+        <br />
+        <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
+    </div>
+    <br /><br /><br />
+    <div>
+        <div class="control-label">
+
+            <label class="control-label col-md-2">Desarrollador</label>
+
+        </div>
+        <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+        <div>
+            <br />
+            <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+            <br />
+            <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+        </div>
+        <div>
+
+            <div>
+                <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
+
+                    Aqui se insertan los usuarios*@
+                        
+                       @* @foreach (var item in Model.listaUsuarios)
+    {
+        var ced = item.cedula;
+        <option value=@ced>
+            @Html.DisplayFor(modelItem => item.nombre)
+            @Html.DisplayFor(modelItem => item.apellidos)
+            @Html.Raw(" ")
+        </option>
+    }
+                    </select>
+                </div>
+            </div>
+        </div>*@
+        @*Fin cajas de seleccion*@
+        <div class="form-group">
+            <div class=" col-md-8">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <div class="btn btn-danger" style="color:white;" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+    });
+    $(".datepicker").on("dp.change", function (e) {
+        $('.datepicker2').data("DatePicker").setMinDate(e.date);
+    });
+    $(".datepicker2").on("dp.change", function (e) {
+        $('.datepicker').data("DatePicker").setMaxDate(e.date);
+    });
+    </script>
+}
