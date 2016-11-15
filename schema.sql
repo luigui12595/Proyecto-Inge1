@@ -64,19 +64,41 @@ CREATE TABLE ReqFuncional(
 										ON UPDATE CASCADE
 );
 
-CREATE TABLE GestionCambios(
-	Fecha			DATETIME		NOT NULL,
-	Razon			VARCHAR(50),
-	idReqFunc		INT,
-	nomProyecto		VARCHAR(30), 
-	realizadoPor		CHAR(9),
-	
-	CONSTRAINT CHK_realizadoPor_gestCambios	CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-	CONSTRAINT PK_GestionCambios	 PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto ,Fecha ASC ),
-	CONSTRAINT FK_ReqFunc_GestCambios	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id, nomProyecto ),
-	CONSTRAINT FK_Usuario_GestCambios	FOREIGN KEY ( RealizadoPor ) REFERENCES Usuario ( cedula )
+CREATE TABLE HistVersiones(
+	versionRF		SMALLINT		NOT NULL,
+	fecha			DATE			NOT NULL,
+	razon			VARCHAR(256)	NOT NULL,
+	realizadoPor	CHAR(9)			NULL,
+	idReqFunc		INT				NOT NULL,
+	nomProyecto		VARCHAR(30)		NOT NULL,
+
+	CONSTRAINT CHK_realizadoPor_HistVerciones CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT PK_HistVersiones	 PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto , versionRF ASC ),
+	CONSTRAINT FK_ReqFunc_HistVersiones	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id, nomProyecto ),
+	CONSTRAINT FK_Usuario_HistVersiones	FOREIGN KEY ( RealizadoPor ) REFERENCES Usuario ( cedula )
 										ON UPDATE CASCADE
 );
+
+
+CREATE TABLE Solicitud(
+	fecha			DATETIME		NOT NULL,
+	estado			VARCHAR(11)		NOT NULL,
+	razon			VARCHAR(256)	NOT NULL,
+	realizadoPor	CHAR(9)			NULL,
+	aprobadoPor		CHAR(9)			NULL,
+	versionRF		SMALLINT		NOT NULL,
+	idReqFunc		INT				NOT NULL,
+	nomProyecto		VARCHAR(30)		NOT NULL,
+
+
+	CONSTRAINT CHK_realizadoPor_Solicitud CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_aprobadoPor_Solicitud CHECK (aprobadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT PK_Solicitud PRIMARY KEY CLUSTERED ( versionRF, idReqFunc, nomProyecto, fecha ASC),
+	CONSTRAINT FK_HistVersiones_Solicitud	FOREIGN KEY (idReqFunc, nomProyecto, versionRF ) REFERENCES HistVersiones ( idReqFunc, nomProyecto, versionRF ),
+	CONSTRAINT FK_Usuario_Solicitud_realizadoPor FOREIGN KEY ( realizadoPor ) REFERENCES Usuario ( cedula ),
+	CONSTRAINT FK_Usuario_Solicitud_aprobadoPor FOREIGN KEY ( aprobadoPor ) REFERENCES Usuario ( cedula )
+);
+
 
 CREATE TABLE Permiso(
 	id				SMALLINT		NOT NULL,
