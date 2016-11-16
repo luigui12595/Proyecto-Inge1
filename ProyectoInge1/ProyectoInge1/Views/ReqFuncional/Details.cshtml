@@ -47,13 +47,11 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fechaInicial, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Requerimiento.fechaInicial, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Requerimiento.fechaInicial, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Requerimiento.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Requerimiento.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Requerimiento.fechaFinal, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Requerimiento.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fuente, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -234,6 +232,12 @@
             </div>
         </div>
 
+
+
+
+
+
+
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
         <script>
@@ -251,4 +255,16 @@
 
             }
         </script>
+
+<script type="text/javascript">
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+    });
+    $(".datepicker").on("dp.change", function (e) {
+        $('.datepicker2').data("DatePicker").setMinDate(e.date);
+    });
+    $(".datepicker2").on("dp.change", function (e) {
+        $('.datepicker').data("DatePicker").setMaxDate(e.date);
+    });
+</script>
     }
