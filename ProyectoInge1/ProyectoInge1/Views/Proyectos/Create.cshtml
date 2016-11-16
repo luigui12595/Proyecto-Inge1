@@ -98,13 +98,12 @@
         </div>
         <br />
 
-        @*<div class="form-group">
+        <div class="form-group">
             <label class="control-label col-md-2">* Lider:</label>
             <div class="col-md-10" style="padding-top:0.5em;">
-                @foreach (var noLider in Model. )
-                @Html.DropDownListFor(model => model.proyecto.lider , new[] { new SelectListItem() { Text = "Administrador", Value = "1" }, new SelectListItem() { Text = "Desarrollador", Value = "2" }, new SelectListItem() { Text = "Usuario", Value = "3" } }, "--Rol no asignado--", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.proyecto.lider, (SelectList)ViewBag.Desarrolladores, "Seleccionar Lider", new { @class = "control-label col-md-2" } );
             </div>
-        </div>*@
+        </div>
 
         @*cajas de seleccion*@
     <div class="control-label"style="display:none">

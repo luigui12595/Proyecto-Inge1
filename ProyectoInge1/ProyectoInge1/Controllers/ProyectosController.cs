@@ -173,12 +173,13 @@ namespace ProyectoInge1.Controllers
             model.DesarrolladoresNoLider = new List<Usuario>();
             foreach ( var x in usuarios) {
                 foreach ( var y in desarrolladores) {
-                    if ( x.id == y.Id && x.lider == false ) {
+                    if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
                         model.DesarrolladoresNoLider.Add(x);
                     }
                 }
             }
             model.listaUsuarios = usuarios.ToList();
+            ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
             return View(model);
         }
 
