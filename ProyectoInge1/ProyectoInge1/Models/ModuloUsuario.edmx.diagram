@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ac1a5c6a76d14cbe84e00961c472232a" Name="Diagram1" ZoomLevel="74">
-<<<<<<< HEAD
+
         
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.CriterioAceptacion" Width="1.5" PointX="5.5180345184719357" PointY="16.30148147805663" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.HistVersiones" Width="1.5" PointX="10.753782323912615" PointY="16.159981884136787" />
@@ -30,40 +30,7 @@
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Telefono" />
-        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />
-        
-        
-        
-        
-        
-        
-        
-=======
-        
-        
-        
-        
-        
-        
-        
-        
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; c33377ad1cef946e5db32af7488c3b27fe4c101a
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />      
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

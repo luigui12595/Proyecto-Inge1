@@ -14,7 +14,8 @@ namespace ProyectoInge1.Models
 
         public List<HistVersiones> listaCambios { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
-        
+
+        public Proyecto Proyecto { get; set; }
 
 
     }

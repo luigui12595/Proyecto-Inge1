@@ -1,9 +1,146 @@
-﻿@model ProyectoInge1.Models.ModGestionCambios
-
+﻿
+@model PagedList.IPagedList<ProyectoInge1.Models.ModGestionCambios >
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
-<h2>Index</h2>
+<h2>Historial de Versiones</h2>
+
+@using (Html.BeginForm("Index", "GestCambios", FormMethod.Get))
+{
+    <p>
+        <div class="row">
+
+            <div class="col-lg-5">
+               
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </div>
+            <div class="col-lg-1 col-lg-pull-1">
+               
+                <a class="btn btn-info" href="../ReqFuncional">Mostrar Todos</a>
+            </div>
+            <div class="col-lg-2 col-lg-push-5">
+                @Html.ActionLink("Crear", "Create", new { NombProy = "Aseguradora" }, new { @class = "btn btn-success", @style = "color:white" })
+                <!--<a class="btn btn-success" href="../Create">Crear</a>-->
+            </div>
+        </div>
+    </p>
+}
+
+
+<table id="table1" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Sprint", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Módulo", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Estado", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr id='@(item.nombre)' onclick="goToProjectDetails(this)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @{ if (item.estado != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.estado)
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        var id = item.lider;
+                        var userList = ViewBag.userList as IEnumerable<ProyectoInge1.Models.Usuario>;
+                        foreach (var user in userList)
+                        {
+                            if (user.cedula.Equals(id))
+                            {
+                                @Html.DisplayFor(modelItem => user.nombre);
+                            }
+                        }
+
+                    }
+                </td>
+                <td>
+                    @{ if (item.fechaInicio != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.fechaInicio, "{0:dd/MM/yyyy}")
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.fechaFinal != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.fechaFinal, "{0:dd/MM/yyyy}")
+                        }
+                    }
+                </td>
+            </tr>
+                            }
+        </tbody>
+    </table>
+
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+    <script src="../../Scripts/jquery_ReqFuncionales.js"></script>
+
+
+
+
+
+    @*
+
+    @{var ProyectList = Model.listaProyectos;
+        var Proyect = Model.Proyecto;
+
+        foreach (var PList in ProyectList)
+        {
+            <option value=(PList.nombre>
+                @Html.DropDownListFor(model => model.Proyecto, new[] { new SelectListItem() { Text = PList.nombre.ToString(), Value = PList.nombre } }, "--Proyecto no asignada--", new { @class = "form-control" })
+            </option>
+
+
+        }
+    }
+
+        @* @foreach (var item in Model)
+        {
+            <tr id='@(item.id)' onclick="gotoDetails(this)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sprint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.modulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estado)
+                </td>
+            </tr>
+        }
+
+    *@
