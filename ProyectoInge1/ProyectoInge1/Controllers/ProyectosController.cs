@@ -119,13 +119,7 @@ namespace ProyectoInge1.Controllers
             // bolsa de desarrolladores disponibles
             List<Usuario> listadesarrolladores = new List<Usuario>();
             string RolDesarrollador = context.Roles.Where(m => m.Name == "Desarrollador").First().Id;
-            foreach (var user in context.Users.ToArray())
-            {
-                string p1 = user.Roles.First().RoleId;
-                if (user.Roles.First().RoleId.Equals(RolDesarrollador)) {
-                    listadesarrolladores.Add(BD.Usuario.Where(m => m.id == user.Id).First());
-                }
-            }
+            
             ViewBag.desarrolladores = new SelectList(listadesarrolladores, "nombre", "apellidos");
             ViewBag.desarDisponibles = listadesarrolladores;
             return View(modelo);

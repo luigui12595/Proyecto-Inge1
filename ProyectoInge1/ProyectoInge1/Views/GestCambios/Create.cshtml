@@ -1,0 +1,100 @@
+﻿@model ProyectoInge1.Models.ModGestionCambios
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function aceptar() {
+        alert("Se a generado la solicitud");
+    }
+
+</script>
+<h2>Gestion de solicitudes</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Crear solicitud</h4>
+        <hr />
+        @*Fecha de creacion, auto generada, oculta*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.fecha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*Estado de solicitud, auto generada "pendiente", oculta*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.estado, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*Razon de cambio*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.razon, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.razon, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.razon, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*Realizado*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.realizadoPor, "realizadoPor", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.realizadoPor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.realizadoPor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*Lider del equipo, oculto*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.aprobadoPor, "aprobadoPor", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.aprobadoPor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.aprobadoPor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*version, oculta*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.versionRF, "versionRF", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.versionRF, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.versionRF, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*id Requerimiento funcional, oculta*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.idReqFunc, "idReqFunc", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.idReqFunc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.idReqFunc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*Nombre proyecto, oculta*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.solicitud.nomProyecto, "nomProyecto", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.solicitud.nomProyecto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input onclik="aceptar()" type="submit" value="Aceptar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
