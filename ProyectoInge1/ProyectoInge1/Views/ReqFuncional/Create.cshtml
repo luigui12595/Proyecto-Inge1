@@ -71,8 +71,8 @@ window.onload = load_all
                     @{ 
                         var id = Model.nProy;
                     }
-                    @Html.EditorFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.nomProyecto, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                   
                 </div><br/><br />
 
             </div>

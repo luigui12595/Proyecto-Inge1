@@ -227,7 +227,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\GestionController.cs" />
+    <Compile Include="Controllers\GesCambiosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
@@ -249,7 +249,7 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ModGestionInter.cs" />
+    <Compile Include="Models\ModGestionCambios.cs" />
     <Compile Include="Models\ModProyectoInter.cs" />
     <Compile Include="Models\ModReqFuncionalInter.cs" />
     <Compile Include="Models\ModRolesInter.cs" />

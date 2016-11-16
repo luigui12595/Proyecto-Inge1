@@ -8,14 +8,11 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ProyectoInge1.Models
 {
-    public class ModGestionInter
+    public class ModGestionCambios
     {
         public List<HistVersiones> listaCambios { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
-        //public HistVersiones
-
-        public string Proyecto { get; set; }
-
+        
         
     }
 }

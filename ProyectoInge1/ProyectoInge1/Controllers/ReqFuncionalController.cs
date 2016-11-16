@@ -71,9 +71,9 @@ namespace ProyectoInge1.Controllers
             string id = NombProy;
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-           
+            RQ.Requerimientos = new ReqFuncional();
             RQ.nProy = NombProy;
-            
+            RQ.Requerimientos.nomProyecto = NombProy;
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
             RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
@@ -156,7 +156,7 @@ namespace ProyectoInge1.Controllers
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
             
-            modelo.Requerimientos.nomProyecto = modelo.nProy;
+            //modelo.Requerimientos.nomProyecto = modelo.nProy;
            var NombreP = modelo.Requerimientos.nomProyecto;
             modelo.Requerimientos.estado = "Iniciado";
             /*Funcion para poder guardar una imagen*/

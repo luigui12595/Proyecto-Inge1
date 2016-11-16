@@ -15,15 +15,16 @@ using PagedList;
 using System.Text;
 namespace ProyectoInge1.Controllers
 {
-    public class GestionController : Controller
+    public class GesCambiosController : Controller
     {
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         // GET: Gestion
         public ActionResult Index()
         {
-            ModGestionInter GestionC = new ModGestionInter();
+            /*ModGestionCambios GestionC = new ModGestionCambios();
             GestionC.listaProyectos = BD.Proyecto.ToList();
-            return View(GestionC);
+            return View(GestionC);*/
+            return View();
         }
     }
 }
