@@ -30,7 +30,13 @@ namespace ProyectoInge1.Controllers
         }*/
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-        String ProY;
+        String proy;
+
+      /*  public recibeNomProyecto(string nomProyecto)
+        {
+
+
+        }*/
 
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -89,8 +95,10 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Index", "Usuario");
             }*/
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
-            string nombre = "Aseguradora";
-            modelo.Requerimiento = BD.ReqFuncional.Find(id, nombre);
+            var requerimiento = from rfunc in BD.ReqFuncional
+                                 where rfunc.id == id  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 select rfunc;
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, requerimiento.First().nomProyecto);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);

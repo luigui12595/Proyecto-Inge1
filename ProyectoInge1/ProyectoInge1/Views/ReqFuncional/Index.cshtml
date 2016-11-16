@@ -53,6 +53,7 @@
         @foreach (var item in Model)
         {
             <tr id='@(item.id)' onclick="gotoDetails(this)">
+
                 <td>
                     @Html.DisplayFor(modelItem => item.nombre)
                 </td>
