@@ -117,6 +117,17 @@
             </dl>
         </div>
        }
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+
+            <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+        </div>
+
+    </div>
+
 </div>
 
 
@@ -244,6 +255,11 @@
             function esconderEditar() {
                 $('.elementoEditar').hide();
                 $('.elementoModificar').show();
+
+            };
+            function cancelar() {
+
+                window.location.replace('../ReqFuncional');
 
             }
             function CancelarE() {
