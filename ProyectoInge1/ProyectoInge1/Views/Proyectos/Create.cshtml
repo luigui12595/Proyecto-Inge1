@@ -1,6 +1,7 @@
 @model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
 <script>
+    var asignados = 0;
     window.onload = function (e) {
         desarrolladores = "";
     }
@@ -11,29 +12,29 @@
             return false;
         }
     }
-    function listbox_moveacross(sourceID, destID) {
-        
+    function listbox_moveacross(sourceID, destID) { 
         var src = document.getElementById(sourceID);
         var dest = document.getElementById(destID);
-
         for (var count = 0; count < src.options.length; count++) {
-
             if (src.options[count].selected == true) {
-                var option = src.options[count];
-
-                var newOption = document.createElement("option");
-                newOption.value = option.value;
-                newOption.text = option.text;
-                newOption.selected = true;
-                try {
-                    dest.add(newOption, null); //Standard
-                    desarrolladores=desarrolladores +"/"+(newOption.value);
-                    src.remove(count, null);
-                } catch (error) {
-                    dest.add(newOption); // IE only
-                    src.remove(count);
+                sourceID == 'd' ? asignados++ : asignados--;
+                if ((sourceID == 'd' && asignados < 5) || (sourceID != 'd')) {
+                    var option = src.options[count];
+                    var newOption = document.createElement("option");
+                    newOption.value = option.value;
+                    newOption.text = option.text;
+                    newOption.selected = true;
+                    alert(asignados);
+                    try {
+                        dest.add(newOption, null); //Standard
+                        desarrolladores = desarrolladores + "/" + (newOption.value);
+                        src.remove(count, null);
+                    } catch (error) {
+                        dest.add(newOption); // IE only
+                        src.remove(count);
+                    }
+                    count--;
                 }
-                count--;
             }
         }
     }
@@ -106,14 +107,14 @@
         </div>
 
         @*cajas de seleccion*@
-    <div class="control-label"style="display:none">
+    @**<div class="control-label"style="display:none">
         @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
         @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
         <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>
         <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
         <br />
         <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
-    </div>
+    </div>*@
     <br /><br /><br />
     <div>
         <div class="control-label">
