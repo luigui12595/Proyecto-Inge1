@@ -1,5 +1,7 @@
 @model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
+@*{ Array userList; }*@
+
 <script>
     var asignados = 0;
     window.onload = function (e) {
@@ -12,7 +14,7 @@
             return false;
         }
     }
-    function listbox_moveacross(sourceID, destID) { 
+    function listbox_moveacross(sourceID, destID) {
         var src = document.getElementById(sourceID);
         var dest = document.getElementById(destID);
         for (var count = 0; count < src.options.length; count++) {
@@ -26,7 +28,8 @@
                     newOption.selected = true;
                     try {
                         dest.add(newOption, null); //Standard
-                        desarrolladores = desarrolladores + "/" + (newOption.value);
+                        @*sourceId == 'd' ? @userList. : userList.;*@
+                        //desarrolladores = desarrolladores + "/" + (newOption.value);
                         src.remove(count, null);
                     } catch (error) {
                         dest.add(newOption); // IE only
@@ -37,6 +40,7 @@
             }
         }
     }
+
     var form = document.getElementById('descriptiveFormName');
     form.elements.description1.onchange = function () {
         var option = this.options[this.selectedIndex];
@@ -114,24 +118,22 @@
         <br />
         <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
     </div>*@
-    <br /><br /><br />
-    <div>
-        <div class="control-label">
-            <label class="control-label col-md-2">Desarrollador</label>
-        </div>
-        <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+        <br /><br /><br />
         <div>
-            <br />
-            <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
-            <br />
-            <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
-        </div>
-        <div>
+            <div class="control-label">
+                <label class="control-label col-md-2">Desarrollador</label>
+            </div>
+            <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
             <div>
-                <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
-
-                    @*Aqui se insertan los usuarios*@
-                        
+                <br />
+                <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
+                <br />
+                <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
+            </div>
+            <div>
+                <div>
+                    <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
+                        @*Aqui se insertan los usuarios*@
                        @foreach (var item in Model.listaUsuarios)
                         {
                             var ced = item.cedula;

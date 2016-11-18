@@ -302,6 +302,7 @@ namespace ProyectoInge1.Controllers
             BD.SaveChanges();*/
             return RedirectToAction("Index");
         }
+
     }
 }
 
