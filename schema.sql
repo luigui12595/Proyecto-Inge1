@@ -212,3 +212,4 @@ BEGIN
 	WHERE nombre IN (SELECT nombre
 						FROM deleted);
 END;
+

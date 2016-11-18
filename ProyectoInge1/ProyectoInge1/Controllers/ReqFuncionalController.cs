@@ -17,6 +17,7 @@ using System.Text;
 
 
 
+
 namespace ProyectoInge1.Controllers
 {
     public class ReqFuncionalController : Controller
@@ -29,6 +30,7 @@ namespace ProyectoInge1.Controllers
         }*/
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
+        String ProY;
 
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -39,7 +41,7 @@ namespace ProyectoInge1.Controllers
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-            string param1 = this.Request.QueryString["Proyecto"];
+            string param1 = "Aseguradora";
 
             var requerimientos = from rfunc in BD.ReqFuncional
                                  where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
@@ -66,40 +68,19 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Create(string NombProy)
         {
-            string id = "Aseguradora";
+            string id = NombProy;
 
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            var req= from usersP in BD.ReqFuncional
-                     select usersP;
-            req = req.Where(x => x.nombre == id);
-            RQ.listaRequerimientos = req.ToList();
-            /* if (RQ.listaRequerimientos.Count == 0)
-             {
-                 RQ.Requerimientos.id = 0;
-             }
-             else {
-               Int32 d = RQ.listaRequerimientos.Count;
-                Int16 d2 = (Int16) (d + 1);
-                 d= (Int32)(d2);
-                 RQ.Requerimientos.id = (Int16)(d);
-             }*/
-
-            /* var proy = from usersP in BD.Proyecto
-                            select usersP;
-
-             proy = proy.Where(x => x.nombre == id);
-
-             RQ.proyecto = proy;
-
-             for (int j=0; j<RQ.listaProyecto.Count;j++) {
-
-             }*/
+            RQ.Requerimientos = new ReqFuncional();
+            RQ.nProy = NombProy;
+            RQ.Requerimientos.nomProyecto = NombProy;
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
             RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
-            // return View(usuarios.ToList() );*/
             return View(RQ);
         }
+
+    
 
         public ActionResult Details(short id)
         {
@@ -171,10 +152,20 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModReqFuncionalInter modelo)
+        public ActionResult Create(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1,String NProyecto)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            var NombreP = modelo.Requerimientos.nomProyecto;         
+            
+            //modelo.Requerimientos.nomProyecto = modelo.nProy;
+           var NombreP = modelo.Requerimientos.nomProyecto;
+            modelo.Requerimientos.estado = "Iniciado";
+            /*Funcion para poder guardar una imagen*/
+            if (imagen1 != null) { 
+                modelo.Requerimientos.imagen = new byte[imagen1.ContentLength];
+                imagen1.InputStream.Read(modelo.Requerimientos.imagen, 0, imagen1.ContentLength);
+            }
+
+            /*Funcion para poder guardar una imagen*/
             BD.ReqFuncional.Add(modelo.Requerimientos);
             BD.SaveChanges();
             List<ReqFuncional> LR;
@@ -192,22 +183,52 @@ namespace ProyectoInge1.Controllers
                     BD.SaveChanges();
                 }
             }
-                /* if (ModelState.IsValid)
-                 {
-                     //var idRF;
-                     var NReqFun = from RF in BD.ReqFuncional select RF;
-                     // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
-                     BD.ReqFuncional.Add(modelo.RequerimientosF);
-                     BD.SaveChanges();
-                 }
-                 else
-                 {
-                     ModelState.AddModelError("", "Debe completar toda la información necesaria.");
-                     return View(modelo);
-                 }*/
-                return View();
+            /* if (ModelState.IsValid)
+             {
+                 //var idRF;
+                 var NReqFun = from RF in BD.ReqFuncional select RF;
+                 // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
+                 BD.ReqFuncional.Add(modelo.RequerimientosF);
+                 BD.SaveChanges();
+             }
+             else
+             {
+                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                 return View(modelo);
+             }*/
+            string id = modelo.Requerimientos.nomProyecto;
+            ModReqFuncionalInter RQ = new ModReqFuncionalInter();
+            var req = from usersP in BD.ReqFuncional
+                      select usersP;
+            req = req.Where(x => x.nombre == id);
+            RQ.listaRequerimientos = req.ToList();
+            /* if (RQ.listaRequerimientos.Count == 0)
+             {
+                 RQ.Requerimientos.id = 0;
+             }
+             else {
+               Int32 d = RQ.listaRequerimientos.Count;
+                Int16 d2 = (Int16) (d + 1);
+                 d= (Int32)(d2);
+                 RQ.Requerimientos.id = (Int16)(d);
+             }*/
+
+            /* var proy = from usersP in BD.Proyecto
+                            select usersP;
+
+             proy = proy.Where(x => x.nombre == id);
+
+             RQ.proyecto = proy;
+
+             for (int j=0; j<RQ.listaProyecto.Count;j++) {
+
+             }*/
+            RQ.nProy = id;
+            RQ.UsuariosSistema = BD.Usuario.ToList();
+            RQ.proyecto = BD.Proyecto.Find(id);
+            RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
+            return View(RQ);
         }
-        //return View();
-        //return true;
+      
     }
 }

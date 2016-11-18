@@ -28,7 +28,7 @@
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Telefono" />
-        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />        
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
