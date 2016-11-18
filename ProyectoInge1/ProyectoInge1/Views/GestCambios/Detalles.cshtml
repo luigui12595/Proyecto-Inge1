@@ -29,7 +29,7 @@
                 @Html.ValidationMessageFor(model => model.ModeloHistVersion.idReqFunc, "", new { @class = "text-danger" })
             </div>
             <fildset name="Version">
-                <legend>Datos de Estimación</legend>
+                <legend>Datos de Versión</legend>
                 <div class="form-group">
                     @Html.LabelFor(model => model.ModeloHistVersion.versionRF, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.ModeloHistVersion.versionRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })

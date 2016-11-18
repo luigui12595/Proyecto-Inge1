@@ -45,6 +45,7 @@
     <div class="elementoDetalles">
         <div class="col-lg-12 ">
             <div class="col-lg-2 ">
+                @Html.ActionLink("Requerimiento Funcional", "Index", "ReqFuncional", new { nombreProyecto = Model.proyecto.nombre }, new { @class = "btn btn-success" })
                 <a class="btn btn-info" id='@(Model.proyecto.nombre)' onclick="goToReqFun(this)">Requerimientos Funcionales</a>
             </div>
             <div class="col-lg-2 col-lg-push-1">

@@ -52,7 +52,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id='@(item.id)' onclick="gotoDetails(this)">
+            <tr id='@(item.id)' onclick="gotoDetails2(this)">
 
                 <td>
                     @Html.DisplayFor(modelItem => item.nombre)
@@ -77,5 +77,10 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-<script src="../../Scripts/jquery_ReqFuncionales.js"></script>
+<script >
+    function gotoDetails2(element) {
+        var elementId = element.id;
+        window.location.replace('../ReqFuncional/Details/' + elementId)
+    }
+</script>
 

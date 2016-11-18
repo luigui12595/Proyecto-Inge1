@@ -12,8 +12,8 @@
 <div class="elementoModificar" style="display:none">
     @using (Html.BeginForm())
     {
+        @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
             <div class="col-lg-2 col-lg-push-6">
                 @Html.ActionLink("Eliminar", "Eliminar", null, new { confirm = true, Proyecto = Model.Requerimiento.id }, new { @class = "btn btn-danger", @onclick = "return CancelarE();" })
             </div>
@@ -116,18 +116,19 @@
                 </fieldset>
             </dl>
         </div>
-       }
+       
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-
-            <button type="submit" class="btn btn-primary">Aceptar</button>
-
+            @Html.ActionLink("Aceptar", "Details", null, new { confirm = true, nombreProyecto = Model.Requerimiento.nomProyecto }, new { @class = "btn btn-primary" })
+            
+            <button type="submit" onclick="esconderDetalles()" class="btn btn-primary">Aceptar</button>
+            
             <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
         </div>
 
     </div>
-
+ }
 </div>
 
 
@@ -257,6 +258,12 @@
                 $('.elementoModificar').show();
 
             };
+            function esconderDetalles() {
+                $('.elementoModificar').hide();
+                $('.elementoEditar').show();
+
+            };
+
             function cancelar() {
 
                 window.location.replace('../ReqFuncional');

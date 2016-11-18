@@ -39,7 +39,7 @@ namespace ProyectoInge1.Controllers
         }*/
 
         // GET: Usuarios
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -47,7 +47,7 @@ namespace ProyectoInge1.Controllers
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-            string param1 = "Aseguradora";
+            string param1 = nombreProyecto;
 
             var requerimientos = from rfunc in BD.ReqFuncional
                                  where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
@@ -111,9 +111,11 @@ namespace ProyectoInge1.Controllers
 
          [HttpPost]
          [ValidateAntiForgeryToken]
-         public async Task<ActionResult> Detalles(ModReqFuncionalInter modelo)
+         public ActionResult Details(ModReqFuncionalInter modelo)
          {
-             BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
+            
+            BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
+           BD.SaveChanges();
             /*
              var id = modelo.Requerimiento.id;
              var roleId = modelo.Role;
@@ -140,7 +142,7 @@ namespace ProyectoInge1.Controllers
                   BD.SaveChanges();
 
               } */
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Index", new { nombreProyecto = modelo.Requerimiento.nomProyecto }); 
          }
         
 
