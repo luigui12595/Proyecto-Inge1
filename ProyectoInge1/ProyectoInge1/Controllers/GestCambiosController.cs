@@ -47,10 +47,10 @@ namespace ProyectoInge1.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             ModGestionCambios modelo = new ModGestionCambios();
-            // modelo.listaCambios = versiones.ToList();
+             modelo.listaCambios = versiones.ToList();
             //modelo.listaSolicitud = versiones.ToList();
            // modelo.listaModelos= versiones.ToList();
-            return View(versiones.ToPagedList(pageNumber, pageSize).ToList());
+            return View(versiones.ToList().ToPagedList(pageNumber, pageSize));
         }
 
 

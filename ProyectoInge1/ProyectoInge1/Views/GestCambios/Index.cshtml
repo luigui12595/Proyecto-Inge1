@@ -1,5 +1,5 @@
 ﻿
-@model PagedList.IPagedList<ProyectoInge1.Models.ModGestionCambios>
+@model PagedList.IPagedList<ProyectoInge1.Models.HistVersiones >
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @using Microsoft.AspNet.Identity
@@ -36,37 +36,39 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Nombre Completo", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Version", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
-            <th>@Html.ActionLink("Rol", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })</th>
             <th>
-                @Html.ActionLink("Proyecto", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Requerimiento", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Proyecto", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Crear Solicitud", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            @*
-            <tr id='@(item )' onclick="gotoDetails(this)">
+          
+            <tr id='@(item.versionRF )' onclick="gotoDetails(this)">
                 <td>
-                    @Html.DisplayFor(modelItem => item. )
-                    @Html.DisplayFor(modelItem => item.apellidos)
-                    @Html.Raw(" ")
+                    @Html.DisplayFor(modelItem => item.versionRF )
+                    
                 </td>
                 <td>
-                    @{  var id = item.id;
-                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                        var userRoles = userManager.GetRoles(id);
-                        var role = userRoles[0];  @Html.DisplayFor(modelItem => role)
-                    }
+                    @Html.DisplayFor(modelItem => item.ReqFuncional.nombre )
                 </td>
                 <td>
-                    @{ if (item.Proyecto.Count != 0)
-                    {
-                        @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
+                    @Html.DisplayFor(modelItem => item.nomProyecto )
             </td>
-        </tr>*@
+                <td>
+                   
+                </td>
+
+        </tr>
                     }
     </tbody>
 </table>
