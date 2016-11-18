@@ -1,0 +1,99 @@
+﻿
+<!-- Esto va en el crear de requerimientos
+     Hay que cambiarle el estilo al botón de cargar, porque sino se ve muy feo -->
+
+<script>
+	function cambio() {
+        var input = document.getElementById("uploadBtn");
+
+        var fReader1 = new FileReader();
+        fReader1.readAsDataURL(input.files[0]);
+        fReader1.onloadend = function (event) {
+            var img = document.getElementById("RuPic");
+            img.src = event.target.result;
+            document.getElementById("rutaImagen").value = event.target.result;
+        }
+    }
+</script>
+
+<!-- model.rutaImagen es un string que hay en el modelo que guarda la ruta de la imagen -->
+
+<div class="form-group">
+	@Html.LabelFor(model => model.rutaImagen, htmlAttributes: new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.rutaImagen, new { htmlAttributes = new { @id = "rutaImagen", @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.rutaImagen, "", new { @class = "text-danger" })
+		<div class="fileUpload btn btn-primary">
+			<span>Cargar</span>
+			<input id="uploadBtn" type="file" class="upload" onchange="cambio()"/>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.Label("Vista de imagen", htmlAttributes: new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		<img id="RuPic" src="@(Model.rutaImagen)" width="200" />
+	</div>
+</div>
+
+<!-- Luego cuando se guarda el requerimiento, nada más pasan model.rutaImagen de string a bytes[] y lo almacenan en el campo de imagen
+     de requerimiento (si están usando la imagen). Cuando se consulta nada más se hace al revés, se pasa de la imagen de bytes[] a string
+	 y se iguala model.rutaImagen a ese resultado -->
+
+
+
+
+
+
+
+http://stackoverflow.com/questions/37104063/how-to-display-store-and-retrieve-image-as-varbinarymax-using-asp-net-mvc-view
+
+
+public class ImageViewModel
+   {
+    public string ImageName {get; set;}
+    public HttpPostedFileBase ImagePic {get; set;}
+   }
+   
+   @model ExmpleProject.Models.ImageViewModel
+
+@using (Html.BeginForm("Create", "ControllerName", FormMethod.Post, new {enctype="multipart/form-data"})){ 
+
+         @Html.AntiForgeryToken() 
+         @Html.LabelFor(m => m.ImageName)
+         @Html.TextBoxFor(m => m.ImageName)
+
+         @Html.LabelFor(m => m.ImagePic )
+         @Html.TextBoxFor(m => m.ImagePic , new { type = "file" })
+         <br />
+         <input type="submit" name="Submit" id="Submit" value="Upload" />
+    }
+
+
+
+
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public ActionResult Create(ImageViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+       var uploadedFile = (model.ImagePic != null && model.ImagePic.ContentLength > 0) ? new byte[model.ImagePic.InputStream.Length] : null;
+                if (uploadedFile != null)
+                {
+                    model.ImagePic.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+                }
+        Image image = new Image
+        {
+            ImageName = model.ImageName,
+            ImagePicInBytes = uploadedFile
+        }
+        db.Create(image);
+        db.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
+    return View(model);
+}

@@ -1,4 +1,3 @@
-
 USE BD_IngeGrupo4;
 
 CREATE TABLE Usuario(
@@ -235,3 +234,4 @@ BEGIN
 	WHERE nombre IN (SELECT nombre
 						FROM deleted);
 END;
+
