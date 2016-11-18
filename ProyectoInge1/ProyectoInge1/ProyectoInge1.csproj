@@ -343,6 +343,7 @@
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery_Gestion.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -471,6 +472,8 @@
     <Content Include="Views\Proyectos\Detalles.cshtml" />
     <Content Include="Views\Proyectos\Index.cshtml" />
     <Content Include="Views\GestCambios\Create.cshtml" />
+    <Content Include="Views\GestCambios\Index.cshtml" />
+    <Content Include="Views\GestCambios\Detalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
