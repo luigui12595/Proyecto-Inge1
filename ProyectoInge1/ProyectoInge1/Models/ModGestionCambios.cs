@@ -11,11 +11,10 @@ namespace ProyectoInge1.Models
 {
     public class ModGestionCambios
     {
-
         public List<HistVersiones> listaCambios { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
-        
-
-
+        public List<Solicitud> listaSolicitudes { get; set; }      
+        public List<ReqFuncional> listaRequerimientos { get; set; }
+        public Proyecto proyecto { get; set; }
     }
 }

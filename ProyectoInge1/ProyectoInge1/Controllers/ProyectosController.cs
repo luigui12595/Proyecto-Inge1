@@ -14,6 +14,9 @@ using System.Diagnostics;
 using PagedList;
 using System.Text;
 
+//http://stackoverflow.com/questions/10042608/passing-javascript-array-to-asp-net-mvc-controller.
+//http://stackoverflow.com/questions/15782417/post-javascript-array-with-ajax-to-asp-net-mvc-controller
+
 namespace ProyectoInge1.Controllers
 {
     public class ProyectosController : Controller
@@ -185,7 +188,6 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult Create(ModProyectoInter modelo/*, string id*/)
         {
             if (ModelState.IsValid)
