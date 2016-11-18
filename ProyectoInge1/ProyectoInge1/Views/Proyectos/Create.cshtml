@@ -17,14 +17,13 @@
         var dest = document.getElementById(destID);
         for (var count = 0; count < src.options.length; count++) {
             if (src.options[count].selected == true) {
-                sourceID == 'd' ? asignados++ : asignados--;
-                if ((sourceID == 'd' && asignados < 5) || (sourceID != 'd')) {
+                if ((sourceID == 'd' && asignados < 4) || (sourceID != 'd' && asignados > 0)) {
+                    sourceID == 'd' ? asignados++ : asignados--;
                     var option = src.options[count];
                     var newOption = document.createElement("option");
                     newOption.value = option.value;
                     newOption.text = option.text;
                     newOption.selected = true;
-                    alert(asignados);
                     try {
                         dest.add(newOption, null); //Standard
                         desarrolladores = desarrolladores + "/" + (newOption.value);
@@ -118,9 +117,7 @@
     <br /><br /><br />
     <div>
         <div class="control-label">
-
             <label class="control-label col-md-2">Desarrollador</label>
-
         </div>
         <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
         <div>
@@ -130,7 +127,6 @@
             <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
         </div>
         <div>
-
             <div>
                 <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
 
