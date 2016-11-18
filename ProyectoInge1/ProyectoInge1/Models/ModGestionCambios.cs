@@ -14,9 +14,11 @@ namespace ProyectoInge1.Models
 
         public List<HistVersiones> listaCambios { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
-
+        public List<ModGestionCambios> listaModelos { get; set; }
         public Proyecto Proyecto { get; set; }
-
+        public List<Solicitud> listaSolicitud { get; set; }
+        public ReqFuncional Requerimiento { get; set; }
+        public Solicitud Solicitud { get; set; }
 
     }
 }

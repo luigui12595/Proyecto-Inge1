@@ -23,40 +23,60 @@ namespace ProyectoInge1.Controllers
         // GET: Gestion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            //ModGestionCambios GestionC = new ModGestionCambios();
-            // GestionC.listaProyectos = BD.Proyecto.ToList();
-            // return View(GestionC);
-            var Proyecto = from Pro in BD.Proyecto
-                           select Pro;
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-            string param1 = "Aseguradora";
-
-            var requerimientos = from rfunc in BD.Proyecto
-                                 //where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
-                                 select rfunc;
+            var versiones = from verCam in BD.HistVersiones
+                           select verCam;
             if (!String.IsNullOrEmpty(searchString))
             {
-                requerimientos = requerimientos.Where(rfunc => rfunc.nombre.Contains(searchString) || rfunc.nombre.Contains(searchString));
+                versiones = versiones.Where(cambios => cambios.razon.Contains(searchString) || cambios.nomProyecto.Contains(searchString));
             }
             switch (sortOrder)
             {
                 case "name_desc":
-                    requerimientos = requerimientos.OrderByDescending(rfunc => rfunc.nombre);
+                    versiones = versiones.OrderByDescending(users => users.versionRF);
                     break;
                 default:
-                    requerimientos = requerimientos.OrderBy(rfunc => rfunc.nombre);
+                    versiones = versiones.OrderBy(users => users.versionRF);
                     break;
             }
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             ModGestionCambios modelo = new ModGestionCambios();
-            modelo.listaProyectos = requerimientos.ToList();
-            return View( requerimientos.ToList().ToPagedList(pageNumber, pageSize));
+            // modelo.listaCambios = versiones.ToList();
+            //modelo.listaSolicitud = versiones.ToList();
+           // modelo.listaModelos= versiones.ToList();
+            return View(versiones.ToPagedList(pageNumber, pageSize).ToList());
+        }
+
+
+        public ActionResult Detalles(/*int id,int Ver*/)
+        {
+            int id = 3;
+            int Ver = 1;
+            ModGestionCambios modelo = new ModGestionCambios();
+           /* modelo.Requerimiento = BD.ReqFuncional.Find(id);
+            modelo.listaSolicitud = BD.Solicitud.ToList();*/
+          /*  if ( ) {
+
+            }*/
+           /* var solicitudes = from SolCam in BD.Solicitud
+                                 where SolCam.idReqFunc == id && SolCam.versionRF==Ver  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 select SolCam;
+            
+            modelo.Solicitud = solicitudes*/
+            /*modelo.listaSolicitud = BD.Solicitud.Find(id);
+            modelo.listaUsuarios = BD.Usuario.ToList();
+            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null))
+            {
+                modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
+            }*/
+            return View(modelo);
+
         }
         /* public ActionResult Index()
          {
@@ -66,4 +86,6 @@ namespace ProyectoInge1.Controllers
 
          }*/
     }
+
+
 }

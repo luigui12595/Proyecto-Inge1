@@ -1,0 +1,112 @@
+﻿@model ProyectoInge1.Models.ModGestionCambios
+@using ProyectoInge1.Helpers
+<script>
+    function esconderEditar() {
+        $('.elementoDetalles').hide();
+        $('.elementoModificar').show();
+    }
+
+    function cancelar() {
+        $('.elementoDetalles').show();
+        $('.elementoModificar').hide();
+    }
+
+    function borrar(element) {
+        var elementid = element.id;
+        window.location.replace('../Index')
+    }
+
+    function goToReqFun(element) {
+        var elementId = element.id;
+        window.location.replace('../../ReqFuncional/Index/' + elementId)
+    }
+
+    function CancelarE() {
+        if (confirm("Esta seguro que desea borrar este proyecto ?")) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+</script>
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Solicitudes de cambio</h2>
+
+    <h4 class="elementoDetalles">Detalles de Solicitudes</h4>
+    <h4 class="elementoModificar" style="display:none">Modificación de Solicitudes</h4>
+    <hr />
+    <div class="col-lg-2 col-lg-push-1">
+        <a class="btn btn-success" " onclick="esconderEditar()">Modificar</a>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken(){
+            <div class="elementoModificar" style="display:none">
+                <br /><br /><br />
+                @*nombre*@
+                <div class="form-group">
+                    <label class="control-label col-md-2">Nombre:</label>
+                    <div class="col-md-10">
+                     
+                    </div>
+                </div>
+                <br /><br />
+                @*Descripcion*@
+                <div class="form-group">
+                    <label class="control-label col-md-2">Descripcion:</label>
+                    <div class="col-md-10">
+                        
+                    </div>
+                </div>
+                <br /><br />
+                <div class="form-group">
+                    <label class="control-label col-md-2">* Fecha de Inicio:</label>
+                    <div class="col-md-10">
+                        
+                    </div>
+                </div>
+                <br /><br />
+                <div class="form-group">
+                   
+                    <div class="col-md-10">
+                       
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">* Estado:</label>
+                    <div class="col-md-10" style="padding-top:0.5em;">
+                       
+                    </div>
+                </div>
+                <br /><br /><br /><br />
+                <div class="form-group">
+                    <label class="control-label col-md-2">Lider:</label>
+                    <div class="col-md-10">
+                   
+                    </div>
+                </div><br /><br />
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="elementoModificar" style="display:none">
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                                <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    }
+</div>

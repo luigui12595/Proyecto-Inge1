@@ -1,5 +1,5 @@
 ﻿
-@model PagedList.IPagedList<ProyectoInge1.Models.ModGestionCambios >
+@model PagedList.IPagedList<ProyectoInge1.Models.ModGestionCambios>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @using Microsoft.AspNet.Identity
@@ -11,22 +11,21 @@
 
 <h2>Historial de Versiones</h2>
 
+
 @using (Html.BeginForm("Index", "GestCambios", FormMethod.Get))
 {
     <p>
         <div class="row">
 
             <div class="col-lg-5">
-               
+                Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
                 <input class="btn btn-success" type="submit" value="Buscar" />
             </div>
             <div class="col-lg-1 col-lg-pull-1">
-               
-                <a class="btn btn-info" href="../ReqFuncional">Mostrar Todos</a>
+                <a class="btn btn-info" href="../Usuarios">Mostrar Todos</a>
             </div>
             <div class="col-lg-2 col-lg-push-5">
-                @Html.ActionLink("Crear", "Create", new { NombProy = "Aseguradora" }, new { @class = "btn btn-success", @style = "color:white" })
-                <!--<a class="btn btn-success" href="../Create">Crear</a>-->
+                <a class="btn btn-success" href="Usuarios/Create">Crear</a>
             </div>
         </div>
     </p>
@@ -37,77 +36,48 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Nombre Completo", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
+            <th>@Html.ActionLink("Rol", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })</th>
             <th>
-                @Html.ActionLink("Sprint", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter })
-            </th>
-            <th>
-                @Html.ActionLink("Módulo", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
-            </th>
-            <th>
-                @Html.ActionLink("Estado", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Proyecto", "Index", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
         </tr>
     </thead>
     <tbody>
-
         @foreach (var item in Model)
         {
-            <tr id='@(item.nombre)' onclick="goToProjectDetails(this)">
+            @*
+            <tr id='@(item )' onclick="gotoDetails(this)">
                 <td>
-                    @Html.DisplayFor(modelItem => item.nombre)
+                    @Html.DisplayFor(modelItem => item. )
+                    @Html.DisplayFor(modelItem => item.apellidos)
+                    @Html.Raw(" ")
                 </td>
                 <td>
-                    @{ if (item.estado != null)
-                        {
-                            @Html.DisplayFor(modelItem => item.estado)
-                        }
+                    @{  var id = item.id;
+                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var userRoles = userManager.GetRoles(id);
+                        var role = userRoles[0];  @Html.DisplayFor(modelItem => role)
                     }
                 </td>
                 <td>
-                    @{
-                        var id = item.lider;
-                        var userList = ViewBag.userList as IEnumerable<ProyectoInge1.Models.Usuario>;
-                        foreach (var user in userList)
-                        {
-                            if (user.cedula.Equals(id))
-                            {
-                                @Html.DisplayFor(modelItem => user.nombre);
-                            }
-                        }
-
+                    @{ if (item.Proyecto.Count != 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.Proyecto.First().nombre) } }
+            </td>
+        </tr>*@
                     }
-                </td>
-                <td>
-                    @{ if (item.fechaInicio != null)
-                        {
-                            @Html.DisplayFor(modelItem => item.fechaInicio, "{0:dd/MM/yyyy}")
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.fechaFinal != null)
-                        {
-                            @Html.DisplayFor(modelItem => item.fechaFinal, "{0:dd/MM/yyyy}")
-                        }
-                    }
-                </td>
-            </tr>
-                            }
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-    <script src="../../Scripts/jquery_ReqFuncionales.js"></script>
-
-
-
+<script src="../../Scripts/jquery_Usuarios.js"></script>
 
 
     @*
