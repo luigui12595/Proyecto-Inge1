@@ -26,10 +26,29 @@ namespace ProyectoInge1.Controllers
             return View();
         }
 
-        public ActionResult Create(string NombProy)
+        public ActionResult Create(int versionRF,int idReqFun,string nombProyecto)
         {
             ModGestionCambios modelo = new ModGestionCambios();
-
+            modelo.requerimiento = new ReqFuncional();
+            modelo.lista = new List<Usuario>();
+            modelo.listadesarrolladores = BD.Usuario.ToList();
+            modelo.solicitud = new Solicitud();
+            modelo.solicitud.estado = "Pendiente";
+            modelo.solicitud.fecha = DateTime.Now;
+            modelo.solicitud.versionRF = Convert.ToInt16(versionRF); // tiene que ser un small int no se si funcionara Nixson del futuro recuerdese revisar.
+            modelo.solicitud.idReqFunc = idReqFun;
+            modelo.solicitud.nomProyecto = nombProyecto;
+            modelo.requerimiento = BD.ReqFuncional.Find(idReqFun,modelo.solicitud.nomProyecto);
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.requerimiento.responsable1);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.requerimiento.responsable2);
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.requerimiento.fuente);
+            modelo.solicitud.aprobadoPor = modelo.requerimiento.fuente;
+            foreach (var item in modelo.listadesarrolladores) {
+               string nombre= item.nombre + " " +item.apellidos;
+               item.apellidos = nombre;
+                modelo.lista.Add(item);
+            }
+            ViewBag.desarrolladores = new SelectList(modelo.lista, "cedula", "apellidos");
             return View(modelo);
         }
 
@@ -39,7 +58,7 @@ namespace ProyectoInge1.Controllers
         {
             BD.Solicitud.Add(modelo.solicitud);
             BD.SaveChanges();
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }
