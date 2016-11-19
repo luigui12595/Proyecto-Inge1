@@ -473,6 +473,7 @@
     <Content Include="Views\Gestion\Index.cshtml" />
     <Content Include="Views\GestCambios\Index.cshtml" />
     <Content Include="Views\GestCambios\Solicitudes.cshtml" />
+    <Content Include="Views\GestCambios\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

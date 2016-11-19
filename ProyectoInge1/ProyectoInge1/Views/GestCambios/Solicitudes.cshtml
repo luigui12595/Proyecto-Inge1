@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Solicitudes</h2>
+<h2>Solicitudes de Cambio</h2>
 
 @using (Html.BeginForm("Solicitudes", "GestCambios", FormMethod.Get))
 {
@@ -22,9 +22,6 @@
             <div class="col-lg-1 col-lg-pull-1">
                 <a class="btn btn-info" href="../Solicitudes">Mostrar Todos</a>
             </div>
-            <div class="col-lg-2 col-lg-push-5">
-                <a class="btn btn-success" href="../Solicitudes/Create">Crear</a>
-            </div>
         </div>
     </p>
 }
@@ -33,6 +30,7 @@
     <thead>
         <tr>
             <th> @Html.ActionLink("Requerimiento Funcional", "Solicitudes", new { sortOrder = ViewBag.ReqSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+            <th> @Html.ActionLink("Proyecto", "Solicitudes", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Version", "Solicitudes", new { sortOrder = ViewBag.VersSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Realizado Por", "Solicitudes", new { sortOrder = ViewBag.RealSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Estado", "Solicitudes", new { sortOrder = ViewBag.EstSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
@@ -46,12 +44,12 @@
                     @{
                         var id = item.idReqFunc;
                         var reqFuncList = ViewBag.reqFuncList as IEnumerable<ProyectoInge1.Models.ReqFuncional>;
-                        foreach (var reqFunc in reqFuncList) {
+                        foreach ( var reqFunc in reqFuncList ) {
                             if ( reqFunc.id.Equals(id) ) {
                                 @Html.DisplayFor(modelItem => reqFunc.nombre);
-                                }
                             }
                         }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor( modelItem => item.nomProyecto )
@@ -60,7 +58,17 @@
                     @Html.DisplayFor( modelItem => item.versionRF )
                 </td>
                 <td>
-                    @Html.DisplayFor( modelItem => item.realizadoPor )
+                    @{
+                        var ced = item.realizadoPor;
+                        var userList = ViewBag.userList as IEnumerable<ProyectoInge1.Models.Usuario>;
+                        foreach ( var user in userList )
+                        {
+                            if ( user.cedula.Equals(ced) )
+                            {
+                                @Html.DisplayFor( modelItem => user.names )
+                            }
+                        }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor( modelItem => item.estado )

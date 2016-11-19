@@ -15,6 +15,13 @@ namespace ProyectoInge1.Models
         public List<Proyecto> listaProyectos { get; set; }
         public List<Solicitud> listaSolicitudes { get; set; }      
         public List<ReqFuncional> listaRequerimientos { get; set; }
+
+        public List<Usuario> listaUsuarios { get; set; }
         public Proyecto proyecto { get; set; }
+        public ReqFuncional Requerimiento { get; set; }
+        public Solicitud solicitud { get; set; }
+        public Usuario UsuarioFuente { get; set; } //Específico para obtener la fuente el requerimiento al desplegar los detalles  NO BORRAR
+        public Usuario UsuarioResponsable1 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
+        public Usuario UsuarioResponsable2 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
     }
 }

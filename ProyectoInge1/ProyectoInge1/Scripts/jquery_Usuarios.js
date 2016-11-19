@@ -15,5 +15,6 @@ function goToReqFun(element) {
 
 function goToDetailsSolicitud(element) {
     var data = element.id;
+    alert(data);
     window.location.replace('GestCambios/Solicitudes/' + data)
 }
