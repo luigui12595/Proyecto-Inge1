@@ -48,8 +48,11 @@ namespace ProyectoInge1.Controllers
             int pageNumber = (page ?? 1);
             ModGestionCambios modelo = new ModGestionCambios();
              modelo.listaCambios = versiones.ToList();
+            modelo.listaUsuarios = BD.Usuario.ToList();
+            ViewBag.userList = modelo.listaUsuarios;
             //modelo.listaSolicitud = versiones.ToList();
-           // modelo.listaModelos= versiones.ToList();
+            // modelo.listaModelos= versiones.ToList();
+           // ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
             return View(versiones.ToList().ToPagedList(pageNumber, pageSize));
         }
 
@@ -85,7 +88,12 @@ namespace ProyectoInge1.Controllers
              return View(GestionC);
 
          }*/
-    }
+
+        public ActionResult Create(int? versionRF,int? idReqFunc,string nomProyecto)
+        {
+            return View();
+        }
+        }
 
 
 }
