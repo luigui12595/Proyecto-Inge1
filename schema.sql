@@ -6,7 +6,7 @@ CREATE TABLE Usuario(
 	nombre			VARCHAR(15),							
 	apellidos		VARCHAR(40),
 	correo			VARCHAR(40),
-	lider			BIT,
+	lider			BIT	default 0,
 	id				NVARCHAR(128)
 	
 	CONSTRAINT PK_Usuario		PRIMARY KEY CLUSTERED ( cedula ASC ),
