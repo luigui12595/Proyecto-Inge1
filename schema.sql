@@ -71,14 +71,29 @@ CREATE TABLE HistVersiones(
 	realizadoPor	CHAR(9)			NULL,
 	idReqFunc		INT				NOT NULL,
 	nomProyecto		VARCHAR(30)		NOT NULL,
+	nombreRF		VARCHAR(20)		NULL,
+	sprintRF		TINYINT			NULL,
+	moduloRF		TINYINT			NULL,
+	fechaInicialRF	DATE			NULL,
+	fechaFinalRF	DATE			NULL,
+	observacionesRF VARCHAR(256)	NULL,
+	descripcionRF	VARCHAR(256)	NULL,
+	esfuerzoRF		SMALLINT		NULL,
+	prioridadRF		SMALLINT		NULL,
+	imagenRF		VARBINARY(8000)	NULL,
+	responsable1RF	CHAR(9)			NULL,
+	responsable2RF	CHAR(9)			NULL,
 
 	CONSTRAINT CHK_realizadoPor_HistVerciones CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_responsable1RF_HistVersiones CHECK (responsable1RF LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_responsable2RF_HistVersiones CHECK (responsable2RF LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT PK_HistVersiones	 PRIMARY KEY CLUSTERED ( idReqFunc, nomProyecto , versionRF ASC ),
 	CONSTRAINT FK_ReqFunc_HistVersiones	FOREIGN KEY ( idReqFunc, nomProyecto ) REFERENCES ReqFuncional ( id, nomProyecto ),
 	CONSTRAINT FK_Usuario_HistVersiones	FOREIGN KEY ( RealizadoPor ) REFERENCES Usuario ( cedula )
-										ON UPDATE CASCADE
+										ON UPDATE CASCADE,
+	CONSTRAINT FK_Usuario_HistVersion_responsable1RF FOREIGN KEY ( responsable1RF ) REFERENCES Usuario ( cedula ),
+	CONSTRAINT FK_Usuario_HistVersion_responsable2RF FOREIGN KEY ( responsable2RF ) REFERENCES Usuario ( cedula )
 );
-
 
 CREATE TABLE Solicitud(
 	fecha			DATETIME		NOT NULL,
@@ -89,16 +104,30 @@ CREATE TABLE Solicitud(
 	versionRF		SMALLINT		NOT NULL,
 	idReqFunc		INT				NOT NULL,
 	nomProyecto		VARCHAR(30)		NOT NULL,
-
+	nombreRF		VARCHAR(20)		NULL,
+	sprintRF		TINYINT			NULL,
+	moduloRF		TINYINT			NULL,
+	fechaInicialRF	DATE			NULL,
+	fechaFinalRF	DATE			NULL,
+	observacionesRF VARCHAR(256)	NULL,
+	descripcionRF	VARCHAR(256)	NULL,
+	esfuerzoRF		SMALLINT		NULL,
+	prioridadRF		SMALLINT		NULL,
+	imagenRF		VARBINARY(8000)	NULL,
+	responsable1RF	CHAR(9)			NULL,
+	responsable2RF	CHAR(9)			NULL,
 
 	CONSTRAINT CHK_realizadoPor_Solicitud CHECK (realizadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT CHK_aprobadoPor_Solicitud CHECK (aprobadoPor LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_responsable1RF_Solicitud CHECK (responsable1RF LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CHK_responsable2RF_Solicitud CHECK (responsable2RF LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	CONSTRAINT PK_Solicitud PRIMARY KEY CLUSTERED ( versionRF, idReqFunc, nomProyecto, fecha ASC),
 	CONSTRAINT FK_HistVersiones_Solicitud	FOREIGN KEY (idReqFunc, nomProyecto, versionRF ) REFERENCES HistVersiones ( idReqFunc, nomProyecto, versionRF ),
 	CONSTRAINT FK_Usuario_Solicitud_realizadoPor FOREIGN KEY ( realizadoPor ) REFERENCES Usuario ( cedula ),
-	CONSTRAINT FK_Usuario_Solicitud_aprobadoPor FOREIGN KEY ( aprobadoPor ) REFERENCES Usuario ( cedula )
+	CONSTRAINT FK_Usuario_Solicitud_aprobadoPor FOREIGN KEY ( aprobadoPor ) REFERENCES Usuario ( cedula ),
+	CONSTRAINT FK_Usuario_Solicitud_responsable1RF FOREIGN KEY ( responsable1RF ) REFERENCES Usuario ( cedula ),
+	CONSTRAINT FK_Usuario_Solicitud_responsable2RF FOREIGN KEY ( responsable2RF ) REFERENCES Usuario ( cedula )
 );
-
 
 CREATE TABLE Permiso(
 	id				SMALLINT		NOT NULL,
