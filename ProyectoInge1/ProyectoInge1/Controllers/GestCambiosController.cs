@@ -61,7 +61,21 @@ namespace ProyectoInge1.Controllers
         {
             int id = 3;
             int Ver = 1;
+            DateTime Momento = DateTime.Parse("1900-01-01 00:00:00.000");
             ModGestionCambios modelo = new ModGestionCambios();
+            modelo.listaUsuarios= BD.Usuario.ToList();
+            var VReq = BD.Solicitud.ToList();
+            foreach(var VRF in VReq){
+                if (DateTime.Compare(VRF.fecha, Momento) == 0){
+                    if (VRF.idReqFunc==id) {
+                         if (VRF.versionRF==Ver) {
+                            modelo.Solicitud = VRF;
+                        }
+                    }
+                }
+            }
+
+            //var 
            /* modelo.Requerimiento = BD.ReqFuncional.Find(id);
             modelo.listaSolicitud = BD.Solicitud.ToList();*/
           /*  if ( ) {
@@ -89,8 +103,20 @@ namespace ProyectoInge1.Controllers
 
          }*/
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Detalles(ModGestionCambios modelo ) {
+            if (ModelState.IsValid) {
+                BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+                BD.SaveChanges();
+            }
+            
+            return View();
+        }
+
         public ActionResult Create(int? versionRF,int? idReqFunc,string nomProyecto)
         {
+
             return View();
         }
         }
