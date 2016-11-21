@@ -22,9 +22,23 @@ namespace ProyectoInge1.Models
         public short versionRF { get; set; }
         public int idReqFunc { get; set; }
         public string nomProyecto { get; set; }
+        public string nombreRF { get; set; }
+        public Nullable<byte> sprintRF { get; set; }
+        public Nullable<byte> moduloRF { get; set; }
+        public Nullable<System.DateTime> fechaInicialRF { get; set; }
+        public Nullable<System.DateTime> fechaFinalRF { get; set; }
+        public string observacionesRF { get; set; }
+        public string descripcionRF { get; set; }
+        public Nullable<short> esfuerzoRF { get; set; }
+        public Nullable<short> prioridadRF { get; set; }
+        public byte[] imagenRF { get; set; }
+        public string responsable1RF { get; set; }
+        public string responsable2RF { get; set; }
     
         public virtual HistVersiones HistVersiones { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
+        public virtual Usuario Usuario2 { get; set; }
+        public virtual Usuario Usuario3 { get; set; }
     }
 }
