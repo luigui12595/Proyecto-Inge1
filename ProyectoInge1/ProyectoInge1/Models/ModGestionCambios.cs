@@ -23,5 +23,10 @@ namespace ProyectoInge1.Models
         public Usuario UsuarioFuente { get; set; } //Específico para obtener la fuente el requerimiento al desplegar los detalles  NO BORRAR
         public Usuario UsuarioResponsable1 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
         public Usuario UsuarioResponsable2 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
+        public List<ModGestionCambios> listaModelos { get; set; }
+
+        public Proyecto Proyecto { get; set; }
+        public List<Solicitud> listaSolicitud { get; set; }
+        public Solicitud Solicitud { get; set; }
     }
 }

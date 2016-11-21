@@ -44,7 +44,7 @@ namespace ProyectoInge1.Models
         public virtual ReqFuncional ReqFuncional { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
-        public virtual Usuario Usuario11 { get; set; }
+        public virtual Usuario Usuario2 { get; set; }
         public virtual Usuario Usuario3 { get; set; }
     }
 }

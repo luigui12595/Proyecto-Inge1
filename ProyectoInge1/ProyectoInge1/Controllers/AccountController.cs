@@ -90,12 +90,12 @@ namespace ProyectoInge1.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user != null)
             {
-                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                {
+                /*if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirme el reenvio a su cuenta");
                     ViewBag.errorMessage = "Debe de confirmar su email para iniciar sesion." + "El token de confirmacion ha sido reenviado a su correo.";
                     return View("Error");
-                }
+                }*/
             }
 
             // This doesn't count login failures towards account lockout
@@ -180,15 +180,15 @@ namespace ProyectoInge1.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirme su cuenta");
+                    //string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirme su cuenta");
                     
                     //TempData["ViewBagLink"] = callbackUrl;
-                    ViewBag.Message = "Revise su correo para confirmar su cuenta. Es necesario confirmarlo "
-                       + "para que después pueda iniciar sesión.";
+                    //ViewBag.Message = "Revise su correo para confirmar su cuenta. Es necesario confirmarlo "
+                      // + "para que después pueda iniciar sesión.";
 
-                    return View("Info");
+                    //return View("Info");
                     //return RedirectToAction("Index", "Home");
 
                 }
