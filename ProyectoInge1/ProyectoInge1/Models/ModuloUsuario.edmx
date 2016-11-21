@@ -27,6 +27,18 @@
           <Property Name="realizadoPor" Type="char" MaxLength="9" />
           <Property Name="idReqFunc" Type="int" Nullable="false" />
           <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="nombreRF" Type="varchar" MaxLength="20" />
+          <Property Name="sprintRF" Type="tinyint" />
+          <Property Name="moduloRF" Type="tinyint" />
+          <Property Name="fechaInicialRF" Type="date" />
+          <Property Name="fechaFinalRF" Type="date" />
+          <Property Name="observacionesRF" Type="varchar" MaxLength="256" />
+          <Property Name="descripcionRF" Type="varchar" MaxLength="256" />
+          <Property Name="esfuerzoRF" Type="smallint" />
+          <Property Name="prioridadRF" Type="smallint" />
+          <Property Name="imagenRF" Type="varbinary" MaxLength="8000" />
+          <Property Name="responsable1RF" Type="char" MaxLength="9" />
+          <Property Name="responsable2RF" Type="char" MaxLength="9" />
         </EntityType>
         <EntityType Name="NetRolesPermiso">
           <Key>
@@ -100,6 +112,18 @@
           <Property Name="versionRF" Type="smallint" Nullable="false" />
           <Property Name="idReqFunc" Type="int" Nullable="false" />
           <Property Name="nomProyecto" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="nombreRF" Type="varchar" MaxLength="20" />
+          <Property Name="sprintRF" Type="tinyint" />
+          <Property Name="moduloRF" Type="tinyint" />
+          <Property Name="fechaInicialRF" Type="date" />
+          <Property Name="fechaFinalRF" Type="date" />
+          <Property Name="observacionesRF" Type="varchar" MaxLength="256" />
+          <Property Name="descripcionRF" Type="varchar" MaxLength="256" />
+          <Property Name="esfuerzoRF" Type="smallint" />
+          <Property Name="prioridadRF" Type="smallint" />
+          <Property Name="imagenRF" Type="varbinary" MaxLength="8000" />
+          <Property Name="responsable1RF" Type="char" MaxLength="9" />
+          <Property Name="responsable2RF" Type="char" MaxLength="9" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -117,8 +141,8 @@
           <Property Name="nombre" Type="varchar" MaxLength="15" />
           <Property Name="apellidos" Type="varchar" MaxLength="40" />
           <Property Name="correo" Type="varchar" MaxLength="40" />
-          <Property Name="lider" Type="bit" />
           <Property Name="id" Type="nvarchar" MaxLength="128" />
+          <Property Name="lider" Type="bit" />
         </EntityType>
         <Association Name="FK_HistVersiones_Solicitud">
           <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="1" />
@@ -197,6 +221,30 @@
             <Dependent Role="HistVersiones">
               <PropertyRef Name="idReqFunc" />
               <PropertyRef Name="nomProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_HistVersion_responsable1RF">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="HistVersiones">
+              <PropertyRef Name="responsable1RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_HistVersion_responsable2RF">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="HistVersiones">
+              <PropertyRef Name="responsable2RF" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -308,6 +356,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuario_Solicitud_responsable1RF">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="responsable1RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Solicitud_responsable2RF">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="HistVersiones" Type="Self.HistVersiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="HistVersiones">
+              <PropertyRef Name="responsable2RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Telefono">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Telefono" Type="Self.Telefono" Multiplicity="*" />
@@ -355,6 +427,14 @@
             <End Role="ReqFuncional" EntitySet="ReqFuncional" />
             <End Role="HistVersiones" EntitySet="HistVersiones" />
           </AssociationSet>
+          <AssociationSet Name="FK_Usuario_HistVersion_responsable1RF" Association="Self.FK_Usuario_HistVersion_responsable1RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_HistVersion_responsable2RF" Association="Self.FK_Usuario_HistVersion_responsable2RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuario_HistVersiones" Association="Self.FK_Usuario_HistVersiones">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="HistVersiones" EntitySet="HistVersiones" />
@@ -390,6 +470,14 @@
           <AssociationSet Name="FK_Usuario_Solicitud_realizadoPor" Association="Self.FK_Usuario_Solicitud_realizadoPor">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_responsable1RF" Association="Self.FK_Usuario_Solicitud_responsable1RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_responsable2RF" Association="Self.FK_Usuario_Solicitud_responsable2RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_Telefono" Association="Self.FK_Usuario_Telefono">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -470,6 +558,22 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <AssociationSet Name="FK_Usuario_HistVersion_responsable1RF" Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable1RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_HistVersion_responsable2RF" Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable2RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_responsable2RF" Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="HistVersiones" EntitySet="HistVersiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Solicitud_responsable1RF" Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CriterioAceptacion">
           <Key>
@@ -497,6 +601,21 @@
           <NavigationProperty Name="Solicitud" Relationship="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud" FromRole="HistVersiones" ToRole="Solicitud" />
           <NavigationProperty Name="ReqFuncional" Relationship="BD_IngeGrupo4Model.FK_ReqFunc_HistVersiones" FromRole="HistVersiones" ToRole="ReqFuncional" />
           <NavigationProperty Name="Usuario" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersiones" FromRole="HistVersiones" ToRole="Usuario" />
+          <Property Name="nombreRF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sprintRF" Type="Byte" />
+          <Property Name="moduloRF" Type="Byte" />
+          <Property Name="fechaInicialRF" Type="DateTime" Precision="0" />
+          <Property Name="fechaFinalRF" Type="DateTime" Precision="0" />
+          <Property Name="observacionesRF" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionRF" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="esfuerzoRF" Type="Int16" />
+          <Property Name="prioridadRF" Type="Int16" />
+          <Property Name="imagenRF" Type="Binary" MaxLength="8000" FixedLength="false" />
+          <Property Name="responsable1RF" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="responsable2RF" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Usuario1" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable1RF" FromRole="HistVersiones" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario11" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable2RF" FromRole="HistVersiones" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario3" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF" FromRole="HistVersiones" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="NetRolesPermiso">
           <Key>
@@ -577,6 +696,19 @@
           <NavigationProperty Name="HistVersiones" Relationship="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud" FromRole="Solicitud" ToRole="HistVersiones" />
           <NavigationProperty Name="Usuario" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" FromRole="Solicitud" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" FromRole="Solicitud" ToRole="Usuario" />
+          <Property Name="nombreRF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sprintRF" Type="Byte" />
+          <Property Name="moduloRF" Type="Byte" />
+          <Property Name="fechaInicialRF" Type="DateTime" Precision="0" />
+          <Property Name="fechaFinalRF" Type="DateTime" Precision="0" />
+          <Property Name="observacionesRF" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionRF" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="esfuerzoRF" Type="Int16" />
+          <Property Name="prioridadRF" Type="Int16" />
+          <Property Name="imagenRF" Type="Binary" MaxLength="8000" FixedLength="false" />
+          <Property Name="responsable1RF" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="responsable2RF" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Usuario2" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF" FromRole="Solicitud" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -607,6 +739,10 @@
           <NavigationProperty Name="Solicitud1" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" FromRole="Usuario" ToRole="Solicitud" />
           <NavigationProperty Name="Telefono" Relationship="BD_IngeGrupo4Model.FK_Usuario_Telefono" FromRole="Usuario" ToRole="Telefono" />
           <NavigationProperty Name="Proyecto2" Relationship="BD_IngeGrupo4Model.ProyectoUsuario" FromRole="Usuario" ToRole="Proyecto" />
+          <NavigationProperty Name="HistVersiones1" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable1RF" FromRole="Usuario" ToRole="HistVersiones" />
+          <NavigationProperty Name="HistVersiones11" Relationship="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable2RF" FromRole="Usuario" ToRole="HistVersiones" />
+          <NavigationProperty Name="HistVersiones3" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF" FromRole="Usuario" ToRole="HistVersiones" />
+          <NavigationProperty Name="Solicitud2" Relationship="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF" FromRole="Usuario" ToRole="Solicitud" />
         </EntityType>
         <Association Name="FK_ReqFunc_CritAceptacion">
           <End Type="BD_IngeGrupo4Model.ReqFuncional" Role="ReqFuncional" Multiplicity="1" />
@@ -788,6 +924,54 @@
           <End Type="BD_IngeGrupo4Model.Proyecto" Role="Proyecto" Multiplicity="*" />
           <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="*" />
         </Association>
+        <Association Name="FK_Usuario_HistVersion_responsable1RF">
+          <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="BD_IngeGrupo4Model.HistVersiones" Role="HistVersiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="HistVersiones">
+              <PropertyRef Name="responsable1RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_HistVersion_responsable2RF">
+          <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="BD_IngeGrupo4Model.HistVersiones" Role="HistVersiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="HistVersiones">
+              <PropertyRef Name="responsable2RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Solicitud_responsable2RF">
+          <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="BD_IngeGrupo4Model.HistVersiones" Role="HistVersiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="HistVersiones">
+              <PropertyRef Name="responsable2RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Solicitud_responsable1RF">
+          <End Type="BD_IngeGrupo4Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="BD_IngeGrupo4Model.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="responsable1RF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -806,6 +990,18 @@
           <EntitySetMapping Name="HistVersiones">
             <EntityTypeMapping TypeName="BD_IngeGrupo4Model.HistVersiones">
               <MappingFragment StoreEntitySet="HistVersiones">
+                <ScalarProperty Name="responsable2RF" ColumnName="responsable2RF" />
+                <ScalarProperty Name="responsable1RF" ColumnName="responsable1RF" />
+                <ScalarProperty Name="imagenRF" ColumnName="imagenRF" />
+                <ScalarProperty Name="prioridadRF" ColumnName="prioridadRF" />
+                <ScalarProperty Name="esfuerzoRF" ColumnName="esfuerzoRF" />
+                <ScalarProperty Name="descripcionRF" ColumnName="descripcionRF" />
+                <ScalarProperty Name="observacionesRF" ColumnName="observacionesRF" />
+                <ScalarProperty Name="fechaFinalRF" ColumnName="fechaFinalRF" />
+                <ScalarProperty Name="fechaInicialRF" ColumnName="fechaInicialRF" />
+                <ScalarProperty Name="moduloRF" ColumnName="moduloRF" />
+                <ScalarProperty Name="sprintRF" ColumnName="sprintRF" />
+                <ScalarProperty Name="nombreRF" ColumnName="nombreRF" />
                 <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
                 <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
                 <ScalarProperty Name="realizadoPor" ColumnName="realizadoPor" />
@@ -869,6 +1065,18 @@
           <EntitySetMapping Name="Solicitud">
             <EntityTypeMapping TypeName="BD_IngeGrupo4Model.Solicitud">
               <MappingFragment StoreEntitySet="Solicitud">
+                <ScalarProperty Name="responsable2RF" ColumnName="responsable2RF" />
+                <ScalarProperty Name="responsable1RF" ColumnName="responsable1RF" />
+                <ScalarProperty Name="imagenRF" ColumnName="imagenRF" />
+                <ScalarProperty Name="prioridadRF" ColumnName="prioridadRF" />
+                <ScalarProperty Name="esfuerzoRF" ColumnName="esfuerzoRF" />
+                <ScalarProperty Name="descripcionRF" ColumnName="descripcionRF" />
+                <ScalarProperty Name="observacionesRF" ColumnName="observacionesRF" />
+                <ScalarProperty Name="fechaFinalRF" ColumnName="fechaFinalRF" />
+                <ScalarProperty Name="fechaInicialRF" ColumnName="fechaInicialRF" />
+                <ScalarProperty Name="moduloRF" ColumnName="moduloRF" />
+                <ScalarProperty Name="sprintRF" ColumnName="sprintRF" />
+                <ScalarProperty Name="nombreRF" ColumnName="nombreRF" />
                 <ScalarProperty Name="nomProyecto" ColumnName="nomProyecto" />
                 <ScalarProperty Name="idReqFunc" ColumnName="idReqFunc" />
                 <ScalarProperty Name="versionRF" ColumnName="versionRF" />

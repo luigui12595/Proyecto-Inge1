@@ -88,19 +88,29 @@ namespace ProyectoInge1.Controllers
             return View(solicitudes.ToList().ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Details(string data)
+        public ActionResult Details(string id)
         {
             /*if (!revisarPermisos("Detalles de Usuario"))
             {
                 return RedirectToAction("Index", "Usuario");
             }*/
-            string[] parameters = data.Split(' ');
+            var usuarios = from usuario in BD.Usuario
+                           orderby usuario.cedula
+                           select usuario;
             ModGestionCambios modelo = new ModGestionCambios();
-            modelo.Requerimiento = BD.ReqFuncional.Find(parameters[2], parameters[4]);
+            string[] parameters = id.Split('~');
+            short version = Convert.ToInt16(parameters[0]);
+            int idRF = Convert.ToInt32(parameters[1]);
+            string nomProy = parameters[2];
+            string fecha = parameters[3].Replace('-', ':').Replace('_', '-');
+            DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            modelo.solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
+            modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
+            modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
-            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
-            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
-            //modelo.listaCriterios = BD.CriterioAceptacion.ToList();
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
+            ViewBag.userList = usuarios.ToList();
             return View(modelo);
         }
     }

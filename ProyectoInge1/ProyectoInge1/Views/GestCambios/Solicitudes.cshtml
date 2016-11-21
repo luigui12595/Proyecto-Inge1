@@ -39,17 +39,10 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id='@(item.fecha + " " + item.versionRF + " " + item.idReqFunc + " " + item.nomProyecto)' onclick="gotoDetailsSolicitud(this)">
+            var fecha = @item.fecha.ToString("dd_MM_yyyy hh-mm-ss");
+            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha)' onclick="gotoDetailsSolicitud(this)">
                 <td>
-                    @{
-                        var id = item.idReqFunc;
-                        var reqFuncList = ViewBag.reqFuncList as IEnumerable<ProyectoInge1.Models.ReqFuncional>;
-                        foreach ( var reqFunc in reqFuncList ) {
-                            if ( reqFunc.id.Equals(id) ) {
-                                @Html.DisplayFor(modelItem => reqFunc.nombre);
-                            }
-                        }
-                    }
+                    @Html.DisplayFor(modelItem => item.nombreRF )
                 </td>
                 <td>
                     @Html.DisplayFor( modelItem => item.nomProyecto )

@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Permiso" Width="1.5" PointX="0.75" PointY="0.875" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Proyecto" Width="1.5" PointX="3" PointY="7.875" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.ReqFuncional" Width="1.5" PointX="5.25" PointY="5.375" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Solicitud" Width="1.5" PointX="8.25" PointY="2.875" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Solicitud" Width="1.5" PointX="10.125" PointY="2.75" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Telefono" Width="1.5" PointX="3" PointY="11.75" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Usuario" Width="1.5" PointX="0.75" PointY="5.125" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion" />
@@ -28,7 +28,11 @@
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Telefono" />
-        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />        
+        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable1RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable2RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF" />        
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
