@@ -27,6 +27,10 @@ namespace ProyectoInge1.Models
             this.Solicitud1 = new HashSet<Solicitud>();
             this.Telefono = new HashSet<Telefono>();
             this.Proyecto2 = new HashSet<Proyecto>();
+            this.HistVersiones1 = new HashSet<HistVersiones>();
+            this.HistVersiones11 = new HashSet<HistVersiones>();
+            this.Solicitud2 = new HashSet<Solicitud>();
+            this.Solicitud3 = new HashSet<Solicitud>();
         }
     
         public string cedula { get; set; }
@@ -56,5 +60,13 @@ namespace ProyectoInge1.Models
         public virtual ICollection<Telefono> Telefono { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyecto> Proyecto2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistVersiones> HistVersiones1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistVersiones> HistVersiones11 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solicitud> Solicitud2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solicitud> Solicitud3 { get; set; }
     }
 }

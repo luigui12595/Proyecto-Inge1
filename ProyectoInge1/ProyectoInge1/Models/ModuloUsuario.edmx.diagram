@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ac1a5c6a76d14cbe84e00961c472232a" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="ac1a5c6a76d14cbe84e00961c472232a" Name="Diagram1" ZoomLevel="40">
 
         
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.CriterioAceptacion" Width="1.5" PointX="5.5180345184719357" PointY="16.30148147805663" />
@@ -30,7 +30,11 @@
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Telefono" />
-        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />      
+        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable1RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable2RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF" />      
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
