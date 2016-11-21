@@ -267,9 +267,11 @@
                                                     new SelectListItem() { Text = "Pendiente", Value = "Pendiente" }, new SelectListItem() { Text = "En Revisión", Value = "En Revisión" } }, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.solicitud.estado, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-lg-2 col-lg-push-10">
-                    @Html.ActionLink("Cancelar", "Index", "GestCambiosController", new { confirm = true, /*Proyecto = Model.versionReq.idReqFunc*/ },
-                                        new { @class = "btn btn-danger", @*@onclick = "return CancelarE();"*@ })
+                <div class="col-lg-2 col-lg-push-5">
+                    <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+                </div>
+                <div class="col-lg-2 col-lg-push-8">
+                    <input type="submit" value="Aceptar" class="btn btn-primary"/>
                 </div>
             </fieldset>
         </dl>
@@ -292,7 +294,9 @@
             } else {
                 return false;
             }
-
+        }
+        function cancelar() {
+            window.location.replace('../Solicitudes')
         }
     </script>
 }

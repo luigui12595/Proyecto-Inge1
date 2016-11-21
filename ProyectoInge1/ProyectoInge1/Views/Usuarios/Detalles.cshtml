@@ -7,8 +7,8 @@
 
     }
     function cancelar() {
-        alert("Cancelar");
-        window.location.replace('../Solicitudes')
+        window.location.replace('../../Usuarios')
+
     }
     function myFunction() {
         var r = confirm("Esta seguro que desea eliminar este usuario?");
@@ -209,8 +209,9 @@
                     @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
                 </div>
             </dl>
+
             <div>
-                <a class="btn btn-success" onclick="cancelar()">Cancelar</a>
+                @Html.ActionLink("Volver", "Index", null,null,new { @class = "btn btn-default" })
             </div>
         </div>
 }

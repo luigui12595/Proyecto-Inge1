@@ -116,6 +116,20 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Details(ModGestionCambios modelo)
+        {
+            /*if (!revisarPermisos("Crear Usuario"))
+            {
+                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
+                return RedirectToAction("Index", "Usuario");
+            }*/
+            //BD.Solicitud.Add(modelo.solicitud);
+            //BD.SaveChanges();
+            return RedirectToAction("Solicitudes");
+        }
+
         // GET: Gestion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
