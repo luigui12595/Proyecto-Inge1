@@ -15,6 +15,5 @@ function goToReqFun(element) {
 
 function gotoDetailsSolicitud(element) {
     var elementId = element.id;
-    alert(elementId);
     window.location.replace('Details/' + elementId)
 }
