@@ -198,12 +198,7 @@ namespace ProyectoInge1.Controllers
                         var roleId = modelo.Role;
                         var role = await RoleManager.FindByIdAsync(roleId);
                         var result2 = await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
-
-                       
-                    
-
                 }
-
                return RedirectToAction("Index");
             }
             else
