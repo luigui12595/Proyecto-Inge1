@@ -28,18 +28,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Detalles</h2>
-
+<h2>Gestion de Usuarios</h2>
     <div class="form-horizontal">
-        
-        <hr />
-
         <div class="elementoModificar" style="display:none">
 @using (Html.BeginForm("Detalles", "Usuarios", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display:inline;padding-left:5px;" }))
 {
     @Html.AntiForgeryToken()
             <h4>Modificar de Usuario</h4>
-               <br/>
+            <hr />
              <dl class="dl-horizontal">
              @*Cedula Modificar*@
                 <div class="form-group">
@@ -110,30 +106,22 @@
                     @Html.ValidationMessageFor(model => model.modeloUsuario.lider, "", new { @class = "text-danger" })
                 </div>
 
-
-@*Rol editable*@
-            
-
+                @*Rol editable*@
                 <div class="form-group">
                      <label class="control-label col-md-2">Rol:</label>
-                     <div class="col-md-10" style="padding-top:0.5em;">
+                     <div class="col-md-9 col-md-pull-1" style="padding-top:0.5em; margin-left:6em;">
                          @Html.DropDownListFor(model => model.Role,
-               new[] { new SelectListItem() { Text = "-- Rol no Asignado --", Value = "" },
-               new SelectListItem() { Text = "Administrador", Value = "1" },
-               new SelectListItem() { Text = "Desarrollador", Value = "2" },
-               new SelectListItem() { Text = "Usuario", Value = "3" } }, new { @class = "form-control" })
-
+                             new[] {    new SelectListItem() { Text = "-- Rol no Asignado --", Value = "" },
+                                        new SelectListItem() { Text = "Administrador", Value = "1" },
+                                        new SelectListItem() { Text = "Desarrollador", Value = "2" },
+                                        new SelectListItem() { Text = "Usuario", Value = "3" } }, new { @class = "form-control" })
                      </div>
-                 </div>
-
+                </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-
-   <button type="submit" class="btn btn-primary">Aceptar</button>
-
+                        <button type="submit" class="btn btn-primary">Aceptar</button>
                         <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
                     </div>
-
                 </div>
             </dl>
 }
@@ -145,7 +133,8 @@
 @using (Html.BeginForm("Eliminar", "Usuarios", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display:inline;padding-left:5px;" }))
 {
     @Html.AntiForgeryToken()
-        <h4>Consultar de Usuario</h4>
+    <h4>Detalles de Usuario</h4>
+        <hr />
         <div class="form-horizontal">
             <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
             <div class="col-lg-2 col-lg-push-6">
@@ -222,7 +211,7 @@
             </dl>
 
             <div>
-                @Html.ActionLink("Back to List", "Index")
+                @Html.ActionLink("Volver", "Index", null,null,new { @class = "btn btn-default" })
             </div>
         </div>
 }

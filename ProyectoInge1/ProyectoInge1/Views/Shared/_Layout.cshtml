@@ -33,9 +33,9 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
-                        <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                        <li>@Html.ActionLink("Permisos", "Index", "Roles")</li>
                         <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
-                        <li>@Html.ActionLink("Solicitud de Cambios", "Index", "GestCambios")</li>
+                        <li>@Html.ActionLink("Historial de Versiones", "Index", "GestCambios")</li>
                     }
                  </ul>
                 @Html.Partial("_LoginPartial")

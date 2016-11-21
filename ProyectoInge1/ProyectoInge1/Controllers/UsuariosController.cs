@@ -24,7 +24,13 @@ namespace ProyectoInge1.Controllers
         {
             string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var rol = context.Users.Find(userID).Roles.First();
-            var permisoID = BD.Permiso.Where(m => m.descripcion == permiso).First().id;
+            var listaPermisos = BD.Permiso;
+            var permisoID = 1;
+            foreach (var perm in listaPermisos) {
+                if (perm.descripcion == permiso) {
+                    permisoID = perm.id;
+                }
+            }
             var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
             bool userRol = listaRoles.Contains(rol.RoleId);
             return userRol;
