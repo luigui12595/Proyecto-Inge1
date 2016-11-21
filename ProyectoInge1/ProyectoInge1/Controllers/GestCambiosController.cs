@@ -59,9 +59,9 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(/*int id,int Ver*/)
         {
-            int id = 3;
+            int id = 5;
             int Ver = 1;
-            DateTime Momento = DateTime.Parse("1900-01-01 00:00:00.000");
+            DateTime Momento = DateTime.Parse("2016-11-18 13:00:54.000");
             ModGestionCambios modelo = new ModGestionCambios();
             modelo.listaUsuarios= BD.Usuario.ToList();
             var VReq = BD.Solicitud.ToList();
@@ -75,23 +75,7 @@ namespace ProyectoInge1.Controllers
                 }
             }
 
-            //var 
-           /* modelo.Requerimiento = BD.ReqFuncional.Find(id);
-            modelo.listaSolicitud = BD.Solicitud.ToList();*/
-          /*  if ( ) {
-
-            }*/
-           /* var solicitudes = from SolCam in BD.Solicitud
-                                 where SolCam.idReqFunc == id && SolCam.versionRF==Ver  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
-                                 select SolCam;
-            
-            modelo.Solicitud = solicitudes*/
-            /*modelo.listaSolicitud = BD.Solicitud.Find(id);
-            modelo.listaUsuarios = BD.Usuario.ToList();
-            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null))
-            {
-                modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
-            }*/
+           
             return View(modelo);
 
         }
@@ -107,11 +91,36 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Detalles(ModGestionCambios modelo ) {
             if (ModelState.IsValid) {
+                // BD.Solicitud.Find(modelo.Solicitud.fecha,modelo.Solicitud.versionRF,modelo.Solicitud.nomProyecto,modelo.Solicitud.idReqFunc);
+                string s = modelo.Solicitud.fecha.ToString();
+
+               // DateTime T = DateTime.ParseExact(s, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+                //BD.Entry(modelo.Solicitud).Property(M => M.razon).IsModified = true;
+               // BD.Solicitud.Add(modelo.Solicitud);
                 BD.SaveChanges();
             }
-            
-            return View();
+
+            int id = 3;
+            int Ver = 1;
+            DateTime Momento = DateTime.Parse("1900-01-01 00:00:00.000");
+            ModGestionCambios mod = new ModGestionCambios();
+            mod.listaUsuarios = BD.Usuario.ToList();
+            var VReq = BD.Solicitud.ToList();
+            foreach (var VRF in VReq)
+            {
+                if (DateTime.Compare(VRF.fecha, Momento) == 0)
+                {
+                    if (VRF.idReqFunc == id)
+                    {
+                        if (VRF.versionRF == Ver)
+                        {
+                            mod.Solicitud = VRF;
+                        }
+                    }
+                }
+            }
+            return View(mod);
         }
 
         public ActionResult Create(int? versionRF,int? idReqFunc,string nomProyecto)

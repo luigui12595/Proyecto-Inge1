@@ -57,6 +57,18 @@
                     <div class="col-md-10">
                         @Html.DisplayFor(model => Model.Solicitud.nomProyecto)
                         @Html.HiddenFor(model => model.Solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.estado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.prioridadRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.esfuerzoRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.descripcionRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.realizadoPor, new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.HiddenFor(model => model.Solicitud.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(model => model.Solicitud.Usuario1, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(model => model.Solicitud.Usuario2, new { htmlAttributes = new { @class = "form-control" } })*@
                     </div>
                 </div>
                 <br /><br />
@@ -87,6 +99,7 @@
                     </div>
                 </div>
                 <br /><br />
+
                 @*Observaciones del requerimiento*@
                 <div class="form-group">
                     <label class="control-label col-md-2">Observaciones del requerimiento:(No editable)</label>
@@ -140,14 +153,9 @@
                                     @Html.DisplayFor(model => Model.Solicitud.responsable2RF)
                                        var U2 = U.nombre + " " + U.apellidos;
                                        @Html.Display(U2)
-                                   @* @Html.HiddenFor(model => model.Solicitud.prioridadRF, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.HiddenFor(model => model.Solicitud.esfuerzoRF, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.HiddenFor(model => model.Solicitud.descripcionRF, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.HiddenFor(model => model.Solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.HiddenFor(model => model.Solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
+                                   @* 
     @Html.HiddenFor(model => model.Solicitud.HistVersiones, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.HiddenFor(model => model.Solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.HiddenFor(model => model.Solicitud.realizadoPor, new { htmlAttributes = new { @class = "form-control" } })
+   
                                 *@@Html.HiddenFor(model => model.Solicitud.responsable2RF, new { htmlAttributes = new { @class = "form-control" } })
                                    }
                                }
