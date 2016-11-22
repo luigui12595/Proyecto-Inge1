@@ -474,6 +474,7 @@
 
     <Content Include="Views\GestCambios\Create.cshtml" />
     <Content Include="Views\GestCambios\Index.cshtml" />
+
     <Content Include="Views\GestCambios\Solicitudes.cshtml" />
     <Content Include="Views\GestCambios\Details.cshtml" />
     <Content Include="Views\GestCambios\Detalles.cshtml" />

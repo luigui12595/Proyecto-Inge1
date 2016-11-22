@@ -9,16 +9,15 @@
 
 <h2>Detalles de Requerimiento</h2>
 
-@*
+
 <div class="elementoModificar" style="display:none">
     @using (Html.BeginForm())
     {
+        @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
-            <div class="col-lg-2 col-lg-push-6">
-                @Html.ActionLink("Eliminar", "Eliminar", null, new { confirm = true, Proyecto = Model.Requerimiento.id }, new { @class = "btn btn-danger", @onclick = "return CancelarE();" })
-            </div>
             <dl class="dl-horizontal">
+                <br>
+                <br>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Requerimiento.nomProyecto, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Requerimiento.nomProyecto, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
@@ -48,33 +47,23 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fechaInicial, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Requerimiento.fechaInicial, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Requerimiento.fechaInicial, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Requerimiento.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Requerimiento.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Requerimiento.fechaFinal, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Requerimiento.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fuente, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @{var fuenteM = Model.UsuarioFuente != null ? Model.UsuarioFuente.nombre + " " + Model.UsuarioFuente.apellidos : " ";}
-                        @Html.EditorFor(model => fuenteM, new { htmlAttributes = new { @class = "form-control"} })
-                        @Html.ValidationMessageFor(model => model.Requerimiento.fuente, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Requerimiento.fuente, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.responsable1, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <select class="form-control col-md-2" style="width:20em; " id="d" size="2">
-                            @{var responsable1M = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
-                            @{var responsable2M = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}
-                            <option>
-                                @Html.DisplayFor(model => responsable1M, new { htmlAttributes = new { @class = "form-control" } })
-                            </option>
-
-                            <option>
-                                @Html.DisplayFor(model => responsable2M, new { htmlAttributes = new { @class = "form-control" } })
-                            </option>
-                        </select>
+                        @Html.DropDownListFor(model => model.Requerimiento.responsable1, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Requerimiento.responsable2, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.DropDownListFor(model => model.Requerimiento.responsable2, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                     </div>
                 </fieldset>
                 <fieldset name="especificinfo">
@@ -99,8 +88,8 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.estado, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Requerimiento.estado, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Requerimiento.estado, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Requerimiento.estado, new[] { new SelectListItem() { Text = "Iniciado", Value = "Iniciado" }, new SelectListItem() { Text = "Pendiente", Value = "Pendiente" }, new SelectListItem() { Text = "Terminado", Value = "Terminado" }, new SelectListItem() { Text = "Cancelado", Value = "Cancelado" } }, new { @class = "form-control" })
+                        
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.sprint, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -110,16 +99,25 @@
                 </fieldset>
                 <fieldset name="generalinfo">
                     <legend>Criterios de aceptacion</legend>
-                    @foreach (var criterio in Model.listaCriterios)
-                    {
-                        <label class="control-label col-md-2">* Criterio:</label>
-                            @Html.EditorFor(model => criterio.criterio, new { htmlAttributes = new { @class = "form-control" } })
-                            <br /><br />
-                    }
+                    @Html.HiddenFor(model => model.values, new { @id = "output" })
+                    <input type="text" id="output" value=" " style="display:none"><br />
+                    <a onclick="add_textbox()" class="btn btn-primary">Agregar Criterio</a>
+                    <div id="textboxes">
+                        <br /><br />
+                    </div>
                 </fieldset>
             </dl>
         </div>
-       }
+       
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">            
+           <button type="submit" onclick="esconderDetalles()" class="btn btn-primary">Aceptar</button>
+            <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+        </div>
+
+    </div>
+ }
 </div>
 
 
@@ -128,10 +126,10 @@
         @*---------------------------------------Detalles------------------------------------------------*@
         <div class="elementoEditar">
             <div class="form-horizontal">
-                @*<a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+                <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
                 <div class="col-lg-2 col-lg-push-6">
-                    @Html.ActionLink("Eliminar", "Eliminar", null, new { confirm = true, Proyecto = Model.Requerimiento.id }, new { @class = "btn btn-danger", @onclick = "return CancelarE();" })
-                </div>*@
+                    @Html.ActionLink("Eliminar", "Eliminar", null, new { confirm = true, Requerimiento = Model.Requerimiento.id, nomProy = Model.Requerimiento.nomProyecto }, new { @class = "btn btn-danger", @onclick = "return CancelarE();" })
+                </div>
                 <dl class="dl-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.nomProyecto, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -239,21 +237,95 @@
             </div>
         </div>
 
+
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
         <script>
             function esconderEditar() {
+                load_all();
                 $('.elementoEditar').hide();
                 $('.elementoModificar').show();
 
+            };
+            function esconderDetalles() {
+                $('.elementoModificar').hide();
+                $('.elementoEditar').show();
+
+            };
+
+            function cancelar() {
+
+                window.location.replace('../ReqFuncional');
+
             }
             function CancelarE() {
-                if (confirm("Esta seguro que desea borrar este proyecto ?")) {
+                if (confirm("Esta seguro que desea borrar este Requerimiento Funcional ?")) {
                     return true;
                 } else {
                     return false;
                 }
 
             }
+            i = 0;
+
+            function update_output() {
+                var values = $(".multitextbox")
+                          .map(function () { return $(this).val(); }).get().filter(v=>v != '').join("|");
+                $("#output").val(values);
+            }
+
+            function delete_all(button) {
+                $("#" + button.id).remove();
+                update_output();
+            }
+
+            function add_textbox() {
+                $("#textboxes").append("<div id='textbox" + i + "'><input type='text' style='width:20em; margin-left:15em;' class='form-control col-md-2 multitextbox multitextbox" + i + "' oninput=update_output()> <button onclick='delete_all(this)' class='btn' id= textbox" + i + ">x</button> <br/><br/> </div>");
+                var tbid = "multitextbox" + i;
+                i++;
+
+                return tbid;
+            }
+
+            function load_all() {
+                var inputs = $("#output").val().split("|");
+                for (var j = 0; j < inputs.length; j++) {
+                    var tbid = add_textbox();
+                    console.log("." + tbid)
+                    $("." + tbid).val(inputs[j]);
+                }
+            }
+
+            function cambio() {
+                var input = document.getElementById("uploadBtn");
+
+                var fReader1 = new FileReader();
+                fReader1.readAsDataURL(input.files[0]);
+                fReader1.onloadend = function (event) {
+                    var img = document.getElementById("RuPic");
+                    img.src = event.target.result;
+                    document.getElementById("ImagenR").value = event.target.result;
+                }
+            }
+            function load_all() {
+                var inputs = $("#output").val().split("|");
+                for (var j = 0; j < inputs.length; j++) {
+                    var tbid = add_textbox();
+                    console.log("." + tbid)
+                    $("." + tbid).val(inputs[j]);
+                }
+            }
         </script>
+
+<script type="text/javascript">
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+    });
+    $(".datepicker").on("dp.change", function (e) {
+        $('.datepicker2').data("DatePicker").setMinDate(e.date);
+    });
+    $(".datepicker2").on("dp.change", function (e) {
+        $('.datepicker').data("DatePicker").setMaxDate(e.date);
+    });
+</script>
     }
