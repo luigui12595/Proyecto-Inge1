@@ -195,6 +195,7 @@ namespace ProyectoInge1.Controllers
                     }
                 }
             }
+            model.Participantes = "hola";
             model.listaUsuarios = usuarios.ToList();
             ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
             return View(model);

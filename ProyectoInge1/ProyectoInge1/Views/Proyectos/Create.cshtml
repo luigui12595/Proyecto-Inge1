@@ -15,9 +15,7 @@
             return false;
         }
     }
-    function participantes() {
-            return participantes;
-    }
+
     function listbox_moveacross(sourceID, destID, out) {
         var src = document.getElementById(sourceID);
         var output = document.getElementById(out);
@@ -36,7 +34,7 @@
                         var cedula = newOption.value;
                         cedula += "+";
                         participantes += cedula;
-                        output.value = participantes;
+                        document.getElementById(out).value = participantes;
                     }
                     try {
                         dest.add(newOption, null); //Standard
@@ -44,6 +42,7 @@
                         //desarrolladores = desarrolladores + "/" + (newOption.value);
                         src.remove(count, null);
                     } catch (error) {
+                        
                         dest.add(newOption); // IE only
                         src.remove(count);
                     }
@@ -133,33 +132,36 @@
         <br /><br /><br />
         <div>
             @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
-            <input type="text" id= "output" value= " "><br />
-            <div class="control-label">
-                <label class="control-label col-md-2">Desarrollador</label>
-            </div>
-            <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
-            <div>
-                <br />
-                <a onclick="listbox_moveacross('d', 's', 'output')" href="#">&lt;&lt;</a>
-                <br />
-                <a onclick="listbox_moveacross('s', 'd','output')" href="#">&gt;&gt;</a>
-            </div>
-            <div>
-                <div>
-                    <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
-                        @*Aqui se insertan los usuarios*@
-                       @foreach (var item in Model.listaUsuarios)
-                        {
-                            var ced = item.cedula;
-                            <option value=@ced>
-                                @Html.DisplayFor(modelItem => item.nombre)
-                                @Html.DisplayFor(modelItem => item.apellidos)
-                                @Html.Raw(" ")
-                            </option>
-                        }
-                    </select>
+            <form name="calc">
+                <input type="text" id="output" value=" "><br />
+
+                <div class="control-label">
+                    <label class="control-label col-md-2">Desarrollador</label>
                 </div>
-            </div>
+                <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+                <div>
+                    <br />
+                    <a onclick="listbox_moveacross('d', 's', 'output')" href="#">&lt;&lt;</a>
+                    <br />
+                    <a onclick="listbox_moveacross('s', 'd','output')" href="#">&gt;&gt;</a>
+                </div>
+                <div>
+                    <div>
+                        <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
+                            @*Aqui se insertan los usuarios*@
+                            @foreach (var item in Model.listaUsuarios)
+                            {
+                                var ced = item.cedula;
+                                <option value=@ced>
+                                    @Html.DisplayFor(modelItem => item.nombre)
+                                    @Html.DisplayFor(modelItem => item.apellidos)
+                                    @Html.Raw(" ")
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
         </div>
         @*Fin cajas de seleccion*@
         <div class="form-group">
