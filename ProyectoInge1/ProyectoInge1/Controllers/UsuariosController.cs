@@ -19,75 +19,18 @@ namespace ProyectoInge1.Controllers
     public class UsuariosController : Controller
     {
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-        // PARA LA GENERACIÓN DE CONTRASEÑA
-        static string alphaCaps = "QWERTYUIOPASDFGHJKLZXCVBNM";
-        static string alphaLow = "qwertyuiopasdfghjklzxcvbnm";
-        static string numerics = "1234567890";
-        static string special = "@#$";
-        //create another string which is a concatenation of all above
-        string allChars = alphaCaps + alphaLow + numerics + special;
-        Random r = new Random();
-
-        public string GenerateStrongPassword(int length)
-        {
-            String generatedPassword = "";
-
-            if (length < 4)
-                throw new Exception("Number of characters should be greater than 4.");
-
-            // Generate four repeating random numbers are postions of
-            // lower, upper, numeric and special characters
-            // By filling these positions with corresponding characters,
-            // we can ensure the password has atleast one
-            // character of those types
-            int pLower, pUpper, pNumber, pSpecial;
-            string posArray = "0123456789";
-            if (length < posArray.Length)
-                posArray = posArray.Substring(0, length);
-            pLower = getRandomPosition(ref posArray);
-            pUpper = getRandomPosition(ref posArray);
-            pNumber = getRandomPosition(ref posArray);
-            pSpecial = getRandomPosition(ref posArray);
-
-
-            for (int i = 0; i < length; i++)
-            {
-                if (i == pLower)
-                    generatedPassword += getRandomChar(alphaCaps);
-                else if (i == pUpper)
-                    generatedPassword += getRandomChar(alphaLow);
-                else if (i == pNumber)
-                    generatedPassword += getRandomChar(numerics);
-                else if (i == pSpecial)
-                    generatedPassword += getRandomChar(special);
-                else
-                    generatedPassword += getRandomChar(allChars);
-            }
-            return generatedPassword;
-        }
-
-        private string getRandomChar(string fullString)
-        {
-            return fullString.ToCharArray()[(int)Math.Floor(r.NextDouble() * fullString.Length)].ToString();
-        }
-
-        private int getRandomPosition(ref string posArray)
-        {
-            int pos;
-            string randomChar = posArray.ToCharArray()[(int)Math.Floor(r.NextDouble()
-                                           * posArray.Length)].ToString();
-            pos = int.Parse(randomChar);
-            posArray = posArray.Replace(randomChar, "");
-            return pos;
-        }
-        // END OF "PARA LA GENERACIÓN DE CONTRASEÑA"
-
         ApplicationDbContext context = new ApplicationDbContext();
         private bool revisarPermisos(string permiso)
         {
             string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var rol = context.Users.Find(userID).Roles.First();
-            var permisoID = BD.Permiso.Where(m => m.descripcion == permiso).First().id;
+            var listaPermisos = BD.Permiso;
+            var permisoID = 1;
+            foreach (var perm in listaPermisos) {
+                if (perm.descripcion == permiso) {
+                    permisoID = perm.id;
+                }
+            }
             var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
             bool userRol = listaRoles.Contains(rol.RoleId);
             return userRol;
@@ -129,13 +72,10 @@ namespace ProyectoInge1.Controllers
             modelo.listaUsuarios = usuarios.ToList();
             return View(usuarios.ToList().ToPagedList(pageNumber, pageSize));
         }
-
-
         public ActionResult Create()
         {
             return View();
         }
-
         public ActionResult Eliminar(string id)
         {
             if (!revisarPermisos("Eliminar Usuario"))
@@ -143,7 +83,6 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }
-
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             return View(modelo);
@@ -170,14 +109,6 @@ namespace ProyectoInge1.Controllers
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-            //modelo.listaUserRoles = context.Users.ToList();
-            //modelo.listaRoles= BD.;
-            //var idRol= modelo.listaRoles.Find(id) ;
-
-
-
-
-
             modelo.Role = "admin";
             if (1 <= modelo.listaTelefono.Count) { 
                 modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
@@ -186,11 +117,9 @@ namespace ProyectoInge1.Controllers
             if (1 < modelo.listaTelefono.Count)
             {
                 modelo.modeloTelefono2 = modelo.listaTelefono.ElementAt(1);
-
+           
             }
-            
-            return View(modelo);
-            
+            return View(modelo);  
         }
 
         [HttpPost]
@@ -204,7 +133,6 @@ namespace ProyectoInge1.Controllers
             var id = modelo.modeloUsuario.cedula;
             var roleId = modelo.Role;
             var role = await RoleManager.FindByIdAsync(roleId);
-            // en ves de a;adir es modificar
             await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
             for(int i = 0; i <modelo.listaTelefono.Count; i++){ 
@@ -244,8 +172,7 @@ namespace ProyectoInge1.Controllers
                 var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
 
 
-                // var password = Membership.GeneratePassword(6, 1);
-                var password = GenerateStrongPassword(8);
+                var password = modelo.pass;
                 var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
                 var result = await UserManager.CreateAsync(user, password);
     
@@ -271,17 +198,7 @@ namespace ProyectoInge1.Controllers
                         var roleId = modelo.Role;
                         var role = await RoleManager.FindByIdAsync(roleId);
                         var result2 = await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
-
-                        if (result2.Succeeded)
-                        {
-                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(modelo.modeloUsuario.id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
-                            await UserManager.SendEmailAsync(modelo.modeloUsuario.id, "Ingreso al sistema", "Su contraseña temporal asignada es " + password + "\n" + "Por favor confirme su cuenta pulsando click <a href=\"" + callbackUrl + "\">aquí</a>");
-
-                    }
-
                 }
-
                return RedirectToAction("Index");
             }
             else

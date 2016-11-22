@@ -17,15 +17,20 @@
         <div class="row">
 
             <div class="col-lg-5">
-                Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                <input class="btn btn-success" type="submit" value="Buscar" />
+                Buscar por nombre &nbsp; @Html.TextBox("searchString", ViewBag.CurrentFilter as string, Request.Params["nombreProyecto"] as string)
+                <ocultar style="display:none;">
+                    @Html.TextBox("nombreProyecto", Request.Params["nombreProyecto"] as string)
+                </ocultar>
+                <button type="submit" class="btn btn-primary" onsubmit="campodebusqueda(this);">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                
             </div>
             <div class="col-lg-1 col-lg-pull-1">
-                <a class="btn btn-info" href="../ReqFuncional">Mostrar Todos</a>
+                @Html.ActionLink("Mostrar todos", "Index", new { nombreProyecto = Request.Params["nombreProyecto"] }, new { @class = "btn btn-info" })
             </div>
             <div class="col-lg-2 col-lg-push-5">
-                @Html.ActionLink("Crear", "Create", new { NombProy = "Aseguradora" }, new { @class = "btn btn-success", @style = "color:white" })
-                <!--<a class="btn btn-success" href="../Create">Crear</a>-->
+                @Html.ActionLink("Crear", "Create", new { NombProy = Request.Params["nombreProyecto"] }, new { @class = "btn btn-success", @style = "color:white" })
             </div>
         </div>
     </p>
@@ -77,10 +82,17 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-<script >
+<script>
     function gotoDetails2(element) {
         var elementId = element.id;
         window.location.replace('../ReqFuncional/Details/' + elementId)
+    }
+
+    
+    window.onload = function () {
+        $('#campodebusqueda').change(function (e) {
+            window.location.replace(location.protocol + '//' + location.host + location.pathname + "?nombreProyecto=" + $(this).val());
+        });
     }
 </script>
 

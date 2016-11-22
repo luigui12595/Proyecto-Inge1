@@ -29,7 +29,6 @@ namespace ProyectoInge1.Models
         public Usuario modeloUsuario { get; set; }
         public Telefono modeloTelefono1 { get; set; }
         public Telefono modeloTelefono2 { get; set; }
-    //    public AspUsers modeloRol { get; set; }
         public Proyecto modeloProyecto { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
         public List<Telefono> listaTelefono { get; set; }
@@ -39,5 +38,6 @@ namespace ProyectoInge1.Models
         public List<IdentityRole> listaRoles { get; set; }
         public List<ApplicationUser> listaUserRoles { get; set; }
         public DateTime Date { get; internal set; }
+        public String pass { get; set; }
     } 
 }

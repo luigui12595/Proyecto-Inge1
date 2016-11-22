@@ -13,6 +13,7 @@ namespace ProyectoInge1.Models
         public Usuario usuario { get; set; }
         public Proyecto proyecto { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
+        public List<Usuario> DesarrolladoresNoLider { get; set; }  //Usado para almacenar los desarrolladores no líderes
         public List<Proyecto> listaProyectos { get; set; }
         public ReqFuncional requerimiento { get; set; }
         public List<ReqFuncional> listaRequerimientos { get; set; }
@@ -21,7 +22,7 @@ namespace ProyectoInge1.Models
         public DateTime ReleaseDate { get; set; }
         public string lider { get; set; }
         public String Participantes { get; set; }
-
+        public List<int> usuariosProyecto { get; set; }
         public List<Usuario> listaUsuariosProyecto { get; set; }
     }
 }

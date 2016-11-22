@@ -104,15 +104,12 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
 
-            /* Para fuente y para responsables */
-     /*       string id2 = modelo.Requerimiento.nomProyecto;
-            ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            var req = from usersP in BD.ReqFuncional
-                      select usersP;
-            req = req.Where(x => x.nombre == id2); */
             modelo.listaRequerimientos = requerimiento.ToList();
             modelo.UsuariosSistema = BD.Usuario.ToList();
             modelo.listaUsuario = modelo.Requerimiento.Proyecto.Usuario2.ToList();
+            var temp = modelo.UsuariosSistema.Intersect(modelo.listaUsuario);
+            modelo.listaUsuarioView = temp.ToList();
+            ViewBag.Lista = modelo.listaUsuarioView;
             return View(modelo);
 
         }
@@ -123,7 +120,7 @@ namespace ProyectoInge1.Controllers
          public ActionResult Details(ModReqFuncionalInter modelo)
          {
             
-            BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
+           BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
            BD.SaveChanges();
             /*
              var id = modelo.Requerimiento.id;
