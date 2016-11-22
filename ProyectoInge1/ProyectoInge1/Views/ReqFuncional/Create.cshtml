@@ -249,7 +249,7 @@ window.onload = load_all
                        @* @Html.ActionLink("Crear", "Create", new { NProyecto = id }, new { @class = "btn btn-success", @style = "color:white" })*@
                         <input type="submit" value="Aceptar" class="btn btn-primary" />
                         <div class="btn btn-danger" style="color:white;" />
-                        @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+                        @Html.ActionLink("Cancelar", "Index", null, new { nombreProyecto = Request.Params["NombProy"] }, new { @style = "color:#FFFFFF;" })
                     </div>
                 </div><br /><br />
 }

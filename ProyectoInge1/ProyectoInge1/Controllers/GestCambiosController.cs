@@ -15,10 +15,12 @@ using System.Diagnostics;
 using PagedList;
 using System.Text;
 
+
 namespace ProyectoInge1.Controllers
 {
     public class GestCambiosController : Controller
     {
+
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         ApplicationDbContext context = new ApplicationDbContext();
         private bool revisarPermisos(string permiso)
@@ -174,30 +176,7 @@ namespace ProyectoInge1.Controllers
         }
 
 
-        public ActionResult Detalles(/*int id,int Ver*/)
-        {
-            int id = 3;
-            int Ver = 1;
-            ModGestionCambios modelo = new ModGestionCambios();
-           /* modelo.Requerimiento = BD.ReqFuncional.Find(id);
-            modelo.listaSolicitud = BD.Solicitud.ToList();*/
-          /*  if ( ) {
-
-            }*/
-           /* var solicitudes = from SolCam in BD.Solicitud
-                                 where SolCam.idReqFunc == id && SolCam.versionRF==Ver  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
-                                 select SolCam;
-            
-            modelo.Solicitud = solicitudes*/
-            /*modelo.listaSolicitud = BD.Solicitud.Find(id);
-            modelo.listaUsuarios = BD.Usuario.ToList();
-            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null))
-            {
-                modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
-            }*/
-            return View(modelo);
-
-        }
+        
         /* public ActionResult Index()
          {
              ModGestionCambios GestionC = new ModGestionCambios();

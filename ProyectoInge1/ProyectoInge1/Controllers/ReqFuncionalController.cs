@@ -30,10 +30,16 @@ namespace ProyectoInge1.Controllers
         }*/
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-        String ProY;
+        String proy;
+
+      /*  public recibeNomProyecto(string nomProyecto)
+        {
+
+
+        }*/
 
         // GET: Usuarios
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -41,7 +47,7 @@ namespace ProyectoInge1.Controllers
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-            string param1 = "Aseguradora";
+            string param1 = nombreProyecto;
 
             var requerimientos = from rfunc in BD.ReqFuncional
                                  where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
@@ -89,50 +95,62 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Index", "Usuario");
             }*/
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
-            string nombre = "Aseguradora";
-            modelo.Requerimiento = BD.ReqFuncional.Find(id, nombre);
+            var requerimiento = from rfunc in BD.ReqFuncional
+                                 where rfunc.id == id  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 select rfunc;
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, requerimiento.First().nomProyecto);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
 
+            modelo.listaRequerimientos = requerimiento.ToList();
+            modelo.UsuariosSistema = BD.Usuario.ToList();
+            modelo.listaUsuario = modelo.Requerimiento.Proyecto.Usuario2.ToList();
+            var temp = modelo.UsuariosSistema.Intersect(modelo.listaUsuario);
+            modelo.listaUsuarioView = temp.ToList();
+            ViewBag.Lista = modelo.listaUsuarioView;
             return View(modelo);
 
         }
 
 
-        /* [HttpPost]
+         [HttpPost]
          [ValidateAntiForgeryToken]
-         public async Task<ActionResult> Detalles(ModReqFuncionalInter modelo)
+         public ActionResult Details(ModReqFuncionalInter modelo)
          {
-             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
-             var id = modelo.modeloUsuario.cedula;
+            
+           BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
+           BD.SaveChanges();
+            /*
+             var id = modelo.Requerimiento.id;
              var roleId = modelo.Role;
              var role = await RoleManager.FindByIdAsync(roleId);
-             // en ves de a;adir es modificar
-             await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
-             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-             for (int i = 0; i < modelo.listaTelefono.Count; i++)
-             {
-                 BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
-             }
-             if (modelo.modeloTelefono1.numero != null)
-             {
-                 modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
-                 BD.Telefono.Add(modelo.modeloTelefono1);
-                 BD.SaveChanges();
+            // en ves de a;adir es modificar
+            //  await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
+            
+              modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
+              for (int i = 0; i < modelo.listaTelefono.Count; i++)
+              {
+                  BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+              }
+              if (modelo.modeloTelefono1.numero != null)
+              {
+                  modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
+                  BD.Telefono.Add(modelo.modeloTelefono1);
+                  BD.SaveChanges();
 
-             }
-             if (modelo.modeloTelefono2.numero != null)
-             {
-                 modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
-                 BD.Telefono.Add(modelo.modeloTelefono2);
-                 BD.SaveChanges();
+              }
+              if (modelo.modeloTelefono2.numero != null)
+              {
+                  modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
+                  BD.Telefono.Add(modelo.modeloTelefono2);
+                  BD.SaveChanges();
 
-             }
-             return RedirectToAction("Index");
+              } */
+            return RedirectToAction("Index", new { nombreProyecto = modelo.Requerimiento.nomProyecto }); 
          }
-         */
+        
 
         public ActionResult Eliminar(bool confirm, string Requerimiento)
         {
@@ -232,3 +250,4 @@ namespace ProyectoInge1.Controllers
       
     }
 }
+
