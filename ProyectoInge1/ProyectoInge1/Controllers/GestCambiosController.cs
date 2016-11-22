@@ -156,7 +156,28 @@ namespace ProyectoInge1.Controllers
             return RedirectToAction("Solicitudes");
         }
 
-        // GET: Gestion
+        public ActionResult Details_Hist(string id)
+        {
+            /*if (!revisarPermisos("Detalles de Usuario"))
+            {
+                return RedirectToAction("Index", "Usuario");
+            }*/
+            var usuarios = from usuario in BD.Usuario
+                           orderby usuario.cedula
+                           select usuario;
+            ModGestionCambios modelo = new ModGestionCambios();
+            string[] parameters = id.Split('~');
+            short version = Convert.ToInt16(parameters[0]);
+            int idRF = Convert.ToInt32(parameters[1]);
+            string nomProy = parameters[2];
+            modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
+            modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.versionReq.realizadoPor);
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
+            return View(modelo);
+        }
+
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;

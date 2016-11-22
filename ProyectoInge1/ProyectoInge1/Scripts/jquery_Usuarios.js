@@ -15,7 +15,7 @@ function goToReqFun(element) {
 
 function gotoVersionDetails(element) {
     var elementId = element.id;
-    window.location.replace('GestCambios/Detalles/' + elementId)
+    window.location.replace('Details_Hist/' + elementId)
 }
 
 
