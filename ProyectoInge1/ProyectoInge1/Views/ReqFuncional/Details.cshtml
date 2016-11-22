@@ -7,8 +7,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Detalles de Requerimiento</h2>
 
+@*
 <div class="elementoModificar" style="display:none">
     @using (Html.BeginForm())
     {
@@ -127,10 +128,10 @@
         @*---------------------------------------Detalles------------------------------------------------*@
         <div class="elementoEditar">
             <div class="form-horizontal">
-                <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+                @*<a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
                 <div class="col-lg-2 col-lg-push-6">
                     @Html.ActionLink("Eliminar", "Eliminar", null, new { confirm = true, Proyecto = Model.Requerimiento.id }, new { @class = "btn btn-danger", @onclick = "return CancelarE();" })
-                </div>
+                </div>*@
                 <dl class="dl-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.nomProyecto, htmlAttributes: new { @class = "control-label col-md-2" })

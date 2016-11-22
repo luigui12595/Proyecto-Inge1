@@ -1,0 +1,80 @@
+﻿
+@model PagedList.IPagedList<ProyectoInge1.Models.Solicitud>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Solicitudes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Solicitudes de Cambio</h2>
+
+@using (Html.BeginForm("Solicitudes", "GestCambios", FormMethod.Get))
+{
+    <p>
+        <div class="row">
+
+            <div class="col-lg-5">
+                Buscar: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </div>
+            <div class="col-lg-1 col-lg-pull-1">
+                <a class="btn btn-info" href="../Solicitudes">Mostrar Todos</a>
+            </div>
+        </div>
+    </p>
+}
+
+<table id="table1" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th> @Html.ActionLink("Requerimiento Funcional", "Solicitudes", new { sortOrder = ViewBag.ReqSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+            <th> @Html.ActionLink("Proyecto", "Solicitudes", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+            <th> @Html.ActionLink("Version", "Solicitudes", new { sortOrder = ViewBag.VersSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+            <th> @Html.ActionLink("Realizado Por", "Solicitudes", new { sortOrder = ViewBag.RealSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+            <th> @Html.ActionLink("Estado", "Solicitudes", new { sortOrder = ViewBag.EstSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var fecha = @item.fecha.ToString("dd_MM_yyyy hh-mm-ss");
+            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha)' onclick="gotoDetailsSolicitud(this)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombreRF )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.nomProyecto )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.versionRF )
+                </td>
+                <td>
+                    @{
+                        var ced = item.realizadoPor;
+                        var userList = ViewBag.userList as IEnumerable<ProyectoInge1.Models.Usuario>;
+                        foreach ( var user in userList )
+                        {
+                            if ( user.cedula.Equals(ced) )
+                            {
+                                @Html.DisplayFor( modelItem => user.names )
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.estado )
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Solicitudes",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<script src="../../Scripts/jquery_Usuarios.js"></script>

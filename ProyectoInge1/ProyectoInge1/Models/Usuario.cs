@@ -37,9 +37,8 @@ namespace ProyectoInge1.Models
         public string nombre { get; set; }
         public string apellidos { get; set; }
         public string correo { get; set; }
-
-        public string names { get { return nombre + " " + apellidos; } }
         public string id { get; set; }
+        public string names { get { return nombre + " " + apellidos; } }
         public Nullable<bool> lider { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -14,6 +14,9 @@ using System.Diagnostics;
 using PagedList;
 using System.Text;
 
+//http://stackoverflow.com/questions/10042608/passing-javascript-array-to-asp-net-mvc-controller.
+//http://stackoverflow.com/questions/15782417/post-javascript-array-with-ajax-to-asp-net-mvc-controller
+
 namespace ProyectoInge1.Controllers
 {
     public class ProyectosController : Controller
@@ -153,18 +156,38 @@ namespace ProyectoInge1.Controllers
             return RedirectToAction("Index");
         }
 
+        /*public bool UserIsDeveloper( string id, IQueryable<ApplicationUser> desarrolladores )
+        {
+            for (int i = 0; i < desarrolladores.Count(); i++)
+                if (id == desarrolladores.ElementAt(i).Id)
+                    return true;
+            return false;
+        }*/
+
         public ActionResult Create()
         {
             var usuarios = from users in BD.Usuario
                            select users;
+            var context = new ApplicationDbContext();
+            var desarrolladores = from developer in context.Users
+                                  where developer.Roles.Any(r => r.RoleId == "2")
+                                  select developer;
             ModProyectoInter model = new ModProyectoInter();
+            model.DesarrolladoresNoLider = new List<Usuario>();
+            foreach ( var x in usuarios) {
+                foreach ( var y in desarrolladores) {
+                    if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
+                        model.DesarrolladoresNoLider.Add(x);
+                    }
+                }
+            }
             model.listaUsuarios = usuarios.ToList();
+            ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult Create(ModProyectoInter modelo/*, string id*/)
         {
             if (ModelState.IsValid)
@@ -281,6 +304,7 @@ namespace ProyectoInge1.Controllers
             BD.SaveChanges();*/
             return RedirectToAction("Index");
         }
+
     }
 }
 
