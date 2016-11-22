@@ -77,6 +77,9 @@ namespace ProyectoInge1.Controllers
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
             RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
+            var Temp = RQ.UsuariosSistema.Intersect(RQ.listaUsuario);
+            RQ.listaUsuarioView = Temp.ToList();
+            ViewBag.lista = RQ.listaUsuarioView;
             return View(RQ);
         }
 
@@ -227,6 +230,9 @@ namespace ProyectoInge1.Controllers
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
             RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
+            var Temp = RQ.UsuariosSistema.Intersect(RQ.listaUsuario);
+            RQ.listaUsuarioView = Temp.ToList();
+            ViewBag.lista = RQ.listaUsuarioView;
             return View(RQ);
         }
       

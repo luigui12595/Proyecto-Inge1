@@ -148,71 +148,23 @@ window.onload = load_all
           
             <div class="col-md-10">
                 <label class="control-label col-md-2">Fuente:</label>
-                @{
-                    foreach (var userProj in Model.listaUsuario)
-                    {
-                        foreach (var  user in Model.UsuariosSistema)
-                        {
-                            if (userProj.cedula.Equals(user.cedula))
-                            {
-                    <option value=user.cedula>
-                        @Html.DropDownListFor(model => model.Requerimientos.fuente, new[] { new SelectListItem() { Text = user.nombre.ToString() + " " + user.apellidos.ToString(), Value = user.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
-                    </option>
-            
-                }
-                        }
-
-                    }
-    }
+                
+                @Html.DropDownListFor(model => model.Requerimientos.fuente, new SelectList(ViewBag.Lista, "cedula", "names"), new {  @class = "form-control" })
             </div>
         </div> 
     
         <div class="form-group">
             <label class="control-label col-md-2">Responsable 1:</label>
             <div class="col-md-2">
-                @{ var UserProyectList2 = Model.listaUsuario;
-                    var UserList2 = Model.UsuariosSistema;
-
-                    foreach (var userProj2 in UserProyectList2)
-                    {
-                        foreach ( var user2 in UserList2)
-                        {
-                            if (userProj2.cedula.Equals(user2.cedula))
-                            {
-                                <option value=user.cedula>
-                                    @Html.DropDownListFor(model => model.Requerimientos.responsable1, new[] { new SelectListItem() { Text = user2.nombre.ToString() + " " + user2.apellidos.ToString(), Value = user2.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
-                                </option>
-
-                            }
-                        }
-
-                    }
-                }
-
+               
+                @Html.DropDownListFor(model => model.Requerimientos.responsable1, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-10">Responsable 2:</label>
             <div class="col-md-10">
-                @{var UserProyectList3 = Model.listaUsuario;
-                    var UserList3 = Model.UsuariosSistema;
-
-                    foreach (var userProj3 in UserProyectList3)
-                    {
-                        foreach (var user3 in UserList3)
-                        {
-                            if (userProj3.cedula.Equals(user3.cedula))
-                            {
-                                <option value=user.cedula>
-                                    @Html.DropDownListFor(model => model.Requerimientos.responsable2, new[] { new SelectListItem() { Text = user3.nombre.ToString() + " " + user3.apellidos.ToString(), Value = user3.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
-                                </option>
-
-                            }
-                        }
-
-                    }
-                }
                
+                @Html.DropDownListFor(model => model.Requerimientos.responsable2, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
             </div>
         </div> 
 
