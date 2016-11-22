@@ -30,6 +30,7 @@ namespace ProyectoInge1.Models
         public List<Proyecto> listaProyecto { get; set; }
         public List<Usuario> UsuariosSistema { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
+        public List<Usuario> listaUsuarioView { get; set; }
         public Usuario Usuario { get; set; }
         public Usuario UsuarioFuente { get; set; } //Específico para obtener la fuente el requerimiento al desplegar los detalles  NO BORRAR
         public Usuario UsuarioResponsable1 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR

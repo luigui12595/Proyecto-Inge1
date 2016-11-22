@@ -125,11 +125,11 @@
 
 
             @*---------------------------------------Detalles------------------------------------------------*@
-<div class="elementoEditar">
+<div class="elementoNoEditar">
     <div class="form-horizontal">
         <div class="row">
             <div class="col-lg-2 col-lg-push-8">
-                <a class="btn btn-success" @*onclick="esconderEditar()"*@>Modificar</a>
+                <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
             </div>
             <div class="col-lg-2 col-lg-push-8">
                 @Html.ActionLink("Eliminar", "Eliminar", "GestCambios", new { fecha = Model.solicitud.fecha, version = Model.solicitud.versionRF,
@@ -256,7 +256,27 @@
                                 }
                             }
                         }
-                        @Html.ValidationMessageFor(model => model.solicitud.realizadoPor, "", new { @class = "text-danger" })
+                    }
+                    @Html.ValidationMessageFor(model => model.solicitud.realizadoPor, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.solicitud.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.solicitud.fecha, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.solicitud.fecha, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.solicitud.razon, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.solicitud.razon, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.solicitud.razon, "", new { @class = "text-danger" })
+                </div>
+                @*@if ( ( Request.IsAuthenticated && User.IsInRole("Desarrollador") && Model.userInView.cedula == Model.Proyecto.lider )
+    || ( Request.IsAuthenticated && User.IsInRole("Administrador") ) )*@
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.DropDownListFor(model => model.solicitud.estado, new[] { new SelectListItem() { Text = "Aprobada", Value = "Aprobada" },new SelectListItem() { Text = "Declinada", Value = "Declinada" },
+                                                        new SelectListItem() { Text = "Pendiente", Value = "Pendiente" }, new SelectListItem() { Text = "En Revisión", Value = "En Revisión" } }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.solicitud.estado, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.solicitud.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -287,6 +307,80 @@
             </dl>
         </div>
     </div>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken(){
+        <div class="elementoModificar" style="display:none">
+            <br /><br /><br />
+            @*nombre Del proyecto*@
+            <div class="form-group">
+
+                <div class="col-md-10">
+
+                    @Html.HiddenFor(model => model.solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.estado, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.prioridadRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.esfuerzoRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.descripcionRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.sprintRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.idReqFunc, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.nombreRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.versionRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.observacionesRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.responsable1RF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.solicitud.responsable2RF, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.HiddenFor(model => model.Solicitud.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.Usuario1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Solicitud.Usuario2, new { htmlAttributes = new { @class = "form-control" } })*@
+                </div>
+            </div>
+            <br /><br />
+
+            <div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.solicitud.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.solicitud.estado, "", new { @class = "text-danger" })
+                </div>
+            </div><br /><br />
+            @*Persona que desea realizar el cambio *@
+            <div class="form-group">
+                <label class="control-label col-md-2">Interesado por el cambio:</label>
+                <div class="col-md-10" style="padding-top:0.5em;">
+                    @Html.DropDownListFor(model => model.solicitud.realizadoPor, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+                </div>
+            </div>
+            <br /><br />
+            @*Razon por la que se desea realizar el cambio *@
+            <div class="form-group">
+                <label class="control-label col-md-2">Razon de la solicitud:</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.solicitud.razon, new { @class = "form-control", rows = "4" })
+                    @Html.ValidationMessageFor(model => model.solicitud.razon, "", new { @class = "text-danger" })
+                </div>
+            </div><br /><br />
+
+            @*Botones*@
+            <div class="form-horizontal">
+                <hr />
+                <div class="elementoModificar" style="display:none">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Aceptar" class="btn btn-primary" />
+                            <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
 }
 
 

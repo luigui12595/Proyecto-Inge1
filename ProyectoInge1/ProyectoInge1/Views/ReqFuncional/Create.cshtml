@@ -65,8 +65,9 @@ window.onload = load_all
 
             <!--AGREGAR UN PROYECTO DE REQUERIMIENTO-->
             <div class="form-group">
-                <label class="control-label col-md-2">Proyecto</label>
+                
                 <div class="col-md-10">
+                    <label class="control-label col-md-2">Proyecto</label>
                     @Html.DisplayFor(model => Model.nProy)
                     @{ 
                         var id = Model.nProy;
@@ -78,157 +79,110 @@ window.onload = load_all
             </div>
         
                <div class="form-group">
-            <label class="control-label col-md-2">Nombre:</label>
+            
             <div class="col-md-10">
+                <label class="control-label col-md-2">Nombre:</label>
                 @Html.EditorFor(model => model.Requerimientos.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.nombre, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Sprint:</label>
+           
             <div class="col-md-10">
+                <label class="control-label col-md-2">Sprint:</label>
                 @Html.EditorFor(model => model.Requerimientos.sprint, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.sprint, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Modulo:</label>
+            
             <div class="col-md-10">
+                <label class="control-label col-md-2">Modulo:</label>
                 @Html.EditorFor(model => model.Requerimientos.modulo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Prioridad:</label>
+           
             <div class="col-md-10">
+                <label class="control-label col-md-2">Prioridad:</label>
                 @Html.EditorFor(model => model.Requerimientos.prioridad , new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.prioridad, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Esfuerzo:</label>
+           
             <div class="col-md-10">
+                <label class="control-label col-md-2">Esfuerzo:</label>
                 @Html.EditorFor(model => model.Requerimientos.esfuerzo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Requerimientos.esfuerzo, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Descripcion:</label>
+            
             <div class="col-md-10">
+                <label class="control-label col-md-2">Descripcion:</label>
                 @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                 @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
             </div><br /><br /><br /><br /><br />
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Observaciones:</label>
+           
             <div class="col-md-10">
+                <label class="control-label col-md-2">Observaciones:</label>
                 @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
                 @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
             </div><br /><br /><br /><br /><br />
-        </div>
+        </div><br />
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ImagenRF , htmlAttributes: new { @class = "control-label col-md-2" })
             
-    
                 <div class="col-md-10">
+                    @Html.LabelFor(model => model.ImagenRF, htmlAttributes: new { @class = "control-label col-md-2" })
     <input type="file" id="image1" name="imagen1"/>
-    </div>
-           
+    </div><br /> <br />   
         </div>
-        @*<div class="form-group">
-            @Html.Label("Vista de imagen", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <img id="RuPic" src="@(Model.ImagenR)" width="200" />
-            </div>
-        </div>*@
          <div class="form-group">
           
             <div class="col-md-10">
                 <label class="control-label col-md-2">Fuente:</label>
-                @{
-                    foreach (var userProj in Model.listaUsuario)
-                    {
-                        foreach (var  user in Model.UsuariosSistema)
-                        {
-                            if (userProj.cedula.Equals(user.cedula))
-                            {
-                    <option value=user.cedula>
-                        @Html.DropDownListFor(model => model.Requerimientos.fuente, new[] { new SelectListItem() { Text = user.nombre.ToString() + " " + user.apellidos.ToString(), Value = user.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
-                    </option>
+                
+                @Html.DropDownListFor(model => model.Requerimientos.fuente, new SelectList(ViewBag.Lista, "cedula", "names"), new {  @class = "form-control" })
+            </div><br /><br />
+        </div>    <br />
+
+        <div class="form-group">
+           
+            <div class="col-md-10">
+                <label class="control-label col-md-2">Responsable 1:</label>
+                @Html.DropDownListFor(model => model.Requerimientos.responsable1, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+            </div><br /><br />
+        </div><br />
+        <div class="form-group">
             
-                }
-                        }
-
-                    }
-    }
-            </div>
-        </div> 
-    
-        <div class="form-group">
-            <label class="control-label col-md-2">Responsable 1:</label>
-            <div class="col-md-2">
-                @{ var UserProyectList2 = Model.listaUsuario;
-                    var UserList2 = Model.UsuariosSistema;
-
-                    foreach (var userProj2 in UserProyectList2)
-                    {
-                        foreach ( var user2 in UserList2)
-                        {
-                            if (userProj2.cedula.Equals(user2.cedula))
-                            {
-                                <option value=user.cedula>
-                                    @Html.DropDownListFor(model => model.Requerimientos.responsable1, new[] { new SelectListItem() { Text = user2.nombre.ToString() + " " + user2.apellidos.ToString(), Value = user2.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
-                                </option>
-
-                            }
-                        }
-
-                    }
-                }
-
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-10">Responsable 2:</label>
             <div class="col-md-10">
-                @{var UserProyectList3 = Model.listaUsuario;
-                    var UserList3 = Model.UsuariosSistema;
-
-                    foreach (var userProj3 in UserProyectList3)
-                    {
-                        foreach (var user3 in UserList3)
-                        {
-                            if (userProj3.cedula.Equals(user3.cedula))
-                            {
-                                <option value=user.cedula>
-                                    @Html.DropDownListFor(model => model.Requerimientos.responsable2, new[] { new SelectListItem() { Text = user3.nombre.ToString() + " " + user3.apellidos.ToString(), Value = user3.cedula } }, "--Fuente no asignada--", new { @class = "form-control" })
-                                </option>
-
-                            }
-                        }
-
-                    }
-                }
-               
-            </div>
-        </div> 
+                <label class="control-label col-md-2">Responsable 2:</label>
+                @Html.DropDownListFor(model => model.Requerimientos.responsable2, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+            </div><br /><br />
+        </div>    <br />
 
         <div class="form-group">
-            <label class="control-label col-md-10">Fecha Inicial:</label>
-            <div class="col-md-10">
+            
+            <div class="col-md-12">
+                <label class="control-label col-md-10">Fecha Inicial:</label>
                 @Html.TextBoxFor(model => model.Requerimientos.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
             </div>
         </div><br /><br />
 
         <div class="form-group">
-            <label class="control-label col-md-10">Fecha Final:</label>
+           
             <div class="col-md-10">
+                <label class="control-label col-md-10">Fecha Final:</label>
                 @Html.TextBoxFor(model => model.Requerimientos.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
             </div>
-        </div><br /><br />
+        </div><br /><br /><br /><br />
 
 
                 @*Criterio De Aceptacion*@
@@ -249,7 +203,7 @@ window.onload = load_all
                        @* @Html.ActionLink("Crear", "Create", new { NProyecto = id }, new { @class = "btn btn-success", @style = "color:white" })*@
                         <input type="submit" value="Aceptar" class="btn btn-primary" />
                         <div class="btn btn-danger" style="color:white;" />
-                        @Html.ActionLink("Cancelar", "Index", null, new { @style = "color:#FFFFFF;" })
+                        @Html.ActionLink("Cancelar", "Index", null, new { nombreProyecto = Request.Params["NombProy"] }, new { @style = "color:#FFFFFF;" })
                     </div>
                 </div><br /><br />
 }
