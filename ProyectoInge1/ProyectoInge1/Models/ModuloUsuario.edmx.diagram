@@ -5,18 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ac1a5c6a76d14cbe84e00961c472232a" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.CriterioAceptacion" Width="1.5" PointX="7.5" PointY="8.375" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.HistVersiones" Width="1.5" PointX="3" PointY="6.75" />
-
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.NetRolesPermiso" Width="1.5" PointX="10" PointY="0.875" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Permiso" Width="1.5" PointX="7.75" PointY="0.875" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Proyecto" Width="1.5" PointX="3" PointY="10.25" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.ReqFuncional" Width="1.5" PointX="5.25" PointY="6.625" />
-
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Solicitud" Width="1.5" PointX="5.25" PointY="2.75" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Telefono" Width="1.5" PointX="3" PointY="4.375" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Usuario" Width="1.5" PointX="0.75" PointY="5.125" />
-      <Diagram DiagramId="ac1a5c6a76d14cbe84e00961c472232a" Name="Diagram1" ZoomLevel="40">   
+        <Diagram DiagramId="ac1a5c6a76d14cbe84e00961c472232a" Name="Diagram1" ZoomLevel="40">   
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.CriterioAceptacion" Width="1.5" PointX="5.5180345184719357" PointY="16.30148147805663" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.HistVersiones" Width="1.5" PointX="10.753782323912615" PointY="16.159981884136787" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.NetRolesPermiso" Width="1.5" PointX="11.060622179443307" PointY="24.038344796764825" />
@@ -46,6 +35,34 @@
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF" />      
       </Diagram>
-    </edmx:Diagrams>
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.CriterioAceptacion" Width="1.5" PointX="0.23452740546061074" PointY="3.7236031162196785" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.HistVersiones" Width="1.5" PointX="10.249915116582958" PointY="31.831558749001267" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.NetRolesPermiso" Width="1.5" PointX="4.7191797740381123" PointY="31.456857800230782" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Permiso" Width="1.5" PointX="0.064826980263379852" PointY="11.753738155473833" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Proyecto" Width="1.5" PointX="4.7412202231312266" PointY="19.269322001966334" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.ReqFuncional" Width="1.5" PointX="2.3480683352556397" PointY="4.0218517948043777" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Solicitud" Width="1.5" PointX="2.3662872623495232" PointY="31.188314720610304" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Telefono" Width="1.5" PointX="10.25724035234062" PointY="13.701138532581338" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Usuario" Width="1.5" PointX="2.9003390832340061" PointY="19.75573059346328" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_ReqFunc_HistVersiones" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable1RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersion_responsable2RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_HistVersiones" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable2RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Permiso_NetRolesUsers" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Proyecto_ReqFunc" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Proyecto" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Proyecto_Cliente" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Fuente" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Resp1" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_ReqFunc_Resp2" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_aprobadoPor" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_realizadoPor" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Solicitud_responsable1RF" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.FK_Usuario_Telefono" />
+        <AssociationConnector Association="BD_IngeGrupo4Model.ProyectoUsuario" />
+        </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
