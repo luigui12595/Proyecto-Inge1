@@ -78,6 +78,10 @@ namespace ProyectoInge1.Controllers
             modelo.Proyecto = BD.Proyecto.Find(Proy);
             modelo.listaUsuarios = BD.Usuario.ToList();
             modelo.listaProyUsuarios = modelo.Proyecto.Usuario2.ToList();
+           
+            var D = modelo.listaUsuarios.Intersect(modelo.listaProyUsuarios);
+            modelo.listaUsuarioView = D.ToList();
+            ViewBag.Lista = modelo.listaUsuarioView;
             return View(modelo);
 
         }

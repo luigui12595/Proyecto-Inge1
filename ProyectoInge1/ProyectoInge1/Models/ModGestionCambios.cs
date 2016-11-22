@@ -18,6 +18,7 @@ namespace ProyectoInge1.Models
 
         public List<Usuario> listaUsuarios { get; set; }
         public List<Usuario> listaProyUsuarios { get; set; }
+        public List<Usuario> listaUsuarioView { get; set; }
         public Proyecto Proyecto { get; set; }
         public List<Solicitud> listaSolicitud { get; set; }
         public ReqFuncional Requerimiento { get; set; }
