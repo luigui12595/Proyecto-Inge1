@@ -37,26 +37,26 @@
         }*@
                 <input class="btn btn-success" type="submit" value="Buscar" />
             </div>
-            <div class="col-lg-4">
-                <label class="control-label col-md-4">Requerimientos:</label>
-                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-             @*   @{
-                    foreach (var Proj in Model)
-                    {
-                        <option value=Proj.ReqFuncional.nomProyecto>
-                            @Html.DropDownListFor(, new[] { new SelectListItem() { Text = Proj.ReqFuncional.nomProyecto.ToString(), Value = Proj.ReqFuncional.nomProyecto } }, "--Fuente no asignada--", new { @class = "form-control" })
-                            
-                            @Html.DropDownList("Prueba", new[] { new SelectListItem() { Text = Proj.ReqFuncional.nombre.ToString(), Value = Proj.ReqFuncional.nombre} }, "--Escoger un Requerimiento--", new { @class = "form-control" })
-                        </option>
-                    }
-                }*@
+            @*<div class="col-lg-4">
+    <label class="control-label col-md-4">Requerimientos:</label>
+    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+    @{
+        foreach (var Proj in Model)
+        {
+            <option value=Proj.ReqFuncional.nomProyecto>
+                @Html.DropDownListFor(, new[] { new SelectListItem() { Text = Proj.ReqFuncional.nomProyecto.ToString(), Value = Proj.ReqFuncional.nomProyecto } }, "--Fuente no asignada--", new { @class = "form-control" })
+
+                @Html.DropDownList("Prueba", new[] { new SelectListItem() { Text = Proj.ReqFuncional.nombre.ToString(), Value = Proj.ReqFuncional.nombre} }, "--Escoger un Requerimiento--", new { @class = "form-control" })
+            </option>
+        }
+    }
                 <input class="btn btn-success" type="submit" value="Buscar" />
             </div>
-
-            <div class="col-lg-1 col-lg-pull-1">
+            *@
+            <div class="col-lg-1 col-lg-push-2">
                 <a class="btn btn-info" href="../GestCambios">Mostrar Todos</a>
             </div> 
-            <div class="col-lg-1 col-lg-pull-1">
+            <div class="col-lg-1 col-lg-push-4">
                 <a class="btn btn-info" href="../GestCambios/Solicitudes">Solicitudes</a>
             </div>
         </div>

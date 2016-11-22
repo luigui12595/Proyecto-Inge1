@@ -15,10 +15,12 @@ using System.Diagnostics;
 using PagedList;
 using System.Text;
 
+
 namespace ProyectoInge1.Controllers
 {
     public class GestCambiosController : Controller
     {
+
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         ApplicationDbContext context = new ApplicationDbContext();
         private bool revisarPermisos(string permiso)
@@ -41,44 +43,44 @@ namespace ProyectoInge1.Controllers
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.ReqSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.VersSortParm = sortOrder == "Proy" ? "proy_desc" : "proy";
-            ViewBag.VersSortParm = sortOrder == "Version" ? "version_desc" : "version";
-            ViewBag.RealSortParm = sortOrder == "Real" ? "real_desc" : "real";
-            ViewBag.EstSortParm = sortOrder == "Est" ? "est_desc" : "est";
+            ViewBag.ProySortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
+            ViewBag.VersSortParm = sortOrder == "Vers" ? "version_desc" : "Vers";
+            ViewBag.RealSortParm = sortOrder == "Real" ? "real_desc" : "Real";
+            ViewBag.EstSortParm = sortOrder == "Est" ? "est_desc" : "Est";
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
             var solicitudes = from solicitud in BD.Solicitud
                               join req in BD.ReqFuncional on solicitud.idReqFunc equals req.id
-                              orderby req.nombre
                               select solicitud;
             var requerimientos = from requerimiento in BD.ReqFuncional
                                  select requerimiento;
             var usuarios = from usuario in BD.Usuario
-                           orderby usuario.cedula
                            select usuario;
             ModGestionCambios modelo = new ModGestionCambios();
             if (!String.IsNullOrEmpty(searchString))
             {
-                solicitudes = from solicitud in BD.Solicitud
-                              join req in BD.ReqFuncional on solicitud.idReqFunc equals req.id
-                              where req.nombre.Contains(searchString)
-                              orderby req.nombre
-                              select solicitud;
+                solicitudes = solicitudes.Where(sol => sol.nombreRF.Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "name_desc": solicitudes = solicitudes.Reverse(); break;
-                case "Version": solicitudes = solicitudes.OrderBy(solicitud => solicitud.versionRF); break;
-                case "version_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.versionRF); break;
+                case "name_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.nombreRF); break;
                 case "Proy": solicitudes = solicitudes.OrderBy(solicitud => solicitud.nomProyecto); break;
                 case "proy_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.nomProyecto); break;
-                case "Real": solicitudes = solicitudes.OrderBy(solicitud => solicitud.realizadoPor); break;
-                case "real_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.realizadoPor); break;
+                case "Version": solicitudes = solicitudes.OrderBy(solicitud => solicitud.versionRF); break;
+                case "version_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.versionRF); break;
+                case "Real": solicitudes = from sol in BD.Solicitud
+                                           join user in BD.Usuario on sol.realizadoPor equals user.cedula
+                                           orderby user.nombre ascending
+                                           select sol; break;
+                case "real_desc": solicitudes = from sol in BD.Solicitud
+                                                join user in BD.Usuario on sol.realizadoPor equals user.cedula
+                                                orderby user.nombre descending
+                                                select sol; break;
                 case "Est": solicitudes = solicitudes.OrderBy(solicitud => solicitud.estado); break;
                 case "est_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.estado); break;
-                default: solicitudes = solicitudes; break;
-            }          
+                default: solicitudes = solicitudes.OrderBy(sol => sol.nombreRF); break;
+            }    
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             //modelo.listaRequerimientos = requerimientos.ToList();
@@ -105,10 +107,17 @@ namespace ProyectoInge1.Controllers
             int idRF = Convert.ToInt32(parameters[1]);
             string nomProy = parameters[2];
             string fecha = parameters[3].Replace('-', ':').Replace('_', '-');
+            string currentUser = parameters[4];
+            var userView = from user in BD.Usuario
+                           where currentUser == user.id
+                           select user;
+            modelo.userInView = userView.ToList().First();
+            bool? lider = modelo.userInView.lider;
             DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             modelo.solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
+            modelo.Proyecto = BD.Proyecto.Find(nomProy);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
@@ -180,6 +189,7 @@ namespace ProyectoInge1.Controllers
         }
 
 
+
         public ActionResult Detalles(/*int id,int Ver*/)
         {
             int id = 3;
@@ -208,6 +218,7 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
 
         }
+
         /* public ActionResult Index()
          {
              ModGestionCambios GestionC = new ModGestionCambios();
@@ -266,3 +277,7 @@ namespace ProyectoInge1.Controllers
         }
 
 }
+
+/*
+@if(Request.IsAuthenticated && User.IsInRole("Desarrollador") && Model.userInView.cedula == Model.proyecto.lider)
+{*/
