@@ -152,19 +152,19 @@ namespace ProyectoInge1.Controllers
          }
         
 
-        public ActionResult Eliminar(bool confirm, string Requerimiento)
+        public ActionResult Eliminar(bool confirm, string Requerimiento, string nomProy)
         {
 
             if (confirm == true)
             {
-
-                var RequerimientoFun = BD.ReqFuncional.Find(Requerimiento);
+                int idReq = Int32.Parse(Requerimiento);
+                var RequerimientoFun = BD.ReqFuncional.Find(idReq, nomProy);
                 BD.Entry(RequerimientoFun).State = EntityState.Deleted;
                 BD.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { nombreProyecto = nomProy });
             }
             else {                 
-                return RedirectToAction("Details/"+Requerimiento);
+                return RedirectToAction("Details", new { id = Requerimiento });
             }
         }
 
