@@ -25,9 +25,9 @@ namespace ProyectoInge1.Models
         public Usuario UsuarioResponsable2 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
         public List<ModGestionCambios> listaModelos { get; set; }
 
-        public Proyecto Proyecto { get; set; }
+        //public Proyecto Proyecto { get; set; }
         public List<Solicitud> listaSolicitud { get; set; }
-        public Solicitud Solicitud { get; set; }
+        //public Solicitud Solicitud { get; set; }
         public Usuario userInView { get; set; } 
     }
 }

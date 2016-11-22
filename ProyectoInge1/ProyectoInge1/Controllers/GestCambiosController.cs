@@ -132,8 +132,8 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }*/
-            //BD.Solicitud.Add(modelo.solicitud);
-            //BD.SaveChanges();
+            BD.Solicitud.Add(modelo.solicitud);
+            BD.SaveChanges();
             return RedirectToAction("Solicitudes");
         }
 
