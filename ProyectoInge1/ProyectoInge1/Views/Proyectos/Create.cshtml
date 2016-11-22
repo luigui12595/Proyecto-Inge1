@@ -1,9 +1,13 @@
 @model ProyectoInge1.Models.ModProyectoInter
 @using ProyectoInge1.Helpers
+@*{ Array userList; }*@
+
 <script>
+    var asignados = 0;
     window.onload = function (e) {
         desarrolladores = "";
     }
+    var participantes = "";
     function Cancelar() {
         if (confirm("Esta seguro que desea borrar este proyecto ?")) {
             return true;
@@ -11,32 +15,44 @@
             return false;
         }
     }
-    function listbox_moveacross(sourceID, destID) {
-        
+    function participantes() {
+            return participantes;
+    }
+    function listbox_moveacross(sourceID, destID, out) {
         var src = document.getElementById(sourceID);
+        var output = document.getElementById(out);
         var dest = document.getElementById(destID);
-
         for (var count = 0; count < src.options.length; count++) {
-
             if (src.options[count].selected == true) {
-                var option = src.options[count];
-
-                var newOption = document.createElement("option");
-                newOption.value = option.value;
-                newOption.text = option.text;
-                newOption.selected = true;
-                try {
-                    dest.add(newOption, null); //Standard
-                    desarrolladores=desarrolladores +"/"+(newOption.value);
-                    src.remove(count, null);
-                } catch (error) {
-                    dest.add(newOption); // IE only
-                    src.remove(count);
+                if ((sourceID == 'd' && asignados < 4) || (sourceID != 'd' && asignados > 0)) {
+                    sourceID == 'd' ? asignados++ : asignados--;
+                    
+                    var option = src.options[count];
+                    var newOption = document.createElement("option");
+                    newOption.value = option.value;
+                    newOption.text = option.text;
+                    newOption.selected = true;
+                    if (destID == 'd') {
+                        var cedula = newOption.value;
+                        cedula += "+";
+                        participantes += cedula;
+                        output.value = participantes;
+                    }
+                    try {
+                        dest.add(newOption, null); //Standard
+                        @*sourceId == 'd' ? @userList. : userList.;*@
+                        //desarrolladores = desarrolladores + "/" + (newOption.value);
+                        src.remove(count, null);
+                    } catch (error) {
+                        dest.add(newOption); // IE only
+                        src.remove(count);
+                    }
+                    count--;
                 }
-                count--;
             }
         }
     }
+
     var form = document.getElementById('descriptiveFormName');
     form.elements.description1.onchange = function () {
         var option = this.options[this.selectedIndex];
@@ -97,57 +113,54 @@
             </div>
         </div>
         <br />
-        @*cajas de seleccion*@
+
         <div class="form-group">
             <label class="control-label col-md-2">* Lider:</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.proyecto.lider, new { htmlAttributes = new { @class = "form-control", placeholder = "Numero de cedula" } })
-                @Html.ValidationMessageFor(model => model.proyecto.descripcion, "", new { @class = "text-danger" })
+            <div class="col-md-10" style="padding-top:0.5em;">
+                    @Html.DropDownListFor(model => model.proyecto.lider, (SelectList)ViewBag.Desarrolladores, "Seleccionar Lider", new { @class = "control-label col-md-2" } );
             </div>
         </div>
-@*
-    <div class="control-label"style="display:none">
+
+        @*cajas de seleccion*@
+    @**<div class="control-label"style="display:none">
         @Html.CustomLabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label col-md-2" })
         @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
         <select name="Lider" type="text" class="form-control col-md-2" id="a" size="2"></select>
         <a class="pull-left" onclick="listbox_moveacross('d', 'a')" href="#">&lt;&lt;</a>
         <br />
         <a class="pull-left" onclick="listbox_moveacross('a', 'd')" href="#">&gt;&gt;</a>
-    </div>
-    <br /><br /><br />
-    <div>
-        <div class="control-label">
-
-            <label class="control-label col-md-2">Desarrollador</label>
-
-        </div>
-        <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
+    </div>*@
+        <br /><br /><br />
         <div>
-            <br />
-            <a onclick="listbox_moveacross('d', 's')" href="#">&lt;&lt;</a>
-            <br />
-            <a onclick="listbox_moveacross('s', 'd')" href="#">&gt;&gt;</a>
-        </div>
-        <div>
-
+            @Html.HiddenFor(model => model.Participantes, new { @id = "output" })
+            <input type="text" id= "output" value= " "><br />
+            <div class="control-label">
+                <label class="control-label col-md-2">Desarrollador</label>
+            </div>
+            <select class="form-control col-md-2" style="width:20em" id="s" size="10"></select>
             <div>
-                <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
-
-                    Aqui se insertan los usuarios*@
-                        
-                       @* @foreach (var item in Model.listaUsuarios)
-    {
-        var ced = item.cedula;
-        <option value=@ced>
-            @Html.DisplayFor(modelItem => item.nombre)
-            @Html.DisplayFor(modelItem => item.apellidos)
-            @Html.Raw(" ")
-        </option>
-    }
+                <br />
+                <a onclick="listbox_moveacross('d', 's', 'output')" href="#">&lt;&lt;</a>
+                <br />
+                <a onclick="listbox_moveacross('s', 'd','output')" href="#">&gt;&gt;</a>
+            </div>
+            <div>
+                <div>
+                    <select class="form-control col-md-2" style="width:20em; margin-left:2em;" id="d" size="10">
+                        @*Aqui se insertan los usuarios*@
+                       @foreach (var item in Model.listaUsuarios)
+                        {
+                            var ced = item.cedula;
+                            <option value=@ced>
+                                @Html.DisplayFor(modelItem => item.nombre)
+                                @Html.DisplayFor(modelItem => item.apellidos)
+                                @Html.Raw(" ")
+                            </option>
+                        }
                     </select>
                 </div>
             </div>
-        </div>*@
+        </div>
         @*Fin cajas de seleccion*@
         <div class="form-group">
             <div class=" col-md-8">

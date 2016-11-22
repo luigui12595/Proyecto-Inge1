@@ -6,11 +6,11 @@
 }
 <script>
     function aceptar() {
-        alert("Se a generado la solicitud");
+        alert("Se a generado la Solicitud");
     }
 
 </script>
-<h2>Gestion de solicitudes</h2>
+<h2>Gestion de Solicitudes</h2>
 
 
 @using (Html.BeginForm())
@@ -18,57 +18,57 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Crear solicitud</h4>
+        <h4>Crear Solicitud</h4>
         <hr />
         @*Nombre REQ, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.requerimiento.nombre, "Nombre del Requerimiento", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.nombre, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.nombre, "Nombre del Requerimiento", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.nombre, "", new { @class = "text-danger" })
         </div>
         @*Nombre REQ, no editable*@
         <div style="display:none">
-            @Html.LabelFor(model => model.solicitud.nomProyecto, "Nombre del Requerimiento", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.solicitud.nomProyecto, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Solicitud.nomProyecto, "Nombre del Requerimiento", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Solicitud.nomProyecto, "", new { @class = "text-danger" })
         </div>
         @*fuente, no editable*@
         <div class="col-lg-6 form-group">
-            @Html.LabelFor(model => model.requerimiento.fuente,"Fuente", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.Requerimiento.fuente,"Fuente", htmlAttributes: new { @class = "control-label col-md-3" })
             @{var fuenteM = Model.UsuarioFuente != null ? Model.UsuarioFuente.nombre + " " + Model.UsuarioFuente.apellidos : " ";}
             @Html.EditorFor(model => fuenteM, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.fuente, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Requerimiento.fuente, "", new { @class = "text-danger" })
         </div>
 
         @*fecha ini req, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.requerimiento.fechaInicial, "Fecha Inicial", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.fechaInicial, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.fechaInicial, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.fechaInicial, "Fecha Inicial", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.fechaInicial, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.fechaInicial, "", new { @class = "text-danger" })
         </div>
         @*fecha final req, no editable*@
         <div class="col-lg-6 form-group">
-            @Html.LabelFor(model => model.requerimiento.fechaFinal, "Fecha Final", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.fechaFinal, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.fechaFinal, "Fecha Final", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.fechaFinal, "", new { @class = "text-danger" })
         </div>
         @*Drescrip req, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.requerimiento.descripcion, "Descripcion", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.TextAreaFor(model => model.requerimiento.descripcion, new { @class = "form-control", rows = 4, @readonly = true })
-            @Html.ValidationMessageFor(model => model.requerimiento.descripcion, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.descripcion, "Descripcion", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.TextAreaFor(model => model.Requerimiento.descripcion, new { @class = "form-control", rows = 4, @readonly = true })
+            @Html.ValidationMessageFor(model => model.Requerimiento.descripcion, "", new { @class = "text-danger" })
         </div>
         @*observaciones, no editable*@
         <div class="col-lg-6 form-group">
-            @Html.LabelFor(model => model.requerimiento.observaciones, "Observaciones", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.TextAreaFor(model => model.requerimiento.observaciones, new { @class = "form-control", rows = 4, @readonly = true })
-            @Html.ValidationMessageFor(model => model.requerimiento.observaciones, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.observaciones, "Observaciones", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.TextAreaFor(model => model.Requerimiento.observaciones, new { @class = "form-control", rows = 4, @readonly = true })
+            @Html.ValidationMessageFor(model => model.Requerimiento.observaciones, "", new { @class = "text-danger" })
         </div>
        
 
         @*Responsable, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.requerimiento.responsable1, "Responsable", htmlAttributes: new { @class = "control-label col-md-3", @readonly = true })
+            @Html.LabelFor(model => model.Requerimiento.responsable1, "Responsable", htmlAttributes: new { @class = "control-label col-md-3", @readonly = true })
             <div class="form-control col-md-3" style="width:20em; " id="d" size="2">
                 @{var responsable1M = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
                 @{var responsable2M = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}
@@ -87,84 +87,84 @@
         
         @*Estado, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.requerimiento.estado,"Estado", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.estado, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.estado,"Estado", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.estado, "", new { @class = "text-danger" })
         </div>
         @*Prioridad, no editable*@
         <div class="col-lg-6 form-group">
-            @Html.LabelFor(model => model.requerimiento.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.prioridad, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.prioridad, "", new { @class = "text-danger" })
         </div>
         @*modulo, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.requerimiento.modulo, "Modulo", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.modulo, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.modulo, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.modulo, "Modulo", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.modulo, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.modulo, "", new { @class = "text-danger" })
         </div>
         @*sprint, no editable*@
         <div class="col-lg-6 form-group">
-            @Html.LabelFor(model => model.requerimiento.sprint, "Sprint", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.requerimiento.sprint, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-            @Html.ValidationMessageFor(model => model.requerimiento.sprint, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Requerimiento.sprint, "Sprint", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
         </div>
         @*Lider del equipo, oculto*@
         <div class="form-group" style="display:none">
-            @Html.LabelFor(model => model.solicitud.aprobadoPor, "Fuente", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.Solicitud.aprobadoPor, "Fuente", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.solicitud.aprobadoPor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.solicitud.aprobadoPor, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Solicitud.aprobadoPor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Solicitud.aprobadoPor, "", new { @class = "text-danger" })
             </div>
         </div>
         <div ><br/><br /><br /><br /><br /><hr /></div>
         @*version, oculta*@
         <div class="form-group"style="display:none">
-            @Html.LabelFor(model => model.solicitud.versionRF, "Version", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Solicitud.versionRF, "Version", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.solicitud.versionRF, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.solicitud.versionRF, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Solicitud.versionRF, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Solicitud.versionRF, "", new { @class = "text-danger" })
             </div>
         </div>
 
         @*id Requerimiento funcional, oculta*@
         <div class="form-group"style="display:none" >
-            @Html.LabelFor(model => model.solicitud.idReqFunc, "idReqFunc", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Solicitud.idReqFunc, "idReqFunc", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.solicitud.idReqFunc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.solicitud.idReqFunc, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Solicitud.idReqFunc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Solicitud.idReqFunc, "", new { @class = "text-danger" })
             </div>
         </div>
 
         @*Realizado*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.solicitud.realizadoPor, "Solicitante", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.DropDownListFor(model => model.solicitud.realizadoPor,(SelectList)ViewBag.desarrolladores,"- Solicitante -", new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.solicitud.realizadoPor, "- Solicitante -", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Solicitud.realizadoPor, "Solicitante", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.DropDownListFor(model => model.Solicitud.realizadoPor,(SelectList)ViewBag.desarrolladores,"- Solicitante -", new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Solicitud.realizadoPor, "- Solicitante -", new { @class = "text-danger" })
 
         </div>
 
         @*Fecha de creacion, auto generada, oculta*@
-        <div class="form-group"style="display:none">
-            @Html.LabelFor(model => model.solicitud.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group" style="display:none">
+            @Html.LabelFor(model => model.Solicitud.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.solicitud.fecha, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Solicitud.fecha, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*Estado de solicitud, auto generada "pendiente", oculta*@
+        @*Estado de Solicitud, auto generada "pendiente", oculta*@
         <div class="form-group"style="display:none">
-            @Html.LabelFor(model => model.solicitud.estado, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.Solicitud.estado, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.solicitud.estado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.solicitud.estado, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Solicitud.estado, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Solicitud.estado, "", new { @class = "text-danger" })
             </div>
         </div>
         @*Razon de cambio*@
         <div class="col-lg-6 form-group">
-            @Html.LabelFor(model => model.solicitud.razon, "Razon", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.TextAreaFor(model => model.solicitud.razon, new { @class = "form-control", rows = 4})
-            @Html.ValidationMessageFor(model => model.solicitud.razon, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Solicitud.razon, "Razon", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.TextAreaFor(model => model.Solicitud.razon, new { @class = "form-control", rows = 4})
+            @Html.ValidationMessageFor(model => model.Solicitud.razon, "", new { @class = "text-danger" })
 
         </div>
         

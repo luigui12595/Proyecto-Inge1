@@ -12,3 +12,8 @@ function goToReqFun(element) {
     var elementNombre = element.id;
     window.location.replace('ReqFuncional/Index/' + elementNombre)
 }
+
+function gotoDetailsSolicitud(element) {
+    var elementId = element.id;
+    window.location.replace('Details/' + elementId)
+}
