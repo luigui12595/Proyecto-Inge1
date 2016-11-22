@@ -57,7 +57,7 @@
                 <a class="btn btn-info" href="../GestCambios">Mostrar Todos</a>
             </div> 
             <div class="col-lg-1 col-lg-pull-1">
-                <a class="btn btn-info" href="../Usuarios">Solicitudes</a>
+                <a class="btn btn-info" href="../Solicitudes">Solicitudes</a>
             </div>
         </div>
     </p>
@@ -88,7 +88,7 @@
         @foreach (var item in Model)
         {
            
-            <tr id='@(item.versionRF )' onclick="gotoDetails(this)">
+            <tr id='@(item.versionRF+"~"+ item.idReqFunc+"~"+item.nomProyecto)' onclick="gotoVersionDetails(this)">
                 <td>
                     @Html.DisplayFor(modelItem => item.versionRF )
                     

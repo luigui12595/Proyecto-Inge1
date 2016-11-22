@@ -37,6 +37,8 @@ namespace ProyectoInge1.Models
         public string nombre { get; set; }
         public string apellidos { get; set; }
         public string correo { get; set; }
+
+        public string names { get { return nombre + " " + apellidos; } }
         public string id { get; set; }
         public Nullable<bool> lider { get; set; }
     

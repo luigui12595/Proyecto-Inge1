@@ -59,9 +59,10 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(/*int id,int Ver*/)
         {
-            int id = 5;
+            int id = 3;
             int Ver = 1;
-            DateTime Momento = DateTime.Parse("2016-11-18 13:00:54.000");
+            DateTime Momento = DateTime.Parse("2016-11-18 13:00:53.000");
+            string Proy = "Inge I";
             ModGestionCambios modelo = new ModGestionCambios();
             modelo.listaUsuarios= BD.Usuario.ToList();
             var VReq = BD.Solicitud.ToList();
@@ -74,8 +75,9 @@ namespace ProyectoInge1.Controllers
                     }
                 }
             }
-
-           
+            modelo.Proyecto = BD.Proyecto.Find(Proy);
+            modelo.listaUsuarios = BD.Usuario.ToList();
+            modelo.listaProyUsuarios = modelo.Proyecto.Usuario2.ToList();
             return View(modelo);
 
         }
@@ -92,18 +94,21 @@ namespace ProyectoInge1.Controllers
         public ActionResult Detalles(ModGestionCambios modelo ) {
             if (ModelState.IsValid) {
                 // BD.Solicitud.Find(modelo.Solicitud.fecha,modelo.Solicitud.versionRF,modelo.Solicitud.nomProyecto,modelo.Solicitud.idReqFunc);
-                string s = modelo.Solicitud.fecha.ToString();
+                if (modelo.Solicitud.estado=="Pendiente") {
+                    string s = modelo.Solicitud.fecha.ToString();
 
-               // DateTime T = DateTime.ParseExact(s, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                BD.Entry(modelo.Solicitud).State = EntityState.Modified;
-                //BD.Entry(modelo.Solicitud).Property(M => M.razon).IsModified = true;
-               // BD.Solicitud.Add(modelo.Solicitud);
-                BD.SaveChanges();
+                    // DateTime T = DateTime.ParseExact(s, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+                    //BD.Entry(modelo.Solicitud).Property(M => M.razon).IsModified = true;
+                    // BD.Solicitud.Add(modelo.Solicitud);
+                    BD.SaveChanges();
+                }
             }
 
             int id = 3;
             int Ver = 1;
-            DateTime Momento = DateTime.Parse("1900-01-01 00:00:00.000");
+            DateTime Momento = DateTime.Parse("2016-11-18 13:00:53.000");
+            string Proy = "Inge I";
             ModGestionCambios mod = new ModGestionCambios();
             mod.listaUsuarios = BD.Usuario.ToList();
             var VReq = BD.Solicitud.ToList();
@@ -120,6 +125,9 @@ namespace ProyectoInge1.Controllers
                     }
                 }
             }
+            mod.Proyecto = BD.Proyecto.Find(Proy);
+            mod.listaUsuarios = BD.Usuario.ToList();
+            mod.listaProyUsuarios = mod.Proyecto.Usuario2.ToList();
             return View(mod);
         }
 
