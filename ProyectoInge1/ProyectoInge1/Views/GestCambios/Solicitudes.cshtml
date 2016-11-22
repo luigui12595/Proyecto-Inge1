@@ -1,6 +1,8 @@
 ﻿
 @model PagedList.IPagedList<ProyectoInge1.Models.Solicitud>
 @using PagedList.Mvc;
+@using Microsoft.AspNet.Identity;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -39,8 +41,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var fecha = @item.fecha.ToString("dd_MM_yyyy hh-mm-ss");
-            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha)' onclick="gotoDetailsSolicitud(this)">
+                var userID = User.Identity.GetUserId();
+                var fecha = @item.fecha.ToString("dd_MM_yyyy hh-mm-ss");
+            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha + "~" + userID)' onclick="gotoDetailsSolicitud(this)">
                 <td>
                     @Html.DisplayFor(modelItem => item.nombreRF )
                 </td>

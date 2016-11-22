@@ -60,9 +60,9 @@
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Permiso" Width="1.5" PointX="5.68067528571965" PointY="10.48522708308195" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Proyecto" Width="1.5" PointX="2.9045560298974422" PointY="7.7441019004881859" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.ReqFuncional" Width="1.5" PointX="7.7514094504301481" PointY="7.2300800118735431" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Solicitud" Width="1.5" PointX="8.5209003875595055" PointY="17.330187597000126" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Solicitud" Width="1.5" PointX="8" PointY="15.75" />
         <EntityTypeShape EntityType="BD_IngeGrupo4Model.Telefono" Width="1.5" PointX="3.9396934229599747" PointY="20.6298980063898" />
-        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Usuario" Width="1.5" PointX="9.8228240859801055" PointY="21.331948349872579" />
+        <EntityTypeShape EntityType="BD_IngeGrupo4Model.Usuario" Width="1.5" PointX="14" PointY="21.625" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_ReqFunc_CritAceptacion" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_HistVersiones_Solicitud" />
         <AssociationConnector Association="BD_IngeGrupo4Model.FK_ReqFunc_HistVersiones" />

@@ -105,10 +105,17 @@ namespace ProyectoInge1.Controllers
             int idRF = Convert.ToInt32(parameters[1]);
             string nomProy = parameters[2];
             string fecha = parameters[3].Replace('-', ':').Replace('_', '-');
+            string currentUser = parameters[4];
+            var userView = from user in BD.Usuario
+                           where currentUser == user.id
+                           select user;
+            modelo.userInView = userView.ToList().First();
+            bool? lider = modelo.userInView.lider;
             DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             modelo.solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
+            modelo.proyecto = BD.Proyecto.Find(nomProy);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
@@ -206,3 +213,7 @@ namespace ProyectoInge1.Controllers
         }
 
 }
+
+/*
+@if(Request.IsAuthenticated && User.IsInRole("Desarrollador") && Model.userInView.cedula == Model.proyecto.lider)
+{*/

@@ -28,5 +28,6 @@ namespace ProyectoInge1.Models
         public Proyecto Proyecto { get; set; }
         public List<Solicitud> listaSolicitud { get; set; }
         public Solicitud Solicitud { get; set; }
+        public Usuario userInView { get; set; } 
     }
 }
