@@ -96,11 +96,11 @@ namespace ProyectoInge1.Controllers
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (!revisarPermisos("Index de usuario"))
+           /* if (!revisarPermisos("Index de usuario"))
             {
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Home");
-            }
+            } */
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
