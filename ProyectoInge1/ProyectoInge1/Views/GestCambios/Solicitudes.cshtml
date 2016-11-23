@@ -10,6 +10,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+</script>
+
+}
+
 <h2>Solicitudes de Cambio</h2>
 
 @using (Html.BeginForm("Solicitudes", "GestCambios", FormMethod.Get))

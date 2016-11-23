@@ -303,6 +303,29 @@ namespace ProyectoInge1.Controllers
             BD.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult Eliminar(bool confirm, DateTime fecha, short version, int idReq, string nomPro)
+        {
+
+            if (confirm == true)
+            {
+                var Solicitud = BD.Solicitud.Find(fecha, version, idReq, nomPro);
+                if (Solicitud.estado == "Pendiente")
+                {
+                    BD.Entry(Solicitud).State = EntityState.Deleted;
+                    BD.SaveChanges();
+                    return RedirectToAction("Solicitudes");
+                }
+                else {
+                    ViewBag.Message = "El estado de la Solicitud debe de ser Pendiente para poder eliminarla";
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Solicitudes");
+            }
+        }
     }
 }
 
