@@ -23,8 +23,10 @@ namespace ProyectoInge1.Controllers
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
         ApplicationDbContext context = new ApplicationDbContext();
+
         private bool revisarPermisos(string permiso)
         {
+            
             string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var rol = context.Users.Find(userID).Roles.First();
             var permisoID = BD.Permiso.Where(m => m.descripcion == permiso).First().id;
@@ -135,11 +137,11 @@ namespace ProyectoInge1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Details(ModGestionCambios modelo)
         {
-            /*if (!revisarPermisos("Crear Usuario"))
+            if (!revisarPermisos("Modificar Solicitud"))
             {
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
-            }*/
+            }
             if (ModelState.IsValid)
             {
                 if (modelo.solicitud.estado == "Pendiente")
@@ -155,6 +157,11 @@ namespace ProyectoInge1.Controllers
         // GET: Gestion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (!revisarPermisos("Index de Version"))
+            {
+
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";

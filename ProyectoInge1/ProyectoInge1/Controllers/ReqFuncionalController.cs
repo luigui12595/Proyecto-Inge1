@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,20 +23,29 @@ namespace ProyectoInge1.Controllers
     {
 
         /*// GET: ReqFuncional
-        public ActionResult Index()
-        {
-            return View();
-        }*/
+        */
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-        String proy;
+        ApplicationDbContext context = new ApplicationDbContext();
+       
 
-      /*  public recibeNomProyecto(string nomProyecto)
+        private bool revisarPermisos(string permiso)
         {
-
-
-        }*/
-
+            string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var rol = context.Users.Find(userID).Roles.First();
+            var listaPermisos = BD.Permiso;
+            var permisoID = 1;
+            foreach (var perm in listaPermisos)
+            {
+                if (perm.descripcion == permiso)
+                {
+                    permisoID = perm.id;
+                }
+            }
+            var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
+            bool userRol = listaRoles.Contains(rol.RoleId);
+            return userRol;
+        }
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
@@ -74,8 +82,11 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Create(string NombProy)
         {
+            if (!revisarPermisos("Crear RF"))
+            {
+                return RedirectToAction("Index", "ReqFuncional");
+            }
             string id = NombProy;
-
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
             RQ.Requerimientos = new ReqFuncional();
             RQ.nProy = NombProy;
