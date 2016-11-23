@@ -194,7 +194,7 @@
                         @Html.EditorFor(model => model.Solicitud.razon, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                         @Html.ValidationMessageFor(model => model.Solicitud.razon, "", new { @class = "text-danger" })
                     </div>
-                    @if ((Request.IsAuthenticated & User.IsInRole("Desarrollador")  && Model.userInView.cedula == Model.Proyecto.lider) || ( Request.IsAuthenticated && User.IsInRole("Administrador") ) )
+                    @if ((Request.IsAuthenticated & /*User.IsInRole("Desarrollador") &&*/ Model.userInView.cedula == Model.Proyecto.lider) /*|| ( Request.IsAuthenticated && User.IsInRole("Administrador") )*/ )
                     {
                         <div class="form-group">
                             @Html.LabelFor(model => model.Solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
