@@ -1,6 +1,6 @@
 ﻿function gotoDetails(element) {
     var elementId = element.id;
-    window.location.replace('Usuarios/Detalles/'+elementId)
+    window.location.replace('Usuarios/Detalles/' + elementId)
 }
 
 function goToProjectDetails(element) {
@@ -13,7 +13,14 @@ function goToReqFun(element) {
     window.location.replace('ReqFuncional/Index/' + elementNombre)
 }
 
+function gotoVersionDetails(element) {
+    var elementId = element.id;
+    window.location.replace('Details_Hist/' + elementId)
+}
+
+
 function gotoDetailsSolicitud(element) {
     var elementId = element.id;
     window.location.replace('Details/' + elementId)
 }
+

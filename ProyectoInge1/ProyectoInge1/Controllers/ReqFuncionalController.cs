@@ -117,11 +117,17 @@ namespace ProyectoInge1.Controllers
 
          [HttpPost]
          [ValidateAntiForgeryToken]
-         public ActionResult Details(ModReqFuncionalInter modelo)
+         public ActionResult Details(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1)
          {
-            
-           BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
-           BD.SaveChanges();
+            /*Funcion para poder guardar una imagen*/
+           if (imagen1 != null)
+           {
+                         modelo.Requerimiento.imagen = new byte[imagen1.ContentLength];
+                         imagen1.InputStream.Read(modelo.Requerimiento.imagen, 0, imagen1.ContentLength);
+           }
+
+            BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
+            BD.SaveChanges();
             /*
              var id = modelo.Requerimiento.id;
              var roleId = modelo.Role;
