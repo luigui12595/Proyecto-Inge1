@@ -22,6 +22,7 @@ namespace ProyectoInge1.Controllers
     {
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
+
         ApplicationDbContext context = new ApplicationDbContext();
         private bool revisarPermisos(string permiso)
         {
@@ -114,7 +115,7 @@ namespace ProyectoInge1.Controllers
             modelo.userInView = userView.ToList().First();
             bool? lider = modelo.userInView.lider;
             DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
-            modelo.solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
+            modelo.Solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
             modelo.Proyecto = BD.Proyecto.Find(nomProy);
@@ -140,25 +141,14 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }*/
-            BD.Entry(modelo.solicitud).State = EntityState.Modified;
+            BD.Entry(modelo.Solicitud).State = EntityState.Modified;
             BD.SaveChanges();
-            if (modelo.solicitud.estado == "Aprobada")
+            if (modelo.Solicitud.estado == "Aprobada")
             {
                 modelo.versionReq.versionRF += 1;
                 BD.HistVersiones.Add(modelo.versionReq);
                 BD.SaveChanges();
             }
-                /*
-                            if (ModelState.IsValid)
-                            {
-                                if (modelo.solicitud.estado == "Pendiente")
-                                {
-                                    string s = modelo.solicitud.fecha.ToString();
-                                    BD.Entry(modelo.solicitud).State = EntityState.Modified;
-                                    BD.SaveChanges();
-                                }
-                            }
-                */
                 return RedirectToAction("Solicitudes");
         }
 
@@ -234,7 +224,7 @@ namespace ProyectoInge1.Controllers
                 if (DateTime.Compare(VRF.fecha, Momento) == 0){
                     if (VRF.idReqFunc==id) {
                          if (VRF.versionRF==Ver) {
-                            modelo.solicitud = VRF;
+                            modelo.Solicitud = VRF;
                         }
                     }
                 }
@@ -257,17 +247,43 @@ namespace ProyectoInge1.Controllers
              return View(GestionC);
 
          }*/
+        public ActionResult Create(int versionRF, int idReqFunc, string nomProyecto)
+        {
+            ModGestionCambios modelo = new ModGestionCambios();
+            modelo.Requerimiento = new ReqFuncional();
+            modelo.lista = new List<Usuario>();
+            modelo.listadesarrolladores = BD.Usuario.ToList();
+            modelo.Solicitud = new Solicitud();
+            modelo.Solicitud.estado = "Pendiente";
+            modelo.Solicitud.fecha = DateTime.Now;
+            modelo.Solicitud.versionRF = Convert.ToInt16(versionRF); // tiene que ser un small int no se si funcionara Nixson del futuro recuerdese revisar.
+            modelo.Solicitud.idReqFunc = idReqFunc;
+            modelo.Solicitud.nomProyecto = nomProyecto;
+            modelo.Requerimiento = BD.ReqFuncional.Find(idReqFunc, modelo.Solicitud.nomProyecto);
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
+            modelo.Solicitud.aprobadoPor = modelo.Requerimiento.fuente;
+            foreach (var item in modelo.listadesarrolladores)
+            {
+                string nombre = item.nombre + " " + item.apellidos;
+                item.apellidos = nombre;
+                modelo.lista.Add(item);
+            }
+            ViewBag.desarrolladores = new SelectList(modelo.lista, "cedula", "apellidos");
+            return View(modelo);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Detalles(ModGestionCambios modelo ) {
             if (ModelState.IsValid) {
                 // BD.Solicitud.Find(modelo.Solicitud.fecha,modelo.Solicitud.versionRF,modelo.Solicitud.nomProyecto,modelo.Solicitud.idReqFunc);
-                if (modelo.solicitud.estado=="Pendiente") {
-                    string s = modelo.solicitud.fecha.ToString();
+                if (modelo.Solicitud.estado=="Pendiente") {
+                    string s = modelo.Solicitud.fecha.ToString();
 
                     // DateTime T = DateTime.ParseExact(s, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                    BD.Entry(modelo.solicitud).State = EntityState.Modified;
+                    BD.Entry(modelo.Solicitud).State = EntityState.Modified;
                     //BD.Entry(modelo.Solicitud).Property(M => M.razon).IsModified = true;
                     // BD.Solicitud.Add(modelo.Solicitud);
                     BD.SaveChanges();
@@ -289,7 +305,7 @@ namespace ProyectoInge1.Controllers
                     {
                         if (VRF.versionRF == Ver)
                         {
-                            mod.solicitud = VRF;
+                            mod.Solicitud = VRF;
                         }
                     }
                 }
@@ -299,16 +315,15 @@ namespace ProyectoInge1.Controllers
             mod.listaProyUsuarios = mod.Proyecto.Usuario2.ToList();
             return View(mod);
         }
-
-        public ActionResult Create(int? versionRF,int? idReqFunc,string nomProyecto)
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(ModGestionCambios modelo)
         {
-
-            return View();
+            BD.Solicitud.Add(modelo.Solicitud);
+            BD.SaveChanges();
+            return RedirectToAction("Index");
         }
-        }
-
+    }
 }
 
-/*
-@if(Request.IsAuthenticated && User.IsInRole("Desarrollador") && Model.userInView.cedula == Model.proyecto.lider)
-{*/

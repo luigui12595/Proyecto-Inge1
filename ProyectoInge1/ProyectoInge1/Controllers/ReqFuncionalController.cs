@@ -105,8 +105,14 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
+            
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
-
+            modelo.values = "";
+            foreach (var item in modelo.listaCriterios) {
+                modelo.values += item.criterio + "|"; 
+                BD.Entry(item).State = EntityState.Deleted;
+                BD.SaveChanges();
+            }
             modelo.listaRequerimientos = requerimiento.ToList();
             modelo.UsuariosSistema = BD.Usuario.ToList();
             modelo.listaUsuario = modelo.Requerimiento.Proyecto.Usuario2.ToList();
@@ -125,6 +131,20 @@ namespace ProyectoInge1.Controllers
             
            BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
            BD.SaveChanges();
+
+            if (modelo.values != null)
+            {
+                String[] substrings = modelo.values.Split('|');
+                foreach (var substring in substrings)
+                {
+                    CriterioAceptacion mod = new CriterioAceptacion();
+                    mod.idReqFunc = modelo.Requerimiento.id;
+                    mod.nomProyecto = modelo.Requerimiento.nomProyecto;
+                    mod.criterio = substring;
+                    BD.CriterioAceptacion.Add(mod);
+                    BD.SaveChanges();
+                }
+            }
             /*
              var id = modelo.Requerimiento.id;
              var roleId = modelo.Role;

@@ -471,6 +471,8 @@
     <Content Include="Views\ReqFuncional\Details.cshtml" />
     <Content Include="Views\Proyectos\Detalles.cshtml" />
     <Content Include="Views\Proyectos\Index.cshtml" />
+
+    <Content Include="Views\GestCambios\Create.cshtml" />
     <Content Include="Views\GestCambios\Index.cshtml" />
     <Content Include="Views\GestCambios\Solicitudes.cshtml" />
     <Content Include="Views\GestCambios\Details.cshtml" />

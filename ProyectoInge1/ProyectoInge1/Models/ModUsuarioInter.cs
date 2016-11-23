@@ -26,6 +26,7 @@ namespace ProyectoInge1.Models
             public string userId { get; set; }
             public string RolId { get; set; }
         }
+
         public Usuario modeloUsuario { get; set; }
         public Telefono modeloTelefono1 { get; set; }
         public Telefono modeloTelefono2 { get; set; }
