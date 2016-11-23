@@ -22,12 +22,14 @@ namespace ProyectoInge1.Models
         public Usuario UsuarioFuente { get; set; } //Específico para obtener la fuente el requerimiento al desplegar los detalles  NO BORRAR
         public List<Usuario> listadesarrolladores { get; set; }
         public List<Usuario> lista { get; set; }
-        public List<Solicitud> listaSolicitudes { get; set; }      
+        public List<Solicitud> listaSolicitudes { get; set; }
         public List<ReqFuncional> listaRequerimientos { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
         //public Proyecto proyecto { get; set; }
-        public HistVersiones ModeloHistVersion { get; set; }      
-       // public Proyecto proyecto { get; set; }
+        public HistVersiones ModeloHistVersion { get; set; }
+        // public Proyecto proyecto { get; set; }
+
+
         public ReqFuncional Requerimiento { get; set; }
         public HistVersiones versionReq { get; set; }
         public List<ModGestionCambios> listaModelos { get; set; }
@@ -35,9 +37,11 @@ namespace ProyectoInge1.Models
         public List<Usuario> listaUsuarioView { get; set; }
         public Proyecto Proyecto { get; set; }
         public List<Solicitud> listaSolicitud { get; set; }
-       // public Solicitud Solicitud { get; set; }
-        public Solicitud Solicitud { get; set; }
-        public Usuario userInView { get; set; } 
 
+        // public Solicitud Solicitud { get; set; }
+        public Solicitud Solicitud { get; set; }
+        public Usuario userInView { get; set; }
+
+        public string alerta { get; set; } 
     }
 }
