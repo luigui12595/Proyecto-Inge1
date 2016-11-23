@@ -39,8 +39,6 @@ namespace ProyectoInge1.Models
         public string ImagenR { get; set; }
         public byte[] ImagenRF { get; set; }
 
-        
-
     }
 
 }

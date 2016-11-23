@@ -13,6 +13,7 @@ namespace ProyectoInge1.Models
         public Usuario usuario { get; set; }
         public Proyecto proyecto { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
+        public List<Usuario> listaTemp { get; set; }
         public List<Usuario> DesarrolladoresNoLider { get; set; }  //Usado para almacenar los desarrolladores no líderes
         public List<Proyecto> listaProyectos { get; set; }
         public ReqFuncional requerimiento { get; set; }

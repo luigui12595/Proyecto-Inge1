@@ -1,0 +1,121 @@
+﻿@model ProyectoInge1.Models.ModGestionCambios
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Details_Hist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles de versión</h2>
+
+<div class="elementoNoEditar">
+    <div class="form-horizontal">
+        <dl class="dl-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.versionReq.nomProyecto, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.versionReq.nomProyecto, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.versionReq.nomProyecto, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.versionReq.idReqFunc, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.versionReq.idReqFunc, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.versionReq.idReqFunc, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.versionReq.nombreRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.versionReq.nombreRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.versionReq.nombreRF, "", new { @class = "text-danger" })
+            </div>
+            <fieldset name="estimationinfo">
+                <legend>Datos de Estimación</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.esfuerzoRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.esfuerzoRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.esfuerzoRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.prioridadRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.prioridadRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.prioridadRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.fechaInicialRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.fechaInicialRF, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.fechaInicialRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.fechaFinalRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.fechaFinalRF, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.fechaFinalRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.realizadoPor, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @{var fuente = Model.UsuarioFuente != null ? Model.UsuarioFuente.nombre + " " + Model.UsuarioFuente.apellidos : " ";}
+                    @Html.EditorFor(model => fuente, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.realizadoPor, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.responsable1RF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <select class="form-control col-md-2" style="width:20em; " id="d" size="2">
+                        @{var responsable1 = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
+                        @{var responsable2 = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}
+                        <option>
+                            @Html.DisplayFor(model => responsable1, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        </option>
+
+                        <option>
+                            @Html.DisplayFor(model => responsable2, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        </option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset name="especificinfo">
+                <legend>Especificación de Requerimiento</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.descripcionRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.TextAreaFor(model => model.versionReq.descripcionRF, new { @class = "form-control", rows = 4, @readonly = true })
+                    @Html.ValidationMessageFor(model => model.versionReq.descripcionRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.observacionesRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.TextAreaFor(model => model.versionReq.observacionesRF, new { @class = "form-control", rows = 4, @readonly = true })
+                    @Html.ValidationMessageFor(model => model.versionReq.observacionesRF, "", new { @class = "text-danger" })
+                </div>
+            </fieldset>
+            <fieldset name="generalinfo">
+                <legend>Datos Generales</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.moduloRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.moduloRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.moduloRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.sprintRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.sprintRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.sprintRF, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.versionReq.prioridadRF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.versionReq.prioridadRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.versionReq.prioridadRF, "", new { @class = "text-danger" })
+                </div>
+            </fieldset>
+
+        </dl>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <button type="submit" onclick="volver()" class="btn btn-primary">Volver</button>
+    </div>
+
+</div>
+
+<script>
+    function volver() {
+        window.location.replace('../Index')
+    }
+</script>
+

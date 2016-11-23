@@ -116,8 +116,14 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
+            
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
-
+            modelo.values = "";
+            foreach (var item in modelo.listaCriterios) {
+                modelo.values += item.criterio + "|"; 
+                BD.Entry(item).State = EntityState.Deleted;
+                BD.SaveChanges();
+            }
             modelo.listaRequerimientos = requerimiento.ToList();
             modelo.UsuariosSistema = BD.Usuario.ToList();
             modelo.listaUsuario = modelo.Requerimiento.Proyecto.Usuario2.ToList();
@@ -131,37 +137,33 @@ namespace ProyectoInge1.Controllers
 
          [HttpPost]
          [ValidateAntiForgeryToken]
-         public ActionResult Details(ModReqFuncionalInter modelo)
+         public ActionResult Details(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1)
          {
-            
+
+            /*Funcion para poder guardar una imagen*/
+           if (imagen1 != null)
+           {
+                         modelo.Requerimiento.imagen = new byte[imagen1.ContentLength];
+                         imagen1.InputStream.Read(modelo.Requerimiento.imagen, 0, imagen1.ContentLength);
+           }
+       
            BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
            BD.SaveChanges();
-            /*
-             var id = modelo.Requerimiento.id;
-             var roleId = modelo.Role;
-             var role = await RoleManager.FindByIdAsync(roleId);
-            // en ves de a;adir es modificar
-            //  await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
-            
-              modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-              for (int i = 0; i < modelo.listaTelefono.Count; i++)
-              {
-                  BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
-              }
-              if (modelo.modeloTelefono1.numero != null)
-              {
-                  modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
-                  BD.Telefono.Add(modelo.modeloTelefono1);
-                  BD.SaveChanges();
 
-              }
-              if (modelo.modeloTelefono2.numero != null)
-              {
-                  modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
-                  BD.Telefono.Add(modelo.modeloTelefono2);
-                  BD.SaveChanges();
+            if (modelo.values != null)
+            {
+                String[] substrings = modelo.values.Split('|');
+                foreach (var substring in substrings)
+                {
+                    CriterioAceptacion mod = new CriterioAceptacion();
+                    mod.idReqFunc = modelo.Requerimiento.id;
+                    mod.nomProyecto = modelo.Requerimiento.nomProyecto;
+                    mod.criterio = substring;
+                    BD.CriterioAceptacion.Add(mod);
+                    BD.SaveChanges();
+                }
+            }
 
-              } */
             return RedirectToAction("Index", new { nombreProyecto = modelo.Requerimiento.nomProyecto }); 
          }
         
