@@ -11,7 +11,7 @@
 
 
 <div class="elementoModificar" style="display:none">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
@@ -95,6 +95,12 @@
                         @Html.LabelFor(model => model.Requerimiento.sprint, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Requerimiento.imagen, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="file" id="image1" name="imagen1" />
+                        </div>
                     </div>
                 </fieldset>
                 <fieldset name="generalinfo">
@@ -266,6 +272,10 @@
                 }
 
             }
+
+    </script>
+        <script>
+
             i = 0;
 
             function update_output() {
@@ -316,6 +326,7 @@
                 }
             }
         </script>
+
 
 <script type="text/javascript">
     $(function () {

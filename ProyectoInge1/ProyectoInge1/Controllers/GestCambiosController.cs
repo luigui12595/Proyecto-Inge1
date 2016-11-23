@@ -107,14 +107,16 @@ namespace ProyectoInge1.Controllers
             short version = Convert.ToInt16(parameters[0]);
             int idRF = Convert.ToInt32(parameters[1]);
             string nomProy = parameters[2];
-            string fecha = parameters[3].Replace('-', ':').Replace('_', '-');
+
+            string fecha = parameters[3].Replace('-', ':').Replace('_', '-') + "." + parameters[5];
             string currentUser = parameters[4];
             var userView = from user in BD.Usuario
                            where currentUser == user.id
                            select user;
             modelo.userInView = userView.ToList().First();
             bool? lider = modelo.userInView.lider;
-            DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
             modelo.Solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
@@ -150,9 +152,41 @@ namespace ProyectoInge1.Controllers
                     BD.SaveChanges();
                 }
             }
+
+        BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+            BD.SaveChanges();
+            if (modelo.Solicitud.estado == "Aprobada")
+            {
+                modelo.versionReq.versionRF += 1;
+                BD.HistVersiones.Add(modelo.versionReq);
+                BD.SaveChanges();
+            }
             return RedirectToAction("Solicitudes");
         }
-        
+
+        public ActionResult Details_Hist(string id)
+        {
+            /*if (!revisarPermisos("Detalles de Usuario"))
+            {
+                return RedirectToAction("Index", "Usuario");
+            }*/
+            var usuarios = from usuario in BD.Usuario
+                           orderby usuario.cedula
+                           select usuario;
+            ModGestionCambios modelo = new ModGestionCambios();
+            string[] parameters = id.Split('~');
+            short version = Convert.ToInt16(parameters[0]);
+            int idRF = Convert.ToInt32(parameters[1]);
+            string nomProy = parameters[2];
+            modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
+            modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.versionReq.realizadoPor);
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
+            return View(modelo);
+        }
+
+
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -162,7 +196,7 @@ namespace ProyectoInge1.Controllers
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
             var versiones = from verCam in BD.HistVersiones
-                           select verCam;
+                            select verCam;
             if (!String.IsNullOrEmpty(searchString))
             {
                 versiones = versiones.Where(cambios => cambios.razon.Contains(searchString) || cambios.nomProyecto.Contains(searchString));
@@ -179,53 +213,16 @@ namespace ProyectoInge1.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             ModGestionCambios modelo = new ModGestionCambios();
-             modelo.listaCambios = versiones.ToList();
+            modelo.listaCambios = versiones.ToList();
             modelo.listaUsuarios = BD.Usuario.ToList();
             ViewBag.userList = modelo.listaUsuarios;
             //modelo.listaSolicitud = versiones.ToList();
             // modelo.listaModelos= versiones.ToList();
-           // ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
+            // ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
             return View(versiones.ToList().ToPagedList(pageNumber, pageSize));
         }
 
 
-
-        public ActionResult Detalles(/*int id,int Ver*/)
-        {
-            int id = 3;
-            int Ver = 1;
-            DateTime Momento = DateTime.Parse("2016-11-18 13:00:53.000");
-            string Proy = "Inge I";
-            ModGestionCambios modelo = new ModGestionCambios();
-            modelo.listaUsuarios= BD.Usuario.ToList();
-            var VReq = BD.Solicitud.ToList();
-            foreach(var VRF in VReq){
-                if (DateTime.Compare(VRF.fecha, Momento) == 0){
-                    if (VRF.idReqFunc==id) {
-                         if (VRF.versionRF==Ver) {
-                            modelo.Solicitud = VRF;
-                        }
-                    }
-                }
-            }
-            modelo.Proyecto = BD.Proyecto.Find(Proy);
-            modelo.listaUsuarios = BD.Usuario.ToList();
-            modelo.listaProyUsuarios = modelo.Proyecto.Usuario2.ToList();
-           
-            var D = modelo.listaUsuarios.Intersect(modelo.listaProyUsuarios);
-            modelo.listaUsuarioView = D.ToList();
-            ViewBag.Lista = modelo.listaUsuarioView;
-            return View(modelo);
-
-        }
-
-        /* public ActionResult Index()
-         {
-             ModGestionCambios GestionC = new ModGestionCambios();
-             GestionC.listaProyectos = BD.Proyecto.ToList();
-             return View(GestionC);
-
-         }*/
         public ActionResult Create(int versionRF, int idReqFunc, string nomProyecto)
         {
             ModGestionCambios modelo = new ModGestionCambios();
@@ -253,47 +250,7 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Detalles(ModGestionCambios modelo ) {
-            if (ModelState.IsValid) {
-                // BD.Solicitud.Find(modelo.Solicitud.fecha,modelo.Solicitud.versionRF,modelo.Solicitud.nomProyecto,modelo.Solicitud.idReqFunc);
-                if (modelo.Solicitud.estado=="Pendiente") {
-                    string s = modelo.Solicitud.fecha.ToString();
 
-                    // DateTime T = DateTime.ParseExact(s, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                    BD.Entry(modelo.Solicitud).State = EntityState.Modified;
-                    //BD.Entry(modelo.Solicitud).Property(M => M.razon).IsModified = true;
-                    // BD.Solicitud.Add(modelo.Solicitud);
-                    BD.SaveChanges();
-                }
-            }
-
-            int id = 3;
-            int Ver = 1;
-            DateTime Momento = DateTime.Parse("2016-11-18 13:00:53.000");
-            string Proy = "Inge I";
-            ModGestionCambios mod = new ModGestionCambios();
-            mod.listaUsuarios = BD.Usuario.ToList();
-            var VReq = BD.Solicitud.ToList();
-            foreach (var VRF in VReq)
-            {
-                if (DateTime.Compare(VRF.fecha, Momento) == 0)
-                {
-                    if (VRF.idReqFunc == id)
-                    {
-                        if (VRF.versionRF == Ver)
-                        {
-                            mod.Solicitud = VRF;
-                        }
-                    }
-                }
-            }
-            mod.Proyecto = BD.Proyecto.Find(Proy);
-            mod.listaUsuarios = BD.Usuario.ToList();
-            mod.listaProyUsuarios = mod.Proyecto.Usuario2.ToList();
-            return View(mod);
-        }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -328,4 +285,6 @@ namespace ProyectoInge1.Controllers
         }
     }
 }
+
+
 
