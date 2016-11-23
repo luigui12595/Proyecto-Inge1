@@ -110,14 +110,19 @@
                 <div class="form-group">
                      <label class="control-label col-md-2">Rol:</label>
                      <div class="col-md-9 col-md-pull-1" style="padding-top:0.5em; margin-left:6em;">
-                         @Html.DropDownListFor(model => model.Role,
-                             new[] {    new SelectListItem() { Text = "-- Rol no Asignado --", Value = "" },
-                                        new SelectListItem() { Text = "Administrador", Value = "1" },
-                                        new SelectListItem() { Text = "Desarrollador", Value = "2" },
-                                        new SelectListItem() { Text = "Usuario", Value = "3" } }, new { @class = "form-control" })
+                         @{ 
+                             var rol=Model.Role;
+                                
+                             @Html.DropDownListFor(model => model.Role,new[] {    new SelectListItem() { Text = rol, Value = rol },
+                                        new SelectListItem() { Text = "Administrador", Value = "Administrador" },
+                                        new SelectListItem() { Text = "Desarrollador", Value = "Desarrollador" },
+                                        new SelectListItem() { Text = "Usuario", Value = "Usuario" } }, new { @class = "form-control" });
+                         }
                      </div>
-                </div>
-                <div class="form-group">
+      
+                 </div>
+      
+                      <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <button type="submit" class="btn btn-primary">Aceptar</button>
                         <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>

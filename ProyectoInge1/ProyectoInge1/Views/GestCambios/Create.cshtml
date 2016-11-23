@@ -4,12 +4,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
-    function aceptar() {
-        alert("Se a generado la Solicitud");
-    }
-
-</script>
+<script></script>
 <h2>Gestion de Solicitudes</h2>
 
 
@@ -174,9 +169,12 @@
         
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input onclik="aceptar()" type="submit" value="Aceptar" class="btn btn-primary" />
+            <div class="col-md-offset-2 col-md-5">
+                <input onclik= "succes()" type="submit" value="Aceptar" class="btn btn-primary"/>
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger", @onclick = "myFunction()", @style = "color:#FFFFFF;" })
+               
             </div>
+           
         </div>
     </div>
 }
@@ -185,3 +183,16 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    // mensaje desplegado al crear solicitud
+    function succes() {
+        alert("Se realizo la solicitud") 
+    }
+    //Confirmacion de calcelar solicitud
+    function myFunction() {
+        if (!confirm("No se guardaran los cambios, desea continuar?")) {
+
+        }  
+    }
+</script>

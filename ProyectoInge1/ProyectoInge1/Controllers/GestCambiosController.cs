@@ -226,16 +226,19 @@ namespace ProyectoInge1.Controllers
              return View(GestionC);
 
          }*/
+
+        // Create: inicia la solicitud, pre-carga los valores para la consulta de reqFunc
         public ActionResult Create(int versionRF, int idReqFunc, string nomProyecto)
         {
             ModGestionCambios modelo = new ModGestionCambios();
             modelo.Requerimiento = new ReqFuncional();
             modelo.lista = new List<Usuario>();
-            modelo.listadesarrolladores = BD.Usuario.ToList();
             modelo.Solicitud = new Solicitud();
+            // inicializacion de variables
+            modelo.listadesarrolladores = BD.Usuario.ToList();
             modelo.Solicitud.estado = "Pendiente";
             modelo.Solicitud.fecha = DateTime.Now;
-            modelo.Solicitud.versionRF = Convert.ToInt16(versionRF); // tiene que ser un small int no se si funcionara Nixson del futuro recuerdese revisar.
+            modelo.Solicitud.versionRF = Convert.ToInt16(versionRF);
             modelo.Solicitud.idReqFunc = idReqFunc;
             modelo.Solicitud.nomProyecto = nomProyecto;
             modelo.Requerimiento = BD.ReqFuncional.Find(idReqFunc, modelo.Solicitud.nomProyecto);
@@ -243,6 +246,7 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.Solicitud.aprobadoPor = modelo.Requerimiento.fuente;
+            // Llenado del viewBag
             foreach (var item in modelo.listadesarrolladores)
             {
                 string nombre = item.nombre + " " + item.apellidos;
@@ -294,13 +298,31 @@ namespace ProyectoInge1.Controllers
             mod.listaProyUsuarios = mod.Proyecto.Usuario2.ToList();
             return View(mod);
         }
-        
+
+
+        // Post Create solicitud, agrega una solicitud para ser revisada
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModGestionCambios modelo)
         {
-            BD.Solicitud.Add(modelo.Solicitud);
-            BD.SaveChanges();
+            // datos necesarios para almacenar en la solicitud
+            modelo.Solicitud.nombreRF = modelo.Requerimiento.nombre;
+            modelo.Solicitud.sprintRF = modelo.Requerimiento.sprint;
+            modelo.Solicitud.moduloRF = modelo.Requerimiento.modulo;
+            modelo.Solicitud.fechaInicialRF = modelo.Requerimiento.fechaInicial;
+            modelo.Solicitud.fechaFinalRF = modelo.Requerimiento.fechaFinal;
+            modelo.Solicitud.observacionesRF = modelo.Requerimiento.observaciones;
+            modelo.Solicitud.descripcionRF = modelo.Requerimiento.descripcion;
+            modelo.Solicitud.esfuerzoRF = modelo.Requerimiento.esfuerzo;
+            modelo.Solicitud.prioridadRF = modelo.Requerimiento.prioridad;
+            modelo.Solicitud.imagenRF = modelo.Requerimiento.imagen;
+            modelo.Solicitud.responsable1RF = modelo.Requerimiento.responsable1;
+            modelo.Solicitud.responsable2RF = modelo.Requerimiento.responsable2;
+            // Usuario que lo solicito no deve ser null
+            if (modelo.Solicitud.realizadoPor!= null) {
+                BD.Solicitud.Add(modelo.Solicitud);
+                BD.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
     }

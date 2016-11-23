@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProyectoInge1.Models;
+using System.Data;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -10,9 +12,11 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
 using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using PagedList;
 using System.Text;
+
 
 //http://stackoverflow.com/questions/10042608/passing-javascript-array-to-asp-net-mvc-controller.
 //http://stackoverflow.com/questions/15782417/post-javascript-array-with-ajax-to-asp-net-mvc-controller
@@ -180,6 +184,7 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Create()
         {
+            /*
             var usuarios = from users in BD.Usuario
                            select users;
             var context = new ApplicationDbContext();
@@ -188,34 +193,40 @@ namespace ProyectoInge1.Controllers
                                   select developer;
             ModProyectoInter model = new ModProyectoInter();
             model.DesarrolladoresNoLider = new List<Usuario>();
+            model.listaUsuariosProyecto = new List<Usuario>();
             foreach ( var x in usuarios) {
                 foreach ( var y in desarrolladores) {
                     if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
                         model.DesarrolladoresNoLider.Add(x);
                     }
                 }
-            }
-            model.Participantes = "hola";
-            model.listaUsuarios = usuarios.ToList();
-            ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
-            return View(model);
+            }*/
+            var proyecto =new Proyecto();
+            proyecto.Usuario2 = new List<Usuario>();
+            PopulateAssignedData(proyecto);
+            
+            //var recursosDisponibles = new List<Usuario>();
+            //recursosDisponibles = model.DesarrolladoresNoLider;
+            //var recursosAsignados = new List<Usuario>();
+            //recursosAsignados.Add(BD.Usuario.First());
+            //ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
+            //ViewBag.recursosDisponibles = new MultiSelectList(recursosDisponibles, "cedula", "names");
+            //ViewBag.recursosAsignados = new MultiSelectList(recursosAsignados, "cedula", "names");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModProyectoInter modelo/*, string id*/)
+        public ActionResult Create(ModProyectoInter modelo, string[] recAsig, string[] recDisp/*, string id*/)
         {
             if (ModelState.IsValid)
             {
-                //var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                //var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
-                //var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
-                //var result = await UserManager.CreateAsync(user, password);
-                
-            //if (result.Succeeded)
-            //{
-                //modelo.modeloUsuario.id = user.Id;
-
+                modelo.lider = "986454566";
+                modelo.DesarrolladoresNoLider = new List<Usuario>();
+                modelo.DesarrolladoresNoLider = ViewBag.Asignados;
+                foreach (var item in modelo.DesarrolladoresNoLider) {
+                    modelo.proyecto.Usuario2.Add(item);
+                }
                 BD.Proyecto.Add(modelo.proyecto);
                 BD.SaveChanges();
 
@@ -252,7 +263,32 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
             }
         }
-
+        private void PopulateAssignedData(Proyecto proyecto)
+        {
+            var usuarios = from users in BD.Usuario
+                           select users;
+            var context = new ApplicationDbContext();
+            var desarrolladores = from developer in context.Users
+                                  where developer.Roles.Any(r => r.RoleId == "2")
+                                  select developer;
+            ModProyectoInter model = new ModProyectoInter();
+            model.DesarrolladoresNoLider = new List<Usuario>();
+            model.listaUsuariosProyecto = new List<Usuario>();
+            foreach (var x in usuarios)
+            {
+                foreach (var y in desarrolladores)
+                {
+                    if (x.id == y.Id && (x.lider == false || x.lider == null))
+                    {
+                        model.DesarrolladoresNoLider.Add(x);
+                    }
+                }
+            }
+            var desNoLiders = model.DesarrolladoresNoLider;
+            var asig = model.listaUsuariosProyecto;
+            ViewBag.Disponibles = new MultiSelectList(desNoLiders, "cedula", "apellidos");
+            ViewBag.Asignados = new MultiSelectList(asig, "cedula", "apellidos");
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar1(/*bool confirm, string Proyecto*/)
