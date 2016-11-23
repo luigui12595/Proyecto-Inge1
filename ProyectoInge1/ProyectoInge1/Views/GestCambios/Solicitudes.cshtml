@@ -41,9 +41,10 @@
     <tbody>
         @foreach (var item in Model)
         {
-                var userID = User.Identity.GetUserId();
-                var fecha = @item.fecha.ToString("dd_MM_yyyy HH-mm-ss");
-            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha + "~" + userID)' onclick="gotoDetailsSolicitud(this)">
+            var userID = User.Identity.GetUserId();
+            var fecha = @item.fecha.ToString("dd_MM_yyyy HH-mm-ss");
+            var ms = @item.fecha.ToString("fff");
+            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha + "~" + userID + "~" + ms)' onclick="gotoDetailsSolicitud(this)">
                 <td>
                     @Html.DisplayFor(modelItem => item.nombreRF )
                 </td>

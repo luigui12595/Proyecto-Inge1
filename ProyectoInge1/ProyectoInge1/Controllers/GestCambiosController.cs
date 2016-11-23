@@ -106,14 +106,14 @@ namespace ProyectoInge1.Controllers
             short version = Convert.ToInt16(parameters[0]);
             int idRF = Convert.ToInt32(parameters[1]);
             string nomProy = parameters[2];
-            string fecha = parameters[3].Replace('-', ':').Replace('_', '-');
+            string fecha = parameters[3].Replace('-', ':').Replace('_', '-') + "." + parameters[5];
             string currentUser = parameters[4];
             var userView = from user in BD.Usuario
                            where currentUser == user.id
                            select user;
             modelo.userInView = userView.ToList().First();
             bool? lider = modelo.userInView.lider;
-            DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
             modelo.solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
