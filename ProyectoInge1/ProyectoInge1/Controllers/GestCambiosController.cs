@@ -70,20 +70,18 @@ namespace ProyectoInge1.Controllers
                 case "proy_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.nomProyecto); break;
                 case "Version": solicitudes = solicitudes.OrderBy(solicitud => solicitud.versionRF); break;
                 case "version_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.versionRF); break;
-                case "Real":
-                    solicitudes = from sol in BD.Solicitud
-                                  join user in BD.Usuario on sol.realizadoPor equals user.cedula
-                                  orderby user.nombre ascending
-                                  select sol; break;
-                case "real_desc":
-                    solicitudes = from sol in BD.Solicitud
-                                  join user in BD.Usuario on sol.realizadoPor equals user.cedula
-                                  orderby user.nombre descending
-                                  select sol; break;
+                case "Real": solicitudes = from sol in BD.Solicitud
+                                           join user in BD.Usuario on sol.realizadoPor equals user.cedula
+                                           orderby user.nombre ascending
+                                           select sol; break;
+                case "real_desc": solicitudes = from sol in BD.Solicitud
+                                                join user in BD.Usuario on sol.realizadoPor equals user.cedula
+                                                orderby user.nombre descending
+                                                select sol; break;
                 case "Est": solicitudes = solicitudes.OrderBy(solicitud => solicitud.estado); break;
                 case "est_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.estado); break;
                 default: solicitudes = solicitudes.OrderBy(sol => sol.nombreRF); break;
-            }
+            }    
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             //modelo.listaRequerimientos = requerimientos.ToList();
@@ -109,6 +107,7 @@ namespace ProyectoInge1.Controllers
             short version = Convert.ToInt16(parameters[0]);
             int idRF = Convert.ToInt32(parameters[1]);
             string nomProy = parameters[2];
+
             string fecha = parameters[3].Replace('-', ':').Replace('_', '-') + "." + parameters[5];
             string currentUser = parameters[4];
             var userView = from user in BD.Usuario
@@ -116,6 +115,7 @@ namespace ProyectoInge1.Controllers
                            select user;
             modelo.userInView = userView.ToList().First();
             bool? lider = modelo.userInView.lider;
+
             DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
             modelo.Solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
@@ -143,7 +143,17 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }*/
-            BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+            if (ModelState.IsValid)
+            {
+                if (modelo.Solicitud.estado == "Pendiente")
+                {
+                    string s = modelo.Solicitud.fecha.ToString();
+                    BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+                    BD.SaveChanges();
+                }
+            }
+
+        BD.Entry(modelo.Solicitud).State = EntityState.Modified;
             BD.SaveChanges();
             if (modelo.Solicitud.estado == "Aprobada")
             {
@@ -175,6 +185,7 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
             return View(modelo);
         }
+
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -212,46 +223,6 @@ namespace ProyectoInge1.Controllers
         }
 
 
-
-        public ActionResult Detalles(/*int id,int Ver*/)
-        {
-            int id = 3;
-            int Ver = 1;
-            DateTime Momento = DateTime.Parse("2016-11-18 13:00:53.000");
-            string Proy = "Inge I";
-            ModGestionCambios modelo = new ModGestionCambios();
-            modelo.listaUsuarios = BD.Usuario.ToList();
-            var VReq = BD.Solicitud.ToList();
-            foreach (var VRF in VReq)
-            {
-                if (DateTime.Compare(VRF.fecha, Momento) == 0)
-                {
-                    if (VRF.idReqFunc == id)
-                    {
-                        if (VRF.versionRF == Ver)
-                        {
-                            modelo.Solicitud = VRF;
-                        }
-                    }
-                }
-            }
-            modelo.Proyecto = BD.Proyecto.Find(Proy);
-            modelo.listaUsuarios = BD.Usuario.ToList();
-            modelo.listaProyUsuarios = modelo.Proyecto.Usuario2.ToList();
-
-            var D = modelo.listaUsuarios.Intersect(modelo.listaProyUsuarios);
-            modelo.listaUsuarioView = D.ToList();
-            ViewBag.Lista = modelo.listaUsuarioView;
-            return View(modelo);
-
-        }
-
-        /* public ActionResult Index()
-         {
-             ModGestionCambios GestionC = new ModGestionCambios();
-             GestionC.listaProyectos = BD.Proyecto.ToList();
-             return View(GestionC);
-         }*/
         public ActionResult Create(int versionRF, int idReqFunc, string nomProyecto)
         {
             ModGestionCambios modelo = new ModGestionCambios();
@@ -279,51 +250,8 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Detalles(ModGestionCambios modelo)
-        {
-            if (ModelState.IsValid)
-            {
-                // BD.Solicitud.Find(modelo.Solicitud.fecha,modelo.Solicitud.versionRF,modelo.Solicitud.nomProyecto,modelo.Solicitud.idReqFunc);
-                if (modelo.Solicitud.estado == "Pendiente")
-                {
-                    string s = modelo.Solicitud.fecha.ToString();
 
-                    // DateTime T = DateTime.ParseExact(s, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                    BD.Entry(modelo.Solicitud).State = EntityState.Modified;
-                    //BD.Entry(modelo.Solicitud).Property(M => M.razon).IsModified = true;
-                    // BD.Solicitud.Add(modelo.Solicitud);
-                    BD.SaveChanges();
-                }
-            }
-
-            int id = 3;
-            int Ver = 1;
-            DateTime Momento = DateTime.Parse("2016-11-18 13:00:53.000");
-            string Proy = "Inge I";
-            ModGestionCambios mod = new ModGestionCambios();
-            mod.listaUsuarios = BD.Usuario.ToList();
-            var VReq = BD.Solicitud.ToList();
-            foreach (var VRF in VReq)
-            {
-                if (DateTime.Compare(VRF.fecha, Momento) == 0)
-                {
-                    if (VRF.idReqFunc == id)
-                    {
-                        if (VRF.versionRF == Ver)
-                        {
-                            mod.Solicitud = VRF;
-                        }
-                    }
-                }
-            }
-            mod.Proyecto = BD.Proyecto.Find(Proy);
-            mod.listaUsuarios = BD.Usuario.ToList();
-            mod.listaProyUsuarios = mod.Proyecto.Usuario2.ToList();
-            return View(mod);
-        }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModGestionCambios modelo)
@@ -334,3 +262,6 @@ namespace ProyectoInge1.Controllers
         }
     }
 }
+
+
+

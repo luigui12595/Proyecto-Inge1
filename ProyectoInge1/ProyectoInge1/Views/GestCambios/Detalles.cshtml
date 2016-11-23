@@ -53,49 +53,58 @@
         @Html.AntiForgeryToken(){
             <div class="elementoModificar" style="display:none">
                 <br /><br /><br />
-                @*nombre*@
+                @*nombre Del proyecto*@
                 <div class="form-group">
-                    <label class="control-label col-md-2">Proyecto:(No editable)</label>
-                    <div class="col-md-10">
-                     
-                    </div>
-                </div>
-                <br /><br />
-                @*Descripcion*@
-                <div class="form-group">
-                    <label class="control-label col-md-2">Nombre del requerimiento:(No editable)</label>
+                    
                     <div class="col-md-10">
                         
-                    </div>
-                </div>
-                <br /><br />
-                <div class="form-group">
-                    <label class="control-label col-md-2">Version del requerimiento:(No editable)</label>
-                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.estado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.prioridadRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.esfuerzoRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.descripcionRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
                         
+                        @Html.HiddenFor(model => model.solicitud.idReqFunc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.nombreRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.versionRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.observacionesRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.HiddenFor(model => model.Solicitud.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(model => model.Solicitud.Usuario1, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(model => model.Solicitud.Usuario2, new { htmlAttributes = new { @class = "form-control" } })*@
                     </div>
                 </div>
                 <br /><br />
-                <div class="form-group">
-                   
-                    <div class="col-md-10">
-                       
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-2">Interesado por el cambio:(Tal vez editable)</label>
-                    <div class="col-md-10" style="padding-top:0.5em;">
-                       
-                    </div>
-                </div>
-                <br /><br /><br /><br />
-                <div class="form-group">
-                    <label class="control-label col-md-2">Razon de la solicitud:(editable)</label>
-                    <div class="col-md-10">
-                   
+               
+                <div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.solicitud.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        @Html.ValidationMessageFor(model => model.solicitud.estado, "", new { @class = "text-danger" })
                     </div>
                 </div><br /><br />
+                @*Persona que desea realizar el cambio *@
+                <div class="form-group">
+                    <label class="control-label col-md-2">Interesado por el cambio:</label>
+                    <div class="col-md-10" style="padding-top:0.5em;">
+                        @Html.DropDownListFor(model => model.solicitud.realizadoPor, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <br /><br />
+                @*Razon por la que se desea realizar el cambio *@
+                <div class="form-group">
+                    <label class="control-label col-md-2">Razon de la solicitud:</label>
+                    <div class="col-md-10">
+                   @Html.TextAreaFor(model => model.solicitud.razon, new { @class = "form-control", rows = "4" })
+                @Html.ValidationMessageFor(model => model.solicitud.razon, "", new { @class = "text-danger" })
+                    </div>
+                </div><br /><br />
+   
+                @*Botones*@
                 <div class="form-horizontal">
                     <hr />
                     <div class="elementoModificar" style="display:none">

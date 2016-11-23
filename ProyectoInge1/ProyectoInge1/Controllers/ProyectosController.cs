@@ -112,13 +112,19 @@ namespace ProyectoInge1.Controllers
 
         public ActionResult Detalles(string id)
         {
-            
+
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            if(modelo.proyecto.Usuario2.Count>0 || !modelo.proyecto.Usuario2.Equals(null)) { 
+            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null)) {
                 modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             }
+            // bolsa de desarrolladores disponibles
+            List<Usuario> listadesarrolladores = new List<Usuario>();
+            string RolDesarrollador = context.Roles.Where(m => m.Name == "Desarrollador").First().Id;
+            
+            ViewBag.desarrolladores = new SelectList(listadesarrolladores, "nombre", "apellidos");
+            ViewBag.desarDisponibles = listadesarrolladores;
             return View(modelo);
 
         }
@@ -153,6 +159,14 @@ namespace ProyectoInge1.Controllers
         {
             BD.Entry(modelo.proyecto).State = EntityState.Modified;
             BD.SaveChanges();
+
+            //Agregar participantes
+            if (modelo.listaUsuarios != null) {
+                foreach (var item in modelo.listaUsuarios) {
+                    //pUsuario.usuario = item.cedula;
+                    
+                }
+            }
             return RedirectToAction("Index");
         }
 
@@ -181,6 +195,7 @@ namespace ProyectoInge1.Controllers
                     }
                 }
             }
+            model.Participantes = "hola";
             model.listaUsuarios = usuarios.ToList();
             ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
             return View(model);

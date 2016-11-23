@@ -28,6 +28,8 @@ namespace ProyectoInge1.Models
         //public Proyecto proyecto { get; set; }
         public HistVersiones ModeloHistVersion { get; set; }
         // public Proyecto proyecto { get; set; }
+
+
         public ReqFuncional Requerimiento { get; set; }
         public HistVersiones versionReq { get; set; }
         public List<ModGestionCambios> listaModelos { get; set; }
@@ -35,9 +37,11 @@ namespace ProyectoInge1.Models
         public List<Usuario> listaUsuarioView { get; set; }
         public Proyecto Proyecto { get; set; }
         public List<Solicitud> listaSolicitud { get; set; }
+
         // public Solicitud Solicitud { get; set; }
         public Solicitud Solicitud { get; set; }
         public Usuario userInView { get; set; }
+
 
     }
 }
