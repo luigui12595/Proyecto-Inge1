@@ -148,9 +148,8 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Index", "Usuario");
             }
             if (ModelState.IsValid) {
-                if (modelo.Solicitud.estado == "Pendiente"|| modelo.Solicitud.estado == "En Revisión")
+                if (modelo.Solicitud.estado == "Pendiente"|| modelo.Solicitud.estado == "En Revision")
                 {
-                    string s = modelo.Solicitud.fecha.ToString();
                     BD.Entry(modelo.Solicitud).State = EntityState.Modified;
                     BD.SaveChanges();
                 }
