@@ -165,7 +165,7 @@ $(document).ready(function(){
                         @Html.HiddenFor(model => model.versionReq.imagenRF, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.HiddenFor(model => model.versionReq.responsable1RF, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.HiddenFor(model => model.versionReq.responsable2RF, new { htmlAttributes = new { @class = "form-control" } })
-
+                        @Html.HiddenFor(model => model.ancientState, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.HiddenFor(model => model.Solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.HiddenFor(model => model.Solicitud.prioridadRF, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.HiddenFor(model => model.Solicitud.esfuerzoRF, new { htmlAttributes = new { @class = "form-control" } })
@@ -210,8 +210,15 @@ $(document).ready(function(){
                     {
                         <div class="form-group">
                             @Html.LabelFor(model => model.Solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.DropDownListFor(model => model.Solicitud.estado, new[] { new SelectListItem() { Text = "Aprobada", Value = "Aprobada" },new SelectListItem() { Text = "Declinada", Value = "Declinada" },
+                            @if (@Model.Solicitud.estado == "Aprobada")
+                            {
+                                @Html.EditorFor(model => model.Solicitud.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.Solicitud.estado, new[] { new SelectListItem() { Text = "Aprobada", Value = "Aprobada" },new SelectListItem() { Text = "Declinada", Value = "Declinada" },
                                                             new SelectListItem() { Text = "Pendiente", Value = "Pendiente" }, new SelectListItem() { Text = "En Revisión", Value = "En Revisión" } }, new { @class = "form-control" })
+                            }
                             @Html.ValidationMessageFor(model => model.Solicitud.estado, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-2 col-lg-push-5">
