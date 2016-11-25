@@ -188,6 +188,7 @@ namespace ProyectoInge1.Controllers
                                   select developer;
             ModProyectoInter model = new ModProyectoInter();
             model.DesarrolladoresNoLider = new List<Usuario>();
+
             foreach ( var x in usuarios) {
                 foreach ( var y in desarrolladores) {
                     if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
@@ -195,10 +196,14 @@ namespace ProyectoInge1.Controllers
                     }
                 }
             }
-            model.Participantes = "hola";
+           /* foreach (var developer in model.DesarrolladoresNoLider)
+            {
+                if ( ! )
+            }*/
             model.listaUsuarios = usuarios.ToList();
-            ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
-            return View(model);
+            //ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
+            ViewBag.Desarrolladores = new MultiSelectList(model.DesarrolladoresNoLider, "cedula", "names");
+            return View();
         }
 
         [HttpPost]
