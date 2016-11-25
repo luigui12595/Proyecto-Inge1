@@ -98,6 +98,13 @@ namespace ProyectoInge1.Controllers
             return View(solicitudes.ToList().ToPagedList(pageNumber, pageSize));
         }
 
+        /*
+           Inicializa la informacion necesaria para presentar detalles, modificar o eliminar una solicitud de cambio
+           @param id: hilera de caracteres compuesta por la fecha de una solicitud, el requerimiento y el proyecto
+                      al que perteneceria y una version de este requerimiento.               
+           @return: Un modelo de solicitud de cambio que contiene la informacion correspondiente a este y un ViewBag 
+                    que contiene una lista de usuarios relacionados a que participan de ese proyecto.
+       */
         public ActionResult Details(string id)
         {
             /*if (!revisarPermisos("Detalles de Usuario"))
@@ -138,6 +145,13 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
+        /*
+		    Contiene la informacion referente a la informacion necesaria para realizar algun cambio en la informacion de una 
+            solicitud de cambio.
+			@param modelo: Consiste en los datos ingresados por un usuario que corresponde a la informacion referente para la 
+                          modificacion de una solicitud de cambio de una version de un requerimiento.               
+			@return: ningun valor pero devuelve al usuario al index de solicitudes
+		*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Details(ModGestionCambios modelo)
@@ -188,6 +202,17 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
+
+
+        /*
+            Crea un listado de todas las versiones que existen de un requerimiento funcional.
+			@param sortOrder: Consiste en una hilera de caracteres que indica el orden en el que se realizara el ordenamiento de 
+                              de las hileras
+            @param currentFilter: Consiste en una hilera de caracteres que determina cual es el actual el actual estado de busqueda 
+            @param searchString: Consiste en una hilera de caracteres para realizar una busqueda en el index 
+            @param page: Consiste en un entero que determina el numero de paginas que se presentara               
+			@return: Un modelo gestion de cambios con informacion de todas las versiones existentes.
+		*/
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!revisarPermisos("Index de Version"))

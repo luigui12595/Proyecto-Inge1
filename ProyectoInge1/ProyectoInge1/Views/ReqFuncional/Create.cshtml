@@ -66,7 +66,7 @@ window.onload = load_all
             <div class="col-md-6">
                 <label class="control-label col-md-3">Proyecto</label>
                 @Html.EditorFor(model => Model.nProy, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-                @Html.HiddenFor(model => model.Requerimientos.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Requerimiento.nomProyecto, new { htmlAttributes = new { @class = "form-control" } })
 
             </div><br /><br />
 
@@ -76,8 +76,8 @@ window.onload = load_all
 
             <div class="col-md-6">
                 <label class="control-label col-md-3">Nombre:</label>
-                @Html.EditorFor(model => model.Requerimientos.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Requerimientos.nombre, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Requerimiento.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Requerimiento.nombre, "", new { @class = "text-danger" })
             </div><br /><br />
         </div>
 
@@ -86,50 +86,50 @@ window.onload = load_all
             <div class="form-group">
                 <div class="col-md-6 ">
                     <label class="control-label col-md-3">Esfuerzo:</label>
-                    @Html.EditorFor(model => model.Requerimientos.esfuerzo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.esfuerzo, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Requerimiento.esfuerzo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimiento.esfuerzo, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
 
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Prioridad:</label>
-                    @Html.EditorFor(model => model.Requerimientos.prioridad, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.prioridad, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimiento.prioridad, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
 
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Fecha Inicial:</label>
-                    @Html.TextBoxFor(model => model.Requerimientos.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
+                    @Html.TextBoxFor(model => model.Requerimiento.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                 </div><br /><br />
             </div>
 
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Fecha Final:</label>
-                    @Html.TextBoxFor(model => model.Requerimientos.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
+                    @Html.TextBoxFor(model => model.Requerimiento.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE" })
                 </div><br /><br />
             </div>
             <div class="form-group">
 
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Fuente:</label>
-                    @Html.DropDownListFor(model => model.Requerimientos.fuente, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Requerimiento.fuente, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                 </div><br /><br />
             </div>    <br />
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Responsable 1:</label>
-                    @Html.DropDownListFor(model => model.Requerimientos.responsable1, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Requerimiento.responsable1, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                 </div><br /><br />
             </div><br />
             <div class="form-group">
 
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Responsable 2:</label>
-                    @Html.DropDownListFor(model => model.Requerimientos.responsable2, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Requerimiento.responsable2, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                 </div><br /><br />
             </div>    <br />
             </fieldset>
@@ -138,16 +138,16 @@ window.onload = load_all
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Descripcion:</label>
-                    @Html.TextAreaFor(model => model.Requerimientos.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.descripcion, "", new { @class = "text-danger" })
+                    @Html.TextAreaFor(model => model.Requerimiento.descripcion, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
+                    @Html.ValidationMessageFor(model => model.Requerimiento.descripcion, "", new { @class = "text-danger" })
                 </div><br /><br /><br /><br /><br />
             </div>
 
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Observaciones:</label>
-                    @Html.TextAreaFor(model => model.Requerimientos.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.observaciones, "", new { @class = "text-danger" })
+                    @Html.TextAreaFor(model => model.Requerimiento.observaciones, new { @class = "form-control", rows = "4", placeholder = "250 Carácteres máximo" })
+                    @Html.ValidationMessageFor(model => model.Requerimiento.observaciones, "", new { @class = "text-danger" })
                 </div><br /><br /><br /><br /><br />
             </div><br />
 
@@ -157,15 +157,15 @@ window.onload = load_all
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Modulo:</label>
-                    @Html.EditorFor(model => model.Requerimientos.modulo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.modulo, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Requerimiento.modulo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimiento.modulo, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Sprint:</label>
-                    @Html.EditorFor(model => model.Requerimientos.sprint, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Requerimientos.sprint, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
             <div class="form-group">
