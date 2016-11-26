@@ -5,7 +5,7 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"> </script>
 @if (@Model.alerta != null || !@Model.alerta.IsEmpty())
 {
     <script>
@@ -260,12 +260,12 @@ $(document).ready(function(){
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Solicitud.fechaInicialRF, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.TextBoxFor(model => model.Solicitud.fechaInicialRF, new { @class = "form-control datepicker", placeholder = "DATE" })
                     @Html.ValidationMessageFor(model => model.Solicitud.fechaInicialRF, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Solicitud.fechaFinalRF, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.TextBoxFor(model => model.Solicitud.fechaFinalRF, new { @class = "form-control datepicker", placeholder = "DATE" })
                     @Html.ValidationMessageFor(model => model.Solicitud.fechaFinalRF, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
@@ -277,6 +277,7 @@ $(document).ready(function(){
                 <div class="form-group">
                     @Html.LabelFor(model => model.versionReq.responsable1RF, htmlAttributes: new { @class = "control-label col-md-2" })
                     <select class="form-control col-md-2" style="width:20em; " id="d" size="2">
+                        
                         @{var responsable12 = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
                         @{var responsable22 = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}
                         <option>
@@ -327,7 +328,11 @@ $(document).ready(function(){
 
                 <div class="col-md-10">
 
-                    
+                    @Html.HiddenFor(model => model.Solicitud.responsable1RF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Solicitud.responsable2RF, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Solicitud.imagenRF, new { htmlAttributes = new { @class = "form-control" } })
+
+
                     @Html.HiddenFor(model => model.Solicitud.fecha, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.HiddenFor(model => model.Solicitud.versionRF, new { htmlAttributes = new { @class = "form-control" } })
                     
@@ -398,7 +403,20 @@ $(document).ready(function(){
         function cancelar() {
             window.location.replace('../Solicitudes')
         }
+
+
     </script>
+<script type="text/javascript">
+                $(function () {
+                    $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+                });
+                $(".datepicker").on("dp.change", function (e) {
+                    $('.datepicker2').data("DatePicker").setMinDate(e.date);
+                });
+                $(".datepicker2").on("dp.change", function (e) {
+                    $('.datepicker').data("DatePicker").setMaxDate(e.date);
+                });
+</script>
+
+
 }
-
-

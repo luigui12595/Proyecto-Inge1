@@ -161,13 +161,13 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }
-            if (ModelState.IsValid) {
+            
                 if (modelo.Solicitud.estado == "Pendiente"|| modelo.Solicitud.estado == "En Revision")
                 {
                     BD.Entry(modelo.Solicitud).State = EntityState.Modified;
                     BD.SaveChanges();
                 }
-            }
+            
            
             if (modelo.Solicitud.estado == "Aprobada")
             {
