@@ -164,16 +164,22 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }
-            
-                if (modelo.Solicitud.estado == "Pendiente"|| modelo.Solicitud.estado == "En Revision")
-                {
+
+            if (modelo.Solicitud.estado == "Pendiente" || modelo.Solicitud.estado == "En Revision")
+            {
                 if (imagen1 != null)
                 {
                     modelo.Solicitud.imagenRF = new byte[imagen1.ContentLength];
                     imagen1.InputStream.Read(modelo.Solicitud.imagenRF, 0, imagen1.ContentLength);
                 }
-               // modelo.Solicitud.fechaFinalRF = modelo.Final;
-                modelo.Solicitud.fechaInicialRF = modelo.Inicio;
+                DateTime Prueba = new DateTime();
+                if (modelo.Final.CompareTo(Prueba)!=0) {
+                    modelo.Solicitud.fechaFinalRF = modelo.Final;
+                }
+                if (modelo.Inicio.CompareTo(Prueba) != 0)
+                {
+                    modelo.Solicitud.fechaInicialRF = modelo.Inicio;
+                }
                 BD.Entry(modelo.Solicitud).State = EntityState.Modified;
                     BD.SaveChanges();
                 }
