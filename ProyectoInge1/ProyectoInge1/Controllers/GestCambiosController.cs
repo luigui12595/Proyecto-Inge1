@@ -132,8 +132,11 @@ namespace ProyectoInge1.Controllers
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
             modelo.Proyecto = BD.Proyecto.Find(nomProy);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
-            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
+            /*modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
+            */
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Solicitud.responsable1RF);
+            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Solicitud.responsable2RF);
             ViewBag.userList = usuarios.ToList();
             detailLink = id;
             modelo.Proyecto = BD.Proyecto.Find(nomProy);
@@ -154,7 +157,7 @@ namespace ProyectoInge1.Controllers
 		*/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(ModGestionCambios modelo)
+        public ActionResult Details(ModGestionCambios modelo, HttpPostedFileBase imagen1)
         {
             if (!revisarPermisos("Modificar Solicitud"))
             {
@@ -164,7 +167,14 @@ namespace ProyectoInge1.Controllers
             
                 if (modelo.Solicitud.estado == "Pendiente"|| modelo.Solicitud.estado == "En Revision")
                 {
-                    BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+                if (imagen1 != null)
+                {
+                    modelo.Solicitud.imagenRF = new byte[imagen1.ContentLength];
+                    imagen1.InputStream.Read(modelo.Solicitud.imagenRF, 0, imagen1.ContentLength);
+                }
+               // modelo.Solicitud.fechaFinalRF = modelo.Final;
+                modelo.Solicitud.fechaInicialRF = modelo.Inicio;
+                BD.Entry(modelo.Solicitud).State = EntityState.Modified;
                     BD.SaveChanges();
                 }
             
