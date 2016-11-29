@@ -116,7 +116,7 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null)) {
+            if ( modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null) ) {
                 modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             }
             // bolsa de desarrolladores disponibles
@@ -192,6 +192,7 @@ namespace ProyectoInge1.Controllers
             var proyUsers = proyecto.Usuario2;
             var usersSelected = new List<Usuario>();
             var usersAvailable = new List<Usuario>();
+            var userLider = new List<Usuario>();
             foreach ( var x in usuarios) {
                 foreach ( var y in desarrolladores) {
                     if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
@@ -206,6 +207,7 @@ namespace ProyectoInge1.Controllers
             }
             ViewBag.Usuarios = usuarios.ToList();
             ViewBag.Desarrolladores = DesarrolladoresNoLider.ToList();
+            ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names"); 
             ViewBag.SelectOpts = new MultiSelectList( usersSelected.ToList(), "cedula", "names" );
             ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" );
             return View();
@@ -213,7 +215,7 @@ namespace ProyectoInge1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModProyectoInter modelo, string[] selectedOpts)
+        public ActionResult Create( ModProyectoInter modelo, string[] selectedOpts, string[] liderValue )
         {
             if (selectedOpts != null)
             {
@@ -224,16 +226,19 @@ namespace ProyectoInge1.Controllers
                     modelo.proyecto.Usuario2.Add( proyDeveloper );
                 }
             }
-            if ( ModelState.IsValid ) {
+            modelo.proyecto.lider = liderValue[0];
+            /*if ( ModelState.IsValid ) {*/
+                modelo.liderProyecto = BD.Usuario.Find( modelo.proyecto.lider );
+                BD.Entry(modelo.liderProyecto).State = EntityState.Modified;
                 BD.Proyecto.Add( modelo.proyecto );
                 BD.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            else
+            //}
+            /*else
             {
                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
-                return View(modelo);
-            }
+                return RedirectToAction("Create");
+            }*/
         }
 
         [HttpPost]

@@ -24,5 +24,6 @@ namespace ProyectoInge1.Models
         public String Participantes { get; set; }
         public List<int> usuariosProyecto { get; set; }
         public List<Usuario> listaUsuariosProyecto { get; set; }
+        public Usuario liderProyecto { get; set; } //Usado para actualizar bit de líder en usuario
     }
 }
