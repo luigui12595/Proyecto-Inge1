@@ -101,7 +101,7 @@ namespace ProyectoInge1.Controllers
                     proyectos = proyectos.OrderBy(projects => projects.nombre);
                     break;
             }
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.listaUsuarios = BD.Usuario.ToList();
