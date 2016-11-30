@@ -42,6 +42,7 @@ $('#leaderButton').click(function (e) {
         leaderButton.value = "Remover Lider";
         leaderButton.className = "btn btn-danger";
     } else {
+        alert("here");
         var selectedOpts = $('#liderValue option:selected');
         $('#selectedOpts').append($(selectedOpts).clone());
         $(selectedOpts).remove();
