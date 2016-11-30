@@ -235,3 +235,32 @@ BEGIN
 						FROM deleted);
 END;
 
+CREATE TRIGGER crearVersionInicial
+ON ReqFuncional AFTER INSERT
+AS
+BEGIN
+	DECLARE @id INT
+	DECLARE @nombre VARCHAR(20)
+	DECLARE @sprint TINYINT
+	DECLARE @modulo TINYINT
+	DECLARE @estado VARCHAR(10)
+	DECLARE @fechaInicial DATE
+	DECLARE @fechaFinal DATE
+	DECLARE @observaciones VARCHAR(256)
+	DECLARE @descripcion VARCHAR(256)
+	DECLARE @esfuerzo SMALLINT
+	DECLARE @prioridad SMALLINT
+	DECLARE @imagen VARBINARY(8000)
+	DECLARE @fuente CHAR(9)
+	DECLARE @responsable1 CHAR(9)
+	DECLARE @responsable2 CHAR(9)
+	DECLARE @nomProyecto VARCHAR(30)
+	DECLARE @fechaDia VARCHAR
+
+	DECLARE cursorRF CURSOR FOR SELECT id, nombre,sprint,modulo,estado,fechaInicial,fechaFinal,observaciones,descripcion,esfuerzo,prioridad,imagen,fuente,responsable1,responsable2,nomProyecto FROM inserted
+	OPEN cursorRF
+	FETCH NEXT FROM cursorRF INTO @id, @nombre, @sprint, @modulo, @estado, @fechaInicial, @fechaFinal, @observaciones, @descripcion, @esfuerzo, @prioridad, @imagen, @fuente, @responsable1, @responsable2, @nomProyecto 
+	INSERT INTO HistVersiones VALUES(1, @fechaInicial, 'Version inicial requerimiento funcional', @fuente, @id, @nomProyecto, @nombre, @sprint, @modulo, @fechaInicial, @fechaFinal, @observaciones, @descripcion, @esfuerzo, @prioridad, @imagen, @responsable1, @responsable2)
+	CLOSE cursorRF
+	DEALLOCATE cursorRF
+END;
