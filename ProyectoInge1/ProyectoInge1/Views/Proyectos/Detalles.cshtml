@@ -85,43 +85,23 @@
              
                
                 @*Nombre Detalles*@
-                <div class="col-lg-6 ">
+                <div class="col-lg-12 ">
                     @Html.LabelFor(model => model.proyecto.nombre, htmlAttributes: new { @class = "control-label" })<br />
                     <div style="width:25em;">
                         @Html.DisplayFor(model => model.proyecto.nombre)
                     </div>
                 </div>
-
-                
-
-                @*Fecha Inicio Detalles*@
-                <div class="col-lg-6">
-                    @Html.LabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label" })
-                    <br />
-                    <div style="width:25em;">
-                        @Html.DisplayFor(modelItem => modelItem.proyecto.fechaInicio, "{0:dd/MM/yyyy}")
-                    </div>
-                </div>
-                @*Fecha Final Detalles*@
-                <div class="col-lg-6 form-group">
-                    <div class="col-lg-5 col-lg-pull-1">
-                        @Html.LabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label" })
+                @*Descripcion Detalles*@
+                <div class="col-lg-12 form-group">
+                    <div class="col-lg-2 ">
+                        @Html.LabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label" })
                     </div><br />
-                    <div class="col-lg-4 col-lg-pull-1 " style="width:25em;">
-                        @Html.DisplayFor(modelItem => modelItem.proyecto.fechaFinal, "{0:dd/MM/yyyy}")
+                    <div class="col-lg-4  col-lg-pull-2" style="margin-top:1em;">
+                        @Html.DisplayFor(model => model.proyecto.descripcion)
                     </div>
                 </div>
-        @*Descripcion Detalles*@
-                    <div class="col-lg-6 form-group">
-                        <div class="col-lg-2 col-lg-pull-1">
-                            @Html.LabelFor(model => model.proyecto.descripcion, htmlAttributes: new { @class = "control-label" })
-                        </div><br />
-                        <div class="col-lg-4 col-lg-pull-3 " style="width:25em; margin-top:0.5em;">
-                            @Html.DisplayFor(model => model.proyecto.descripcion)
-                        </div>
-                    </div>
                 @*Lider Detalles*@
-                <div class="col-lg-6 ">
+                <div class="col-lg-12">
                     @Html.LabelFor(model => model.proyecto.lider, htmlAttributes: new { @class = "control-label" })
                     <br />
                     <div style="width:25em; ">
@@ -141,7 +121,7 @@
                     </div>
                 </div>
                 @*Cliente Detalles*@
-                <div class="col-lg-5 col-lg-pull-1" style="margin-left:3.5em;">
+                <div class="col-lg-12">
                     @Html.LabelFor(model => model.proyecto.Cliente, htmlAttributes: new { @class = "control-label" })<br />
                     @{
                         var idUsr = Model.proyecto.Cliente;
@@ -156,22 +136,37 @@
                         }
                     }
                 </div>
-
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     @*Estado Detalles*@
                     <div class="form-group" style="margin-left:0em;">
                         @Html.LabelFor(model => model.proyecto.estado, htmlAttributes: new { @class = "control-label" })<br />
                         @Html.DisplayFor(model => model.proyecto.estado)
                     </div>
                 </div>
-
-                <div class="col-lg-6">
+                @*Fecha Inicio Detalles*@
+                <div class="col-lg-12">
+                    @Html.LabelFor(model => model.proyecto.fechaInicio, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    <div style="width:25em;">
+                        @Html.DisplayFor(modelItem => modelItem.proyecto.fechaInicio, "{0:dd/MM/yyyy}")
+                    </div>
+                </div>
+                @*Fecha Final Detalles*@
+                <div class="col-lg-12 form-group" style="margin-left:0em;">
+                    @Html.LabelFor(model => model.proyecto.fechaFinal, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    <div style="width:25em;">
+                        @Html.DisplayFor(modelItem => modelItem.proyecto.fechaFinal, "{0:dd/MM/yyyy}")
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
                     @*Usuarios Detalles*@
                     <div class="form-group">
-                        <div class="col-lg-5 col-lg-pull-1 ">
+                        <div class="col-lg-5  ">
                             @Html.LabelFor(model => model.proyecto.Usuario2, htmlAttributes: new { @class = "control-label " })<br />
                         </div><br /><br />
-                        <div class="col-lg-4 col-lg-pull-1">
+                        <div class="col-lg-4 ">
                             <select class="form-control " style="width:20em;" id="d" size="4">
                                 @{
                                     var UserProyectList = Model.listaUsuariosProyecto;
