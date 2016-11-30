@@ -63,7 +63,7 @@
 
         @*Responsable, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.Requerimiento.responsable1, "Responsable", htmlAttributes: new { @class = "control-label col-md-3", @readonly = true })
+            @Html.LabelFor(model => model.Requerimiento.responsable1, "Responsable 1", htmlAttributes: new { @class = "control-label col-md-3", @readonly = true })
             <div class="form-control col-md-3" style="width:20em; " id="d" size="2">
                 @{var responsable1M = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
                 @{var responsable2M = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}

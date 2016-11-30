@@ -246,6 +246,8 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
             modelo.Solicitud.aprobadoPor = modelo.Requerimiento.fuente;
+            modelo.Solicitud.fechaInicialRF = modelo.Requerimiento.fechaInicial;
+            modelo.Solicitud.fechaFinalRF = modelo.Requerimiento.fechaInicial;
             // Llenado del viewBag
             foreach (var item in modelo.listadesarrolladores)
             {
