@@ -135,17 +135,9 @@ namespace ProyectoInge1.Controllers
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
             modelo.Proyecto = BD.Proyecto.Find(nomProy);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
-<<<<<<< HEAD
-            /*modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
-            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
-            */
-            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Solicitud.responsable1RF);
-            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Solicitud.responsable2RF);
-=======
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Solicitud.responsable1RF);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Solicitud.responsable2RF);
             modelo.ancientState = modelo.Solicitud.estado;
->>>>>>> bb0fa824cf53c0e8e8481e9b58c8676b47b35a55
             ViewBag.userList = usuarios.ToList();
             modelo.versionReq.versionRF = modelo.Solicitud.versionRF;
             modelo.versionReq.fecha = modelo.Solicitud.fecha;
