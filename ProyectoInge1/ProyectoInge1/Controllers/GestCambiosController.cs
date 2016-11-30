@@ -51,6 +51,7 @@ namespace ProyectoInge1.Controllers
             ViewBag.ReqSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.ProySortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
             ViewBag.VersSortParm = sortOrder == "Vers" ? "version_desc" : "Vers";
+            ViewBag.RazonSortParm = sortOrder == "Razon" ? "razon_desc" : "Razon";
             ViewBag.RealSortParm = sortOrder == "Real" ? "real_desc" : "Real";
             ViewBag.EstSortParm = sortOrder == "Est" ? "est_desc" : "Est";
             if (searchString != null) { page = 1; }
@@ -83,6 +84,8 @@ namespace ProyectoInge1.Controllers
                                                 join user in BD.Usuario on sol.realizadoPor equals user.cedula
                                                 orderby user.nombre descending
                                                 select sol; break;
+                case "Razon": solicitudes = solicitudes.OrderBy(solicitud => solicitud.versionRF); break;
+                case "razon_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.versionRF); break;
                 case "Est": solicitudes = solicitudes.OrderBy(solicitud => solicitud.estado); break;
                 case "est_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.estado); break;
                 default: solicitudes = solicitudes.OrderBy(sol => sol.nombreRF); break;
@@ -132,13 +135,29 @@ namespace ProyectoInge1.Controllers
             modelo.Requerimiento = BD.ReqFuncional.Find(idRF, nomProy);
             modelo.Proyecto = BD.Proyecto.Find(nomProy);
             modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
-            /*modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.versionReq.responsable1RF);
-            modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.versionReq.responsable2RF);
-            */
             modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Solicitud.responsable1RF);
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Solicitud.responsable2RF);
+            modelo.ancientState = modelo.Solicitud.estado;
             ViewBag.userList = usuarios.ToList();
-            detailLink = id;
+            modelo.versionReq.versionRF = modelo.Solicitud.versionRF;
+            modelo.versionReq.fecha = modelo.Solicitud.fecha;
+            modelo.versionReq.versionRF = modelo.Solicitud.versionRF;
+            modelo.versionReq.razon = modelo.Solicitud.razon;
+            modelo.versionReq.realizadoPor = modelo.Solicitud.realizadoPor;
+            modelo.versionReq.idReqFunc = modelo.Solicitud.idReqFunc;
+            modelo.versionReq.nomProyecto = modelo.Solicitud.nomProyecto;
+            modelo.versionReq.nombreRF = modelo.Solicitud.nombreRF;
+            modelo.versionReq.sprintRF = modelo.Solicitud.sprintRF;
+            modelo.versionReq.moduloRF = modelo.Solicitud.moduloRF;
+            modelo.versionReq.fechaInicialRF = modelo.Solicitud.fechaInicialRF;
+            modelo.versionReq.fechaFinalRF = modelo.Solicitud.fechaFinalRF;
+            modelo.versionReq.observacionesRF = modelo.Solicitud.observacionesRF;
+            modelo.versionReq.descripcionRF = modelo.Solicitud.descripcionRF;
+            modelo.versionReq.esfuerzoRF = modelo.Solicitud.esfuerzoRF;
+            modelo.versionReq.prioridadRF = modelo.Solicitud.prioridadRF;
+            modelo.versionReq.imagenRF = modelo.Solicitud.imagenRF;
+            modelo.versionReq.responsable1RF = modelo.Solicitud.responsable1RF;
+            modelo.versionReq.responsable2RF = modelo.Solicitud.responsable2RF;
             modelo.Proyecto = BD.Proyecto.Find(nomProy);
             modelo.listaUsuarios = BD.Usuario.ToList();
             modelo.listaProyUsuarios = modelo.Proyecto.Usuario2.ToList();
@@ -185,16 +204,20 @@ namespace ProyectoInge1.Controllers
                     BD.SaveChanges();
                 }
             
-           
-            if (modelo.Solicitud.estado == "Aprobada")
+
+            BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+            BD.SaveChanges();
+            if (modelo.Solicitud.estado == "Aprobada" && modelo.ancientState != "Aprobada")
             {
-                BD.Entry(modelo.Solicitud).State = EntityState.Modified;
-                BD.SaveChanges();
-                modelo.versionReq.versionRF += 1;
+                int count = (from version in BD.HistVersiones
+                            where version.idReqFunc == modelo.Solicitud.idReqFunc
+                            select version).ToList().Count;
+                modelo.versionReq.versionRF += Convert.ToInt16(count+1);
+                modelo.versionReq.fecha = DateTime.Now;
                 BD.HistVersiones.Add(modelo.versionReq);
                 BD.SaveChanges();
             }
-                return RedirectToAction("Solicitudes");
+            return RedirectToAction("Solicitudes");
         }
 
         public ActionResult Details_Hist(string id)

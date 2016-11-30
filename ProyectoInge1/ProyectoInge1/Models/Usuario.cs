@@ -32,7 +32,7 @@ namespace ProyectoInge1.Models
             this.Telefono = new HashSet<Telefono>();
             this.Proyecto2 = new HashSet<Proyecto>();
         }
-        public string names { get { return nombre + " " + apellidos; } }
+        public string names { get { return nombre + " " + apellidos; } } //Para desplegar nombre completo en listas
         public string cedula { get; set; }
         public string nombre { get; set; }
         public string apellidos { get; set; }
