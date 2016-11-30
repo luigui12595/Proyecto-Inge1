@@ -62,7 +62,7 @@ window.onload = load_all
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <!--AGREGAR UN PROYECTO DE REQUERIMIENTO-->
         <div class="form-group">
-
+            @*Nombre del proyecto del requerimiento(no editable)*@
             <div class="col-md-6">
                 <label class="control-label col-md-3">Proyecto</label>
                 @Html.EditorFor(model => Model.nProy, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
@@ -71,7 +71,7 @@ window.onload = load_all
             </div><br /><br />
 
         </div>
-
+        @*Nombre del requerimiento*@
         <div class="form-group">
 
             <div class="col-md-6">
@@ -83,6 +83,7 @@ window.onload = load_all
 
         <fieldset name="estimacioninfo">
             <legend>Datos de estimacion</legend>
+            @*Esfuerzo del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6 ">
                     <label class="control-label col-md-3">Esfuerzo:</label>
@@ -90,7 +91,7 @@ window.onload = load_all
                     @Html.ValidationMessageFor(model => model.Requerimiento.esfuerzo, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
-
+            @*Prioridad del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Prioridad:</label>
@@ -98,20 +99,21 @@ window.onload = load_all
                     @Html.ValidationMessageFor(model => model.Requerimiento.prioridad, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
-
+            @*Fecha inicial del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Fecha Inicial:</label>
                     @Html.TextBoxFor(model => model.Requerimiento.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
                 </div><br /><br />
             </div>
-
+            @*Fecha final del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Fecha Final:</label>
                     @Html.TextBoxFor(model => model.Requerimiento.fechaFinal, new { @class = "form-control datepicker2", placeholder = "DATE2" })
                 </div><br /><br />
             </div>
+            @*Fuente del requerimiento*@
             <div class="form-group">
 
                 <div class="col-md-6">
@@ -119,12 +121,14 @@ window.onload = load_all
                     @Html.DropDownListFor(model => model.Requerimiento.fuente, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                 </div><br /><br />
             </div>    <br />
+            @*Responsable1 del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Responsable 1:</label>
                     @Html.DropDownListFor(model => model.Requerimiento.responsable1, new SelectList(ViewBag.Lista, "cedula", "names"), new { @class = "form-control" })
                 </div><br /><br />
             </div><br />
+            @*Responsable2 del requerimiento*@
             <div class="form-group">
 
                 <div class="col-md-6">
@@ -135,6 +139,7 @@ window.onload = load_all
             </fieldset>
         <fieldset name="especificacioninfo">
             <legend>Espeficicacion de Requerimiento Funcional</legend>
+            @*Descripcion del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Descripcion:</label>
@@ -142,7 +147,7 @@ window.onload = load_all
                     @Html.ValidationMessageFor(model => model.Requerimiento.descripcion, "", new { @class = "text-danger" })
                 </div><br /><br /><br /><br /><br />
             </div>
-
+            @*Observaciones del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Observaciones:</label>
@@ -154,6 +159,7 @@ window.onload = load_all
             </fieldset>
         <fieldset name="generalesinfo">
             <legend>Datos Generales</legend>
+            @*Modulo del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Modulo:</label>
@@ -161,6 +167,7 @@ window.onload = load_all
                     @Html.ValidationMessageFor(model => model.Requerimiento.modulo, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
+            @*Sprit del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="control-label col-md-3">Sprint:</label>
@@ -168,6 +175,7 @@ window.onload = load_all
                     @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
                 </div><br /><br />
             </div>
+            @*Imagen del requerimiento*@
             <div class="form-group">
                 <div class="col-md-6">
                     @Html.LabelFor(model => model.ImagenRF, htmlAttributes: new { @class = "control-label col-md-3" })

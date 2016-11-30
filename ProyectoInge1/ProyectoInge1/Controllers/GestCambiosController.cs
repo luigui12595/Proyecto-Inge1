@@ -152,7 +152,8 @@ namespace ProyectoInge1.Controllers
 		    Contiene la informacion referente a la informacion necesaria para realizar algun cambio en la informacion de una 
             solicitud de cambio.
 			@param modelo: Consiste en los datos ingresados por un usuario que corresponde a la informacion referente para la 
-                          modificacion de una solicitud de cambio de una version de un requerimiento.               
+                          modificacion de una solicitud de cambio de una version de un requerimiento. 
+            @param imagen1: Consiste en una imagen para almacenar en base.              
 			@return: ningun valor pero devuelve al usuario al index de solicitudes
 		*/
         [HttpPost]

@@ -119,7 +119,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">            
            <button type="submit" onclick="esconderDetalles()" class="btn btn-primary">Aceptar</button>
-            <a class="btn btn-danger" onclick="cancelar()">Cancelar</a>
+            @Html.ActionLink("Cancelar", "Index", null, new { nombreProyecto = Model.Requerimiento.nomProyecto }, new { @class = "btn btn-danger" })
         </div>
 
     </div>

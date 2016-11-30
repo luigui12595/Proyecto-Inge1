@@ -232,16 +232,19 @@ $(document).ready(function(){
         <div class="elementoModificar" style="display:none">
             <br /><br /><br />
             <dl class="dl-horizontal">
+                @*nombre del proyecto del requerimiento(no editable)*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Solicitud.nomProyecto, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Solicitud.nomProyecto, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                     @Html.ValidationMessageFor(model => model.Solicitud.nomProyecto, "", new { @class = "text-danger" })
                 </div>
+                @*Id del requerimiento(no editable)*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Solicitud.idReqFunc, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Solicitud.idReqFunc, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                     @Html.ValidationMessageFor(model => model.Solicitud.idReqFunc, "", new { @class = "text-danger" })
                 </div>
+                @*nombre del requerimiento(no editable)*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Solicitud.nombreRF, htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.Solicitud.nombreRF, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
@@ -249,38 +252,44 @@ $(document).ready(function(){
                 </div>
                 <fieldset name="estimationinfo">
                     <legend>Datos de Estimación</legend>
+                    @*Esfuerzo del requerimiento*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.esfuerzoRF, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.Solicitud.esfuerzoRF, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Solicitud.esfuerzoRF, "", new { @class = "text-danger" })
                     </div>
+                    @*Prioridad del requerimiento*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.prioridadRF, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.Solicitud.prioridadRF, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Solicitud.prioridadRF, "", new { @class = "text-danger" })
                     </div>
+                    @*Fecha de inicio del requerimiento*@
                     <div class="form-group">
-                        @* @Html.LabelFor(model => model.Solicitud.fechaFinalRF, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
                         <label class="control-label col-md-2">Fecha Inicial:</label>
                         @Html.HiddenFor(model => model.Solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
                         
                         @Html.TextBoxFor(model => model.Inicio, new { @class = "form-control datepicker2", placeholder = "DATE" })
-                       @* @Html.ValidationMessageFor(model => model.Solicitud.fechaInicialRF, "", new { @class = "text-danger" })*@
+                      
                     </div>
+                    @*Fecha de finalizacion del requerimiento*@
                     <div class="form-group">
-                       @* @Html.LabelFor(model => model.Solicitud.fechaFinalRF, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
                         <label class="control-label col-md-2">Fecha Final:</label>
                         @Html.HiddenFor(model => model.Solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
 
                         @Html.TextBoxFor(model => model.Final, new { @class = "form-control datepicker2", placeholder = "DATE" })
-                       @* @Html.ValidationMessageFor(model => model.Solicitud.fechaFinalRF, "", new { @class = "text-danger" })*@
+
                     </div>
+                    @*Fuente del requerimiento(no editable)*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Requerimiento.fuente, htmlAttributes: new { @class = "control-label col-md-2" })
                         @{var fuente2 = Model.UsuarioFuente != null ? Model.UsuarioFuente.nombre + " " + Model.UsuarioFuente.apellidos : " ";}
                         @Html.EditorFor(model => fuente, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                         @Html.ValidationMessageFor(model => model.Requerimiento.fuente, "", new { @class = "text-danger" })
                     </div>
+                    @*Lista responsables del requerimiento(no editable)*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.responsable1RF, htmlAttributes: new { @class = "control-label col-md-2" })
                         <select class="form-control col-md-2" style="width:20em; " id="d" size="2">
@@ -297,12 +306,14 @@ $(document).ready(function(){
                     </div>
                 </fieldset>
                 <fieldset name="especificinfo">
+                    @*Descripcion del requerimiento*@
                     <legend>Especificación de Requerimiento</legend>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.descripcionRF, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.TextAreaFor(model => model.Solicitud.descripcionRF, new { @class = "form-control", rows = 4 })
                         @Html.ValidationMessageFor(model => model.Solicitud.descripcionRF, "", new { @class = "text-danger" })
                     </div>
+                    @*Observaciones del requerimiento*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.observacionesRF, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.TextAreaFor(model => model.Solicitud.observacionesRF, new { @class = "form-control", rows = 4 })
@@ -311,16 +322,19 @@ $(document).ready(function(){
                 </fieldset>
                 <fieldset name="generalinfo">
                     <legend>Datos Generales</legend>
+                    @*Modulo del requerimiento*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.moduloRF, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.Solicitud.moduloRF, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Solicitud.moduloRF, "", new { @class = "text-danger" })
                     </div>
+                    @*Estado del requerimiento(no editable)*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.Solicitud.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                         @Html.ValidationMessageFor(model => model.Solicitud.estado, "", new { @class = "text-danger" })
                     </div>
+                    @*Sprint del requerimiento*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Solicitud.sprintRF, htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.Solicitud.sprintRF, new { htmlAttributes = new { @class = "form-control" } })
@@ -333,7 +347,7 @@ $(document).ready(function(){
                         </div><br /> <br />
                     </div>
                 </fieldset>
-                @*nombre Del proyecto*@
+                @*Almacenar datos diversos*@
                 <div class="form-group">
                     <div class="col-md-10">
                         @Html.HiddenFor(model => model.Solicitud.responsable1RF, new { htmlAttributes = new { @class = "form-control" } })

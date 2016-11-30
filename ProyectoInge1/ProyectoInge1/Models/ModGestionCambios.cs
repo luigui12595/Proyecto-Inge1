@@ -29,8 +29,8 @@ namespace ProyectoInge1.Models
         public HistVersiones ModeloHistVersion { get; set; }
         // public Proyecto proyecto { get; set; }
 
-        public DateTime Inicio { get; set; }
-        public DateTime Final { get; set; }
+        public DateTime Inicio { get; set; }//Especifico para almacenar temporalmente una nueva fecha de inicio de requerimiento
+        public DateTime Final { get; set; }//Especifico para almacenar temporalmente una nueva fecha de final de requerimiento
         public ReqFuncional Requerimiento { get; set; }
         public HistVersiones versionReq { get; set; }
         public List<ModGestionCambios> listaModelos { get; set; }
