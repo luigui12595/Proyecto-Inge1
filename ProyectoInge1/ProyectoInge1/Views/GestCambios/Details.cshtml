@@ -26,7 +26,15 @@ $(document).ready(function(){
     <div class="form-horizontal">
         <div class="row">
             <div class="col-lg-2 col-lg-push-8">
-                <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+                @{
+                    var t = Model.Solicitud.estado;
+                    if (t== "Pendiente" || t == "En Revision")
+                    {
+                        <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+                    }
+
+                }
+                
             </div>
             <div class="col-lg-2 col-lg-push-8">
                 @Html.ActionLink("Eliminar", "Eliminar", "GestCambios", new{ confirm = true, fecha = Model.Solicitud.fecha, version = Model.Solicitud.versionRF,
