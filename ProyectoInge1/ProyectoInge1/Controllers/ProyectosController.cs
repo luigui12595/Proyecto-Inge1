@@ -116,7 +116,7 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null)) {
+            if ( modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null) ) {
                 modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             }
             // bolsa de desarrolladores disponibles
@@ -185,72 +185,60 @@ namespace ProyectoInge1.Controllers
             var context = new ApplicationDbContext();
             var desarrolladores = from developer in context.Users
                                   where developer.Roles.Any(r => r.RoleId == "2")
-                                  select developer;
+                                  select developer; 
             ModProyectoInter model = new ModProyectoInter();
-            model.DesarrolladoresNoLider = new List<Usuario>();
+            var DesarrolladoresNoLider = new List<Usuario>();
+            var proyecto = new Proyecto();
+            var proyUsers = proyecto.Usuario2;
+            var usersSelected = new List<Usuario>();
+            var usersAvailable = new List<Usuario>();
+            var userLider = new List<Usuario>();
             foreach ( var x in usuarios) {
                 foreach ( var y in desarrolladores) {
                     if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
-                        model.DesarrolladoresNoLider.Add(x);
+                        DesarrolladoresNoLider.Add(x);
                     }
                 }
             }
-            model.Participantes = "hola";
-            model.listaUsuarios = usuarios.ToList();
-            ViewBag.Desarrolladores = new SelectList(model.DesarrolladoresNoLider, "cedula", "names");
-            return View(model);
+            foreach ( var developer in DesarrolladoresNoLider )
+            {
+                if (proyUsers.Contains(developer)) { usersSelected.Add(developer); }
+                else { usersAvailable.Add(developer); }
+            }
+            ViewBag.Usuarios = usuarios.ToList();
+            ViewBag.Desarrolladores = DesarrolladoresNoLider.ToList();
+            ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names"); 
+            ViewBag.SelectOpts = new MultiSelectList( usersSelected.ToList(), "cedula", "names" );
+            ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" );
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModProyectoInter modelo/*, string id*/)
+        public ActionResult Create( ModProyectoInter modelo, string[] selectedOpts, string[] liderValue )
         {
-            if (ModelState.IsValid)
+            if (selectedOpts != null)
             {
-                //var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                //var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
-                //var user = new ApplicationUser { UserName = modelo.modeloUsuario.correo, Email = modelo.modeloUsuario.correo };
-                //var result = await UserManager.CreateAsync(user, password);
-                
-            //if (result.Succeeded)
-            //{
-                //modelo.modeloUsuario.id = user.Id;
-
-                BD.Proyecto.Add(modelo.proyecto);
-                BD.SaveChanges();
-
-                /*if (modelo.modeloTelefono1.numero != null)
+                modelo.proyecto.Usuario2 = new List<Usuario>();
+                foreach ( var developer in selectedOpts )
                 {
-                    modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
-                    BD.Telefono.Add(modelo.modeloTelefono1);
+                    var proyDeveloper = BD.Usuario.Find( developer );
+                    modelo.proyecto.Usuario2.Add( proyDeveloper );
                 }
-                if (modelo.modeloTelefono2.numero != null)
-                {
-                    modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
-                    BD.Telefono.Add(modelo.modeloTelefono2);
-                }*/
-                BD.SaveChanges();
-
-                //var roleId = modelo.Role;
-                //var role = await RoleManager.FindByIdAsync(roleId);
-                //var result2 = await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
-
-                /*if (result2.Succeeded)
-                {
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(modelo.modeloUsuario.id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = modelo.modeloUsuario.id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(modelo.modeloUsuario.id, "Ingreso al sistema", "Su contraseña temporal asignada es " + password + "\n" + "Por favor confirme su cuenta pulsando click <a href=\"" + callbackUrl + "\">aquí</a>");
-
-                }*/
-
-            //}
-            return RedirectToAction("Index");
-        }
-        else
-        {
-            ModelState.AddModelError("", "Debe completar toda la información necesaria.");
-            return View(modelo);
             }
+            modelo.proyecto.lider = liderValue[0];
+            /*if ( ModelState.IsValid ) {*/
+                modelo.liderProyecto = BD.Usuario.Find( modelo.proyecto.lider );
+                BD.Entry(modelo.liderProyecto).State = EntityState.Modified;
+                BD.Proyecto.Add( modelo.proyecto );
+                BD.SaveChanges();
+                return RedirectToAction("Index");
+            //}
+            /*else
+            {
+                ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                return RedirectToAction("Create");
+            }*/
         }
 
         [HttpPost]

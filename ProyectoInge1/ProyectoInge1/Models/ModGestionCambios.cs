@@ -42,7 +42,7 @@ namespace ProyectoInge1.Models
         // public Solicitud Solicitud { get; set; }
         public Solicitud Solicitud { get; set; }
         public Usuario userInView { get; set; }
-
-        public string alerta { get; set; } 
+        public string ancientState { get; set; }
+        public string alerta { get; set; }
     }
 }
