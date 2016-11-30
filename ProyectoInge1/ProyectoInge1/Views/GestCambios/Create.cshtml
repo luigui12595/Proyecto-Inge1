@@ -38,25 +38,25 @@
         @*fecha ini req, no editable*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.fechaInicial, "Fecha Inicial", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.fechaInicial, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.TextBoxFor(model => model.Requerimiento.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
             @Html.ValidationMessageFor(model => model.Requerimiento.fechaInicial, "", new { @class = "text-danger" })
         </div>
         @*fecha final req, no editable*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.fechaFinal, "Fecha Final", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.TextBoxFor(model => model.Requerimiento.fechaFinal, new { @class = "form-control datepicker", placeholder = "DATE" })
             @Html.ValidationMessageFor(model => model.Requerimiento.fechaFinal, "", new { @class = "text-danger" })
         </div>
-        @*Drescrip req, no editable*@
+        @*Drescrip req*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.descripcion, "Descripcion", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.TextAreaFor(model => model.Requerimiento.descripcion, new { @class = "form-control", rows = 4, @readonly = true })
+            @Html.TextAreaFor(model => model.Requerimiento.descripcion, new { @class = "form-control", rows = 4})
             @Html.ValidationMessageFor(model => model.Requerimiento.descripcion, "", new { @class = "text-danger" })
         </div>
-        @*observaciones, no editable*@
+        @*observaciones*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.observaciones, "Observaciones", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.TextAreaFor(model => model.Requerimiento.observaciones, new { @class = "form-control", rows = 4, @readonly = true })
+            @Html.TextAreaFor(model => model.Requerimiento.observaciones, new { @class = "form-control", rows = 4 })
             @Html.ValidationMessageFor(model => model.Requerimiento.observaciones, "", new { @class = "text-danger" })
         </div>
        
@@ -86,22 +86,22 @@
             @Html.EditorFor(model => model.Requerimiento.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
             @Html.ValidationMessageFor(model => model.Requerimiento.estado, "", new { @class = "text-danger" })
         </div>
-        @*Prioridad, no editable*@
+        @*Prioridad*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.EditorFor(model => model.Requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Requerimiento.prioridad, "", new { @class = "text-danger" })
         </div>
-        @*modulo, no editable*@
+        @*modulo*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.modulo, "Modulo", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.modulo, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.EditorFor(model => model.Requerimiento.modulo, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Requerimiento.modulo, "", new { @class = "text-danger" })
         </div>
-        @*sprint, no editable*@
+        @*sprint*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.sprint, "Sprint", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
         </div>
         @*Lider del equipo, oculto*@
@@ -194,5 +194,30 @@
         if (!confirm("No se guardaran los cambios, desea continuar?")) {
 
         }  
+    }
+
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+    });
+    $(".datepicker").on("dp.change", function (e) {
+        $('.datepicker2').data("DatePicker").setMinDate(e.date);
+    });
+    $(".datepicker2").on("dp.change", function (e) {
+        $('.datepicker').data("DatePicker").setMaxDate(e.date);
+    });
+
+
+    function MoverAsignados() {
+        var seleccionados = $("#recAsig option:selected");
+        $("#recDisp").append($(seleccionados).clone());
+        $(seleccionados).remove();
+        e.preventDefault();
+    }
+
+    function MoverDisponibles() {
+        var seleccionados = $("#recDisp option:selected");
+        $("#recAsig").append($(seleccionados).clone());
+        $(seleccionados).remove();
+        e.preventDefault();
     }
 </script>
