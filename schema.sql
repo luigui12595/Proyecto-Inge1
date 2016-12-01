@@ -193,6 +193,58 @@ ON ReqFuncional INSTEAD OF DELETE
 AS
 BEGIN
 	DECLARE @id INT
+	DECLARE @nomProyecto VARCHAR(30)
+	DECLARE cursorRF CURSOR FOR SELECT id, nomProyecto FROM deleted
+	OPEN cursorRF
+	FETCH NEXT FROM cursorRF INTO @id, @nomProyecto
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		DELETE FROM CriterioAceptacion
+		WHERE idReqFunc = @id
+		AND nomProyecto = @nomProyecto
+
+		DELETE FROM HistVersiones
+		WHERE idReqFunc = @id
+		AND nomProyecto = @nomProyecto
+
+		FETCH NEXT FROM cursorRF INTO @id, @nomProyecto
+	END
+	
+	DELETE FROM ReqFuncional
+	WHERE id = @id
+	AND nomProyecto = @nomProyecto
+
+	CLOSE cursorRF
+	DEALLOCATE cursorRF
+END;
+
+CREATE TRIGGER borrar_Version
+ON HistVersiones INSTEAD OF DELETE
+AS
+BEGIN
+	DECLARE @idReqFunc INT
+	DECLARE @nomProyecto VARCHAR(30)
+	DECLARE cursorHV CURSOR FOR SELECT idReqFunc, nomProyecto FROM deleted
+	OPEN cursorHV
+	FETCH NEXT FROM cursorHV INTO @idReqFunc, @nomProyecto
+
+	DELETE FROM Solicitud
+	WHERE idReqFunc = @idReqFunc
+	AND nomProyecto = @nomProyecto
+
+	DELETE FROM HistVersiones
+	WHERE idReqFunc = @idReqFunc
+	AND nomProyecto = @nomProyecto
+
+	CLOSE cursorHV
+	DEALLOCATE cursorHV
+END;
+
+CREATE TRIGGER borrar_reqFuncional
+ON ReqFuncional INSTEAD OF DELETE
+AS
+BEGIN
+	DECLARE @id INT
 	DECLARE @nombre VARCHAR(30)
 	DECLARE cursorRF CURSOR FOR SELECT id, nomProyecto FROM deleted
 	OPEN cursorRF
