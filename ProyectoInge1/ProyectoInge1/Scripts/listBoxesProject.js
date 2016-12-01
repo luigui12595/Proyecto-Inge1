@@ -35,6 +35,7 @@ $('#selectedOpts').click(function (e) {
 $('#leaderButton').click(function (e) {
     var leaderButton = document.getElementById("leaderButton");
     if (leaderButton.value == "Asignar Lider") {
+
         var liderSelected = $('#selectedOpts option:selected');
         $('#liderValue').append($(liderSelected).clone());
         $(liderSelected).remove();
@@ -42,8 +43,7 @@ $('#leaderButton').click(function (e) {
         leaderButton.value = "Remover Lider";
         leaderButton.className = "btn btn-danger";
     } else {
-        alert("here");
-        var selectedOpts = $('#liderValue option:selected');
+        var selectedOpts = $('#liderValue option');
         $('#selectedOpts').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();

@@ -90,22 +90,23 @@ namespace ProyectoInge1.Controllers
         }
 
     
-
+        /*Despliega los detalles de un requerimiento funcional
+         @param id: Recibe el identificador del requerimiento para desplegar los detalles
+         @return: Retorna una vista los detalles del requerimiento selleccionado*/
         public ActionResult Details(short id)
         {
             /*if (!revisarPermisos("Detalles de Usuario"))
             {
                 return RedirectToAction("Index", "Usuario");
             }*/
-            ModReqFuncionalInter modelo = new ModReqFuncionalInter();
-            var requerimiento = from rfunc in BD.ReqFuncional
+            ModReqFuncionalInter modelo = new ModReqFuncionalInter(); 
+            var requerimiento = from rfunc in BD.ReqFuncional //búsca el requerimiento funcional
                                  where rfunc.id == id  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
-            modelo.Requerimiento = BD.ReqFuncional.Find(id, requerimiento.First().nomProyecto);
-            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
-            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, requerimiento.First().nomProyecto); //Asigna el requerimiento al modelo
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente); //Usuario fuente del requerimiento funcional
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1); //REsponsables del requerimiento
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
-            
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
             modelo.values = "";
             foreach (var item in modelo.listaCriterios) {
@@ -120,7 +121,6 @@ namespace ProyectoInge1.Controllers
             modelo.listaUsuarioView = temp.ToList();
             ViewBag.Lista = modelo.listaUsuarioView;
             return View(modelo);
-
         }
 
 

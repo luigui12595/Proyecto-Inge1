@@ -178,29 +178,31 @@ namespace ProyectoInge1.Controllers
             return false;
         }*/
 
+        /*Método que carga los recursos necesarios para crear un proyecto, desarrolladores dispoonibles para el proyecto, clientes...
+          @return: retorna la vista con los elementos para crear un proyecto*/
         public ActionResult Create()
         {
-            var usuarios = from users in BD.Usuario
+            var usuarios = from users in BD.Usuario //Carga de usuarios de la base
                            select users;
             var context = new ApplicationDbContext();
-            var desarrolladores = from developer in context.Users
+            var desarrolladores = from developer in context.Users //Carga de desarrolladores
                                   where developer.Roles.Any(r => r.RoleId == "2")
                                   select developer; 
-            ModProyectoInter model = new ModProyectoInter();
-            var DesarrolladoresNoLider = new List<Usuario>();
+            ModProyectoInter model = new ModProyectoInter(); 
+            var DesarrolladoresNoLider = new List<Usuario>(); //Lista de desarrolladores que no son lideres
             var proyecto = new Proyecto();
-            var proyUsers = proyecto.Usuario2;
-            var usersSelected = new List<Usuario>();
-            var usersAvailable = new List<Usuario>();
-            var userLider = new List<Usuario>();
-            foreach ( var x in usuarios) {
+            var proyUsers = proyecto.Usuario2; //Desarrolladores del nuevo proyecto
+            var usersSelected = new List<Usuario>(); 
+            var usersAvailable = new List<Usuario>(); // Desarrolladores disponibles para el nuevo proyecto
+            var userLider = new List<Usuario>(); //Lider del proyecto
+            foreach ( var x in usuarios) { //Carga de desarrolladores no líderes
                 foreach ( var y in desarrolladores) {
                     if ( x.id == y.Id && ( x.lider == false || x.lider == null ) ) {
                         DesarrolladoresNoLider.Add(x);
                     }
                 }
             }
-            foreach ( var developer in DesarrolladoresNoLider )
+            foreach ( var developer in DesarrolladoresNoLider ) //Carga de desarrolladores disponibles
             {
                 if (proyUsers.Contains(developer)) { usersSelected.Add(developer); }
                 else { usersAvailable.Add(developer); }
@@ -209,10 +211,17 @@ namespace ProyectoInge1.Controllers
             ViewBag.Desarrolladores = DesarrolladoresNoLider.ToList();
             ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names"); 
             ViewBag.SelectOpts = new MultiSelectList( usersSelected.ToList(), "cedula", "names" );
-            ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" );
+            ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" ); 
             return View();
         }
 
+        /*Recibe los datos del proyecto asignados en la vista para agregarlo a la base de datos incluyendo
+          los desarrolladores asignados, modifica la base de datos al crear proyectos
+          @param modelo: Modelo de proyecto que contiene toda la información requerida para crear proyecto
+          @param selectedOpts: recibe los numeros de cédula de los desarrollladores seleccionados para asignarlos 
+          al proyecto
+          @liderValue: recibe el número de cédula del líder asignado al proyecto
+          @return: retorna al listado de proyectos*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create( ModProyectoInter modelo, string[] selectedOpts, string[] liderValue )
@@ -220,19 +229,20 @@ namespace ProyectoInge1.Controllers
             if (selectedOpts != null)
             {
                 modelo.proyecto.Usuario2 = new List<Usuario>();
-                foreach ( var developer in selectedOpts )
+                foreach ( var developer in selectedOpts ) //asignacion de desarrolladores al proyecto
                 {
                     var proyDeveloper = BD.Usuario.Find( developer );
                     modelo.proyecto.Usuario2.Add( proyDeveloper );
                 }
             }
-            modelo.proyecto.lider = liderValue[0];
+            modelo.proyecto.lider = liderValue[0]; //Asignaci{on del lider seleccionado
             /*if ( ModelState.IsValid ) {*/
                 modelo.liderProyecto = BD.Usuario.Find( modelo.proyecto.lider );
-                BD.Entry(modelo.liderProyecto).State = EntityState.Modified;
+                modelo.liderProyecto.lider = true; //Cambio del estatus del desarrollador a líder
+                BD.Entry(modelo.liderProyecto).State = EntityState.Modified; 
                 BD.Proyecto.Add( modelo.proyecto );
                 BD.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");  //Redireccionamiento al listado de proyectos
             //}
             /*else
             {

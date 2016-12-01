@@ -37,33 +37,38 @@ namespace ProyectoInge1.Controllers
             return userRol;
         }
 
+        /*Método que posibilita el despliegue de un listado de solicitudes de cambio para requerimientos funcionales
+          @param sortOrder: Orden de despliegue de las solicitudes en el listado  
+          @param currentFilter: Filtro de busqueda
+          @param searchString: Nuevo filtro de búsqueda
+          @param page: numero de página actual del listado*/
         public ActionResult Solicitudes(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            /*if (!revisarPermisos("Index de usuario"))
+            /*if (!revisarPermisos("Index de usuario") )
             {
                  this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Home");
             }*/
 
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.ReqSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CurrentSort = sortOrder; 
+            ViewBag.ReqSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; // ordenamiento según la columna seleccionada en el listado
             ViewBag.ProySortParm = sortOrder == "Proy" ? "proy_desc" : "Proy";
             ViewBag.VersSortParm = sortOrder == "Vers" ? "version_desc" : "Vers";
             ViewBag.RazonSortParm = sortOrder == "Razon" ? "razon_desc" : "Razon";
             ViewBag.RealSortParm = sortOrder == "Real" ? "real_desc" : "Real";
             ViewBag.EstSortParm = sortOrder == "Est" ? "est_desc" : "Est";
-            if (searchString != null) { page = 1; }
+            if (searchString != null) { page = 1; } //Primera pagina de despliegue de los resultados de la búsqueda
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
-            var solicitudes = from solicitud in BD.Solicitud
+            var solicitudes = from solicitud in BD.Solicitud //Seleccion de las solicitudes de todos los requerimientos en la base
                               join req in BD.ReqFuncional on solicitud.idReqFunc equals req.id
                               select solicitud;
-            var requerimientos = from requerimiento in BD.ReqFuncional
+            var requerimientos = from requerimiento in BD.ReqFuncional //Carga de los requerimientos
                                  select requerimiento;
-            var usuarios = from usuario in BD.Usuario
+            var usuarios = from usuario in BD.Usuario //Carga de usuarios
                            select usuario;
             ModGestionCambios modelo = new ModGestionCambios();
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString)) //Carga de las solicitudes de acuerdo a resultados de la búsqueda
             {
                 solicitudes = solicitudes.Where(sol => sol.nombreRF.Contains(searchString));
             }
@@ -88,38 +93,41 @@ namespace ProyectoInge1.Controllers
                 case "est_desc": solicitudes = solicitudes.OrderByDescending(solicitud => solicitud.estado); break;
                 default: solicitudes = solicitudes.OrderBy(sol => sol.nombreRF); break;
             }    
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            int pageSize = 10; //Numero de elementos por página
+            int pageNumber = (page ?? 1);  //Número de página
             //modelo.listaRequerimientos = requerimientos.ToList();
             //modelo.listaUsuarios = usuarios.ToList();
             ViewBag.reqFuncList = requerimientos.ToList();
             ViewBag.userList = usuarios.ToList();
             //ViewBag.reqList = new SelectList(modelo.listaRequerimientos, "id", "nombre");
             modelo.listaSolicitudes = solicitudes.ToList();
-            return View(solicitudes.ToList().ToPagedList(pageNumber, pageSize));
+            return View(solicitudes.ToList().ToPagedList(pageNumber, pageSize)); //Retorna la lista de solicitudes de acuerdo a la paginación y criterios de búsqueda selleccionados
         }
 
+        /*Método que despliega los detalles de una varsión del requerimiento así como los detalles de una solicitud hecha para cambios en esa versión del requerimiento
+         @param id: Contiene los valores necesarioso llaves primarias para realizar la búsqueda de la solicitud a detallar en la base de datos así como el usuario que está 
+         observando consultandol los detalles de dicha solicitud*/ 
         public ActionResult Details(string id)
         {
             /*if (!revisarPermisos("Detalles de Usuario"))
             {
                 return RedirectToAction("Index", "Usuario");
             }*/
-            var usuarios = from usuario in BD.Usuario
+            var usuarios = from usuario in BD.Usuario //Lista de usuarios ordenados por cédula
                            orderby usuario.cedula
                            select usuario;
             ModGestionCambios modelo = new ModGestionCambios();
-            string[] parameters = id.Split('~');
-            short version = Convert.ToInt16(parameters[0]);
-            int idRF = Convert.ToInt32(parameters[1]);
-            string nomProy = parameters[2];
-            string fecha = parameters[3].Replace('-', ':').Replace('_', '-') + "." + parameters[5];
-            string currentUser = parameters[4];
-            var userView = from user in BD.Usuario
+            string[] parameters = id.Split('~'); //Separación de los parámetros necesarios provistos
+            short version = Convert.ToInt16(parameters[0]); //Versión del requerimiento
+            int idRF = Convert.ToInt32(parameters[1]); //Id del requerimiento
+            string nomProy = parameters[2]; //Nombre del proyecto al cual pertenece el requerimiento
+            string fecha = parameters[3].Replace('-', ':').Replace('_', '-') + "." + parameters[5]; //Fecha de realización de la solicitud de cambio
+            string currentUser = parameters[4]; //Usuario consultando los detalles
+            var userView = from user in BD.Usuario //Búsqueda del usuario en la base
                            where currentUser == user.id
                            select user;
             modelo.userInView = userView.ToList().First();
-            bool? lider = modelo.userInView.lider;
+            bool? lider = modelo.userInView.lider; //Verifica si quien consulta los detalles del usuariuo es el líder del proyecto correspondiente
             DateTime myDate = DateTime.ParseExact(fecha, "dd-MM-yyyy HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
             modelo.Solicitud = BD.Solicitud.Find(myDate, version, idRF, nomProy);
             modelo.versionReq = BD.HistVersiones.Find(version, idRF, nomProy);
@@ -158,6 +166,11 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
+        /*Método que realiza cambios en la base de datos dependiendo de el estado asignado a la solicitud por el líder del proyecto al que se realizó la solicitud,
+         Si la olicitud fue aprobada entonces se crea una nueva versión del requerimiento funcional en cualquier otro estado seleccionado para la solicitud sól cambia 
+         esta propiedad en la misma
+         @param modelo: recibe el modelo con 
+         los datos necesarios para cambiar el estado de una solicitud ys de ser necesario crear una nueva versión de requerimiento funcional*/ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Details(ModGestionCambios modelo)
@@ -167,19 +180,19 @@ namespace ProyectoInge1.Controllers
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }*/
-            BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+            BD.Entry(modelo.Solicitud).State = EntityState.Modified; //Modificación del estado de la soliocitud en la base
             BD.SaveChanges();
-            if (modelo.Solicitud.estado == "Aprobada" && modelo.ancientState != "Aprobada")
+            if (modelo.Solicitud.estado == "Aprobada" && modelo.ancientState != "Aprobada") //Si el estado de la solicitud es cambiado a aceptada se crea una nueva versión
             {
-                int count = (from version in BD.HistVersiones
+                int count = (from version in BD.HistVersiones //Conteo de el número de versiones de un requerimiento funcional para asignar el número de versión a la nueva
                             where version.idReqFunc == modelo.Solicitud.idReqFunc
                             select version).ToList().Count;
-                modelo.versionReq.versionRF += Convert.ToInt16(count+1);
-                modelo.versionReq.fecha = DateTime.Now;
-                BD.HistVersiones.Add(modelo.versionReq);
+                modelo.versionReq.versionRF += Convert.ToInt16(count+1); //# identificador de la nueva versión
+                modelo.versionReq.fecha = DateTime.Now; //Fecha de creación de la nueva versión
+                BD.HistVersiones.Add(modelo.versionReq); //Insertado de la nueva versión en la base
                 BD.SaveChanges();
             }
-            return RedirectToAction("Solicitudes");
+            return RedirectToAction("Solicitudes"); //Redireccionamiento al listado de solicitudes
         }
 
         public ActionResult Details_Hist(string id)
