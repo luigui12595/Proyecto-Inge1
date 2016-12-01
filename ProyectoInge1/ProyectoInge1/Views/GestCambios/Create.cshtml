@@ -68,11 +68,11 @@
                 @{var responsable1M = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
                 @{var responsable2M = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}
                 <div>
-                    @Html.DisplayFor(model => responsable1M, new { htmlAttributes = new { @class = "control-label col-md-3", @readonly = true } })
+                    @Html.DisplayFor(model => responsable1M, new { htmlAttributes = new { @class = "control-label col-md-3" } })
                 </div>
 
                 <div>
-                    @Html.DisplayFor(model => responsable2M, new { htmlAttributes = new { @class = "control-label col-md-3", @readonly = true } })
+                    @Html.DisplayFor(model => responsable2M, new { htmlAttributes = new { @class = "control-label col-md-3" } })
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
         @*Estado, no editable*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.estado,"Estado", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.estado, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.EditorFor(model => model.Requerimiento.estado, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Requerimiento.estado, "", new { @class = "text-danger" })
         </div>
         @*Prioridad*@

@@ -10,6 +10,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
 <h2>Solicitudes de Cambio</h2>
 
 @using (Html.BeginForm("Solicitudes", "GestCambios", FormMethod.Get))
@@ -34,6 +37,7 @@
             <th> @Html.ActionLink("Requerimiento Funcional", "Solicitudes", new { sortOrder = ViewBag.ReqSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Proyecto", "Solicitudes", new { sortOrder = ViewBag.ProySortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Version", "Solicitudes", new { sortOrder = ViewBag.VersSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
+            <th> @Html.ActionLink("Razon", "Solicitudes", new { sortOrder = ViewBag.RazonSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Realizado Por", "Solicitudes", new { sortOrder = ViewBag.RealSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
             <th> @Html.ActionLink("Estado", "Solicitudes", new { sortOrder = ViewBag.EstSortParm, currentFilter = ViewBag.CurrentFilter }) </th>
         </tr>
@@ -41,9 +45,10 @@
     <tbody>
         @foreach (var item in Model)
         {
-                var userID = User.Identity.GetUserId();
-                var fecha = @item.fecha.ToString("dd_MM_yyyy hh-mm-ss");
-            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha + "~" + userID)' onclick="gotoDetailsSolicitud(this)">
+            var userID = User.Identity.GetUserId();
+            var fecha = @item.fecha.ToString("dd_MM_yyyy HH-mm-ss");
+            var ms = @item.fecha.ToString("fff");
+            <tr id='@(item.versionRF + "~" + item.idReqFunc + "~" + item.nomProyecto + "~" + fecha + "~" + userID + "~" + ms)' onclick="gotoDetailsSolicitud(this)">
                 <td>
                     @Html.DisplayFor(modelItem => item.nombreRF )
                 </td>
@@ -52,6 +57,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor( modelItem => item.versionRF )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.razonPreview )
                 </td>
                 <td>
                     @{

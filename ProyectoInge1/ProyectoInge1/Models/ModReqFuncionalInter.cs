@@ -15,7 +15,7 @@ namespace ProyectoInge1.Models
         public CriterioAceptacion Criterio { get; set; }
         public List<ReqFuncional> ModeloReqFun { get; set; }
         public List<Usuario> ReqUsuario { get; set; }
-        public ReqFuncional Requerimiento { get; set; }
+        public ReqFuncional Requerimiento { get; set; }//ESpecifico para Crear,Eliminar o Modificar un Requerimiento Funcional
         public Usuario ReqFunUsu { get; set; }
         public ReqFuncional requerimienrto { get; set; }
         public ReqFuncional RequerimientosF { get; set; }
@@ -26,11 +26,10 @@ namespace ProyectoInge1.Models
         public Proyecto proyecto { get; set; }
         public ReqFuncional Requerimientos { get; set; }
         public List<CriterioAceptacion> listaCriterios { get; set; }   
-
         public List<Proyecto> listaProyecto { get; set; }
-        public List<Usuario> UsuariosSistema { get; set; }
-        public List<Usuario> listaUsuarios { get; set; }
-        public List<Usuario> listaUsuarioView { get; set; }
+        public List<Usuario> UsuariosSistema { get; set; }//Especifico para almacenar lista de usuarios en el sistema
+        public List<Usuario> listaUsuarios { get; set; }//Especifico para almacenar lista de usuarios (numeros de id) de un proyecto
+        public List<Usuario> listaUsuarioView { get; set; }//Especifico para almacenar lista con los datos de la interseccion de las listas: UsuariosSistema y listaUsuarios
         public Usuario Usuario { get; set; }
         public Usuario UsuarioFuente { get; set; } //Específico para obtener la fuente el requerimiento al desplegar los detalles  NO BORRAR
         public Usuario UsuarioResponsable1 { get; set; } //Específico para obtener responsables de requerimiento al desoplegar los detalles  NO BORRAR
@@ -38,8 +37,6 @@ namespace ProyectoInge1.Models
         public string nProy { get; set; }
         public string ImagenR { get; set; }
         public byte[] ImagenRF { get; set; }
-
-        
 
     }
 

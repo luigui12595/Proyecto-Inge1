@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,20 +23,29 @@ namespace ProyectoInge1.Controllers
     {
 
         /*// GET: ReqFuncional
-        public ActionResult Index()
-        {
-            return View();
-        }*/
+        */
 
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
-        String proy;
+        ApplicationDbContext context = new ApplicationDbContext();
+       
 
-      /*  public recibeNomProyecto(string nomProyecto)
+        private bool revisarPermisos(string permiso)
         {
-
-
-        }*/
-
+            string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var rol = context.Users.Find(userID).Roles.First();
+            var listaPermisos = BD.Permiso;
+            var permisoID = 1;
+            foreach (var perm in listaPermisos)
+            {
+                if (perm.descripcion == permiso)
+                {
+                    permisoID = perm.id;
+                }
+            }
+            var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
+            bool userRol = listaRoles.Contains(rol.RoleId);
+            return userRol;
+        }
         // GET: Usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
@@ -71,15 +79,25 @@ namespace ProyectoInge1.Controllers
             modelo.listaRequerimientos = requerimientos.ToList();
             return View(requerimientos.ToList().ToPagedList(pageNumber, pageSize));
         }
-
+        
+		/*
+		    Inicializa los datos necesarios para la creacion de un requerimienro funcional en un proyecto
+			@param NombProy: Consiste en una hilera de caracteres que corresponde al nombre de un proyecto existente en la
+                             base de datos.
+			@return: Un modelo de requerimiento funcional que contiene el nombre del proyecto al que pertenece y un ViewBag 
+                     que contieneuna lista de usuarios relacionados a que participan de ese proyecto.
+		*/
         public ActionResult Create(string NombProy)
         {
+            if (!revisarPermisos("Crear RF"))
+            {
+                return RedirectToAction("Index", "ReqFuncional");
+            }
             string id = NombProy;
-
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
-            RQ.Requerimientos = new ReqFuncional();
+            RQ.Requerimiento = new ReqFuncional();
             RQ.nProy = NombProy;
-            RQ.Requerimientos.nomProyecto = NombProy;
+            RQ.Requerimiento.nomProyecto = NombProy;
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);
             RQ.listaUsuario = RQ.proyecto.Usuario2.ToList();
@@ -108,7 +126,7 @@ namespace ProyectoInge1.Controllers
             
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
             modelo.values = "";
-            foreach (var item in modelo.listaCriterios) {
+            foreach (var item in modelo.listaCriterios) {               //elimina los criterios de aceptacion para ser sustituidos por lños nuevos (pueden ser los mismos)
                 modelo.values += item.criterio + "|"; 
                 BD.Entry(item).State = EntityState.Deleted;
                 BD.SaveChanges();
@@ -126,14 +144,21 @@ namespace ProyectoInge1.Controllers
 
          [HttpPost]
          [ValidateAntiForgeryToken]
-         public ActionResult Details(ModReqFuncionalInter modelo)
+         public ActionResult Details(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1)
          {
-            
+
+            /*Funcion para poder guardar una imagen*/
+           if (imagen1 != null)
+           {
+                         modelo.Requerimiento.imagen = new byte[imagen1.ContentLength];
+                         imagen1.InputStream.Read(modelo.Requerimiento.imagen, 0, imagen1.ContentLength);
+           }
+       
            BD.Entry(modelo.Requerimiento).State = EntityState.Modified;
            BD.SaveChanges();
 
             if (modelo.values != null)
-            {
+            {   // Separa los criterios de aceptacion y los guarda en la base de datos.
                 String[] substrings = modelo.values.Split('|');
                 foreach (var substring in substrings)
                 {
@@ -145,32 +170,7 @@ namespace ProyectoInge1.Controllers
                     BD.SaveChanges();
                 }
             }
-            /*
-             var id = modelo.Requerimiento.id;
-             var roleId = modelo.Role;
-             var role = await RoleManager.FindByIdAsync(roleId);
-            // en ves de a;adir es modificar
-            //  await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
-            
-              modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-              for (int i = 0; i < modelo.listaTelefono.Count; i++)
-              {
-                  BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
-              }
-              if (modelo.modeloTelefono1.numero != null)
-              {
-                  modelo.modeloTelefono1.usuario = modelo.modeloUsuario.cedula;
-                  BD.Telefono.Add(modelo.modeloTelefono1);
-                  BD.SaveChanges();
 
-              }
-              if (modelo.modeloTelefono2.numero != null)
-              {
-                  modelo.modeloTelefono2.usuario = modelo.modeloUsuario.cedula;
-                  BD.Telefono.Add(modelo.modeloTelefono2);
-                  BD.SaveChanges();
-
-              } */
             return RedirectToAction("Index", new { nombreProyecto = modelo.Requerimiento.nomProyecto }); 
          }
         
@@ -191,28 +191,35 @@ namespace ProyectoInge1.Controllers
             }
         }
 
+
+        /*
+		    Almacena los datos ingresados por un usuario para la creacion de un requerimienro funcional en un proyecto
+			@param modelo: Consiste en los datos ingresados por un usuario que corresponde a la informacion referente para la 
+                           creacion de un requerimiento funcional para un proyecto.
+            @param imagen1: Consiste en los datos referentes a una imagen almacenada por un usuario, puede estar vacia.                 
+			@return: Un modelo de requerimiento funcional que contiene el nombre del proyecto al que pertenece y un ViewBag 
+                     que contieneuna lista de usuarios relacionados a que participan de ese proyecto.
+		*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ModReqFuncionalInter modelo, HttpPostedFileBase imagen1,String NProyecto)
         {
             var NReqFun = from RF in BD.ReqFuncional select RF;
-            
-            //modelo.Requerimientos.nomProyecto = modelo.nProy;
-           var NombreP = modelo.Requerimientos.nomProyecto;
-            modelo.Requerimientos.estado = "Iniciado";
-            /*Funcion para poder guardar una imagen*/
+            var NombreP = modelo.Requerimiento.nomProyecto;
+            modelo.Requerimiento.estado = "Iniciado";
+            /*Inicio Funcion para poder guardar una imagen*/
             if (imagen1 != null) { 
-                modelo.Requerimientos.imagen = new byte[imagen1.ContentLength];
-                imagen1.InputStream.Read(modelo.Requerimientos.imagen, 0, imagen1.ContentLength);
+                modelo.Requerimiento.imagen = new byte[imagen1.ContentLength];
+                imagen1.InputStream.Read(modelo.Requerimiento.imagen, 0, imagen1.ContentLength);
             }
-
-            /*Funcion para poder guardar una imagen*/
-            BD.ReqFuncional.Add(modelo.Requerimientos);
+            /*Final Funcion para poder guardar una imagen*/
+            BD.ReqFuncional.Add(modelo.Requerimiento);
             BD.SaveChanges();
             List<ReqFuncional> LR;
             LR = BD.ReqFuncional.ToList();
             var idReq = LR.Last().id;
-            if (modelo.values != null) {
+            if (modelo.values != null)
+            {   //Guarda los criterios de aceptacion
                 String[] substrings = modelo.values.Split('|');
                 foreach (var substring in substrings)
                 {
@@ -224,46 +231,12 @@ namespace ProyectoInge1.Controllers
                     BD.SaveChanges();
                 }
             }
-            /* if (ModelState.IsValid)
-             {
-                 //var idRF;
-                 var NReqFun = from RF in BD.ReqFuncional select RF;
-                 // NReqFun = NReqFun.Where(x => x.nombre == modelo.RequerimientosF.nomProyecto).Max(x => x.id);
-                 BD.ReqFuncional.Add(modelo.RequerimientosF);
-                 BD.SaveChanges();
-             }
-             else
-             {
-                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
-                 return View(modelo);
-             }*/
-            string id = modelo.Requerimientos.nomProyecto;
+            string id = modelo.Requerimiento.nomProyecto;
             ModReqFuncionalInter RQ = new ModReqFuncionalInter();
             var req = from usersP in BD.ReqFuncional
                       select usersP;
             req = req.Where(x => x.nombre == id);
             RQ.listaRequerimientos = req.ToList();
-            /* if (RQ.listaRequerimientos.Count == 0)
-             {
-                 RQ.Requerimientos.id = 0;
-             }
-             else {
-               Int32 d = RQ.listaRequerimientos.Count;
-                Int16 d2 = (Int16) (d + 1);
-                 d= (Int32)(d2);
-                 RQ.Requerimientos.id = (Int16)(d);
-             }*/
-
-            /* var proy = from usersP in BD.Proyecto
-                            select usersP;
-
-             proy = proy.Where(x => x.nombre == id);
-
-             RQ.proyecto = proy;
-
-             for (int j=0; j<RQ.listaProyecto.Count;j++) {
-
-             }*/
             RQ.nProy = id;
             RQ.UsuariosSistema = BD.Usuario.ToList();
             RQ.proyecto = BD.Proyecto.Find(id);

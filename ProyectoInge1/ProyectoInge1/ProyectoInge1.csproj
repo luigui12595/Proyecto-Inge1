@@ -353,6 +353,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jquery_ReqFuncionales.js" />
     <Content Include="Scripts\jquery_Usuarios.js" />
+    <Content Include="Scripts\listBoxesProject.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.ar.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.az.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.bg.min.js" />
@@ -471,13 +472,12 @@
     <Content Include="Views\ReqFuncional\Details.cshtml" />
     <Content Include="Views\Proyectos\Detalles.cshtml" />
     <Content Include="Views\Proyectos\Index.cshtml" />
-
     <Content Include="Views\GestCambios\Create.cshtml" />
     <Content Include="Views\GestCambios\Index.cshtml" />
-
     <Content Include="Views\GestCambios\Solicitudes.cshtml" />
     <Content Include="Views\GestCambios\Details.cshtml" />
     <Content Include="Views\GestCambios\Detalles.cshtml" />
+    <Content Include="Views\GestCambios\Details_Hist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
