@@ -36,6 +36,9 @@ namespace ProyectoInge1
               "~/Content/bootstrap.css",
               "~/Content/bootstrap-datepicker3.css",
               "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/multisel").Include(
+              "~/Scripts/listBoxesProject.js"));
         }
     }
 }

@@ -187,7 +187,6 @@ BEGIN
 
 END;
 
-
 CREATE TRIGGER borrar_reqFuncional
 ON ReqFuncional INSTEAD OF DELETE
 AS
@@ -238,31 +237,6 @@ BEGIN
 
 	CLOSE cursorHV
 	DEALLOCATE cursorHV
-END;
-
-CREATE TRIGGER borrar_reqFuncional
-ON ReqFuncional INSTEAD OF DELETE
-AS
-BEGIN
-	DECLARE @id INT
-	DECLARE @nombre VARCHAR(30)
-	DECLARE cursorRF CURSOR FOR SELECT id, nomProyecto FROM deleted
-	OPEN cursorRF
-	FETCH NEXT FROM cursorRF INTO @id, @nombre
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		DELETE FROM CriterioAceptacion
-		WHERE idReqFunc = @id
-		AND nomProyecto = @nombre
-		
-		FETCH NEXT FROM cursorRF INTO @id, @nombre
-	END
-	DELETE FROM ReqFuncional
-	WHERE id = @id
-	AND nomProyecto = @nombre
-
-	CLOSE cursorRF
-	DEALLOCATE cursorRF
 END;
 
 CREATE TRIGGER borrar_proyecto

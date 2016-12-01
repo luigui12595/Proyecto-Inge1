@@ -21,9 +21,9 @@ namespace ProyectoInge1.Models
         public List<CriterioAceptacion> listaCriterio { get; set; }
         public CriterioAceptacion criterio { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public string lider { get; set; }
         public String Participantes { get; set; }
         public List<int> usuariosProyecto { get; set; }
         public List<Usuario> listaUsuariosProyecto { get; set; }
+        public Usuario liderProyecto { get; set; } //Usado para actualizar bit de líder en usuario
     }
 }

@@ -36,7 +36,9 @@ namespace ProyectoInge1.Controllers
             return userRol;
         }
 
-        // GET: Usuarios
+        /*Despliegue de los usuarios del sistema
+         Parametros Recibidos: Ordenamiento, Filtro de búsqueda actual, Nuevo filtro, Página actual
+         No modifica nada en el sistema*/
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
            /* if (!revisarPermisos("Index de usuario"))
@@ -45,32 +47,33 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Index", "Home");
             } */
 
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";
+            ViewBag.CurrentSort = sortOrder; //Orden de usuarios en el index
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";  //Parámetro de ordenamiento por nombre
+            ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";             //Por Rol
             if (searchString != null) { page = 1; }
             else { searchString = currentFilter; }
-            ViewBag.CurrentFilter = searchString;
-            var usuarios = from users in BD.Usuario
+            ViewBag.CurrentFilter = searchString;     //Filtro de búsqueda
+            var usuarios = from users in BD.Usuario  //Carga de usuarios de la base
                            select users;
             if (!String.IsNullOrEmpty(searchString))
             {
+                //Búsqueda de usuarios por nombre o apellidos
                 usuarios = usuarios.Where(users => users.apellidos.Contains(searchString) || users.nombre.Contains(searchString));
             }
-            switch (sortOrder)
+            switch (sortOrder) //Ordena de acuerdo al atributo de usuario seleccionado en la tabla de usuarios(columna seleccionada)
             {
-                case "name_desc":
+                case "name_desc":  //Ordenamiento por apellidos
                     usuarios = usuarios.OrderByDescending(users => users.apellidos);
                     break;
                 default:
                     usuarios = usuarios.OrderBy(users => users.apellidos);
                     break;
             }
-            int pageSize = 5;
-            int pageNumber = (page ?? 1);
+            int pageSize = 10; //Número de usuarios dexplegados por página en el Index
+            int pageNumber = (page ?? 1); //Número de página actual
             ModUsuarioInter modelo = new ModUsuarioInter();
-            modelo.listaUsuarios = usuarios.ToList();
-            return View(usuarios.ToList().ToPagedList(pageNumber, pageSize));
+            modelo.listaUsuarios = usuarios.ToList(); //Asignación de usuarios al modelo
+            return View(usuarios.ToList().ToPagedList(pageNumber, pageSize)); //Despliegue de usuarios según parámetros recibidos
         }
         public ActionResult Create()
         {

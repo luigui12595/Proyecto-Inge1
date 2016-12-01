@@ -13,6 +13,12 @@ function goToReqFun(element) {
     window.location.replace('ReqFuncional/Index/' + elementNombre)
 }
 
+function gotoVersionDetails(element) {
+    var elementId = element.id;
+    window.location.replace('GestCambios/Details_Hist/' + elementId)
+   // window.location.replace('GestCambios/Detalles/' + elementId)
+
+}
 
 function gotoDetailsSolicitud(element) {
     var elementId = element.id;
