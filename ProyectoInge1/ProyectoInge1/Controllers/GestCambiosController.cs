@@ -197,12 +197,18 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Solicitudes");
         }
 
+        /*
+            Contiene la informacion referente a una versión.
+            @param id: un string que contiene tres datos: el nombre del proyecto, el id del requerimiento funcional y el número de versión (concatenados); 
+                        que corresponde a la información básica necesaria para desplegar la información sobre una versión específica.
+            @return: Un modelo de gestión de cambios con toda la información de una versión de un requerimiento funcional.
+        */
         public ActionResult Details_Hist(string id)
         {
-            /*if (!revisarPermisos("Detalles de Usuario"))
+            if (!revisarPermisos("Detalles de Version"))
             {
-                return RedirectToAction("Index", "Usuario");
-            }*/
+                return RedirectToAction("Index", "GestCambios");
+            }
             var usuarios = from usuario in BD.Usuario
                            orderby usuario.cedula
                            select usuario;
@@ -258,7 +264,7 @@ namespace ProyectoInge1.Controllers
                     versiones = versiones.OrderBy(users => users.versionRF);
                     break;
             }
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ModGestionCambios modelo = new ModGestionCambios();
             modelo.listaCambios = versiones.ToList();

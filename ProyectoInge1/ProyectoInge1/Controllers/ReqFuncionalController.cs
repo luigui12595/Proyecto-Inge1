@@ -46,7 +46,16 @@ namespace ProyectoInge1.Controllers
             bool userRol = listaRoles.Contains(rol.RoleId);
             return userRol;
         }
-        // GET: Usuarios
+
+        /*
+         Crea un listado de todos los requerimiento funcionales de un proyecto.
+         @param sortOrder: Consiste en una hilera de caracteres que indica el orden en el que se realizara el ordenamiento de las hileras.
+         @param currentFilter: Consiste en una hilera de caracteres que determina cual es el actual el actual estado de busqueda.
+         @param searchString: Consiste en una hilera de caracteres para realizar una busqueda en el index.
+         @param page: Consiste en un entero que determina el numero de pagina que se presentara.
+         @param nombreProyecto: String que contiene el nombre del proyecto del cual se están desplegando los requerimientos funcionales.
+         @return: Un modelo gestion de cambios con informacion de todas los requerimiento funcionales de un proyecto.
+        */
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -73,7 +82,7 @@ namespace ProyectoInge1.Controllers
                     requerimientos = requerimientos.OrderBy(rfunc => rfunc.nombre);
                     break;
             }
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
             modelo.listaRequerimientos = requerimientos.ToList();
