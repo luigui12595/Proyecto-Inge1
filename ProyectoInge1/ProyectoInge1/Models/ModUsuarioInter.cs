@@ -31,11 +31,11 @@ namespace ProyectoInge1.Models
         public Telefono modeloTelefono1 { get; set; }
         public Telefono modeloTelefono2 { get; set; }
         public Proyecto modeloProyecto { get; set; }
-        public List<Usuario> listaUsuarios { get; set; } //Usuarios del sistema
+        public List<Usuario> listaUsuarios { get; set; } //Especifico para almacenar lista de usuarios en el sistema
         public List<Telefono> listaTelefono { get; set; }
         public List<Proyecto> listaProyectos { get; set; }
         [Required(ErrorMessage = "Debe seleccionar un rol")]
-        public string Role { get; set; }
+        public string Role { get; set; }//Especifico para almacenar el rol de un usuario en el sistema
         public List<IdentityRole> listaRoles { get; set; }
         public List<ApplicationUser> listaUserRoles { get; set; }
         public DateTime Date { get; internal set; }

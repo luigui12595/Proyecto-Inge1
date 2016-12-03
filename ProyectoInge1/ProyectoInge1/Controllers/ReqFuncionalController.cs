@@ -58,6 +58,10 @@ namespace ProyectoInge1.Controllers
         */
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
+            if (!revisarPermisos("Index de RF"))
+            {
+                return RedirectToAction("Index", "Proyectos");
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";
@@ -67,7 +71,7 @@ namespace ProyectoInge1.Controllers
             string param1 = nombreProyecto;
 
             var requerimientos = from rfunc in BD.ReqFuncional
-                                 where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 where rfunc.nomProyecto == param1 
                                  select rfunc;
             if (!String.IsNullOrEmpty(searchString))
             {

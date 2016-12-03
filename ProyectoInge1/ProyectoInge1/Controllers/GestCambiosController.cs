@@ -30,13 +30,14 @@ namespace ProyectoInge1.Controllers
 
         private bool revisarPermisos(string permiso)
         {
-            
+
             string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var rol = context.Users.Find(userID).Roles.First();
             var permisoID = BD.Permiso.Where(m => m.descripcion == permiso).First().id;
             var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
             bool userRol = listaRoles.Contains(rol.RoleId);
             return userRol;
+
         }
 
         public ActionResult Solicitudes(string sortOrder, string currentFilter, string searchString, int? page)
