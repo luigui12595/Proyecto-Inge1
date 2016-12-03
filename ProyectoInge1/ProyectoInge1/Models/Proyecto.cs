@@ -27,11 +27,11 @@ namespace ProyectoInge1.Models
         public string descripcion { get; set; }
         [Display(Name = "Fecha Inicio")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaInicio { get; set; }
         [Display(Name = "Fecha Final")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaFinal { get; set; }
         [Display(Name = "Líder")]
         public string lider { get; set; }
