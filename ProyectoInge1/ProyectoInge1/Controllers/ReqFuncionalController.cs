@@ -186,7 +186,14 @@ namespace ProyectoInge1.Controllers
 
             return RedirectToAction("Index", new { nombreProyecto = modelo.Requerimiento.nomProyecto }); 
          }
-        
+
+        /*
+        Elimina el requerimiento funcional que se le solicite en el parametro
+        @param confirm: parametro booleano para confirmar el deseo de eliminar el RF.
+        @param Requerimiento: un Int identificador para cada Requerimiento funcional, se usa para buscar el requerimiento a borrar.
+        @param nomProy: String que contiene el nombre del proyecto del cual pertenece el requerimiento funcional.
+        @return:Dependiendo del resultado, retorna la vista a la cual se desea ingresar después de eliminada.
+       */
 
         public ActionResult Eliminar(bool confirm, string Requerimiento, string nomProy)
         {

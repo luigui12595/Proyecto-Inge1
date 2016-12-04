@@ -14,8 +14,6 @@ using System.Diagnostics;
 using PagedList;
 using System.Text;
 
-//http://stackoverflow.com/questions/10042608/passing-javascript-array-to-asp-net-mvc-controller.
-//http://stackoverflow.com/questions/15782417/post-javascript-array-with-ajax-to-asp-net-mvc-controller
 
 namespace ProyectoInge1.Controllers
 {
@@ -36,6 +34,12 @@ namespace ProyectoInge1.Controllers
         */
 
         // GET: Proyectos
+        /*Metodo para la pantalla principal del modulo de proyectos, donde mostrará el grid para el listado de proyectos
+          @param sortOrder: Consiste en una hilera de caracteres que indica el orden en el que se realizara el ordenamiento de las hileras.
+          @param currentFilter: Consiste en una hilera de caracteres que determina cual es el actual el actual estado de busqueda.
+          @param searchString: Consiste en una hilera de caracteres para realizar una busqueda en el index.
+          @param page: Consiste en un entero que determina el numero de pagina que se presentara.
+          @return: retorna al mismo listado de proyectos*/
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             // if (!revisarPermisos("Listado de Permisos"))
@@ -109,7 +113,9 @@ namespace ProyectoInge1.Controllers
             ViewBag.userList = modelo.listaUsuarios;
             return View(proyectos.ToList().ToPagedList(pageNumber, pageSize));
         }
-
+        /*Metodo para la mostrar los detalles de un proyecto seleccionado
+          @param id: Consiste en un string que determinará el proyecto del cual se quiere mostrar el detalle.
+          @return: retorna la vista de detalle lista para mostrar*/
         public ActionResult Detalles(string id)
         {
 

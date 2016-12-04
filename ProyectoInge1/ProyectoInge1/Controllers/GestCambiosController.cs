@@ -342,6 +342,15 @@ namespace ProyectoInge1.Controllers
             return RedirectToAction("Index");
         }
 
+        /*
+        Elimina la solicitud que se le solicite en los parametros, siempre y cuando su estado sea Pendiente
+        @param confirm: parametro booleano para confirmar el deseo de eliminar la solicitud.
+        @param fecha: la fecha en la que se hizo la solicitud, parte de la PK.
+        @param version: version a la cual se le hace la solicitud de cambio, parte de la PK.
+        @param idReq: requerimiento al cual pertenece la version, parte de la PK
+        @param nomPro: proyecto al cual pertenece el requerimiento, parte de la PK.
+        @return:Dependiendo del resultado, retorna la vista a la cual se desea ingresar después de eliminada.
+       */
         public ActionResult Eliminar(bool confirm, DateTime fecha, short version, int idReq, string nomPro)
         {
 

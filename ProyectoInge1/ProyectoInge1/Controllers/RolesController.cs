@@ -39,6 +39,8 @@ namespace ProyectoInge1.Controllers
         }
 
         // GET: Roles
+        /*Metodo para la pantalla principal del modulo de roles, donde mostrará el grid para gestionar los accesos de los roles.
+         @return: retorna el view listo para desplegar*/
         public ActionResult Index()
         {
             if (!revisarPermisos("Control de Permisos"))
@@ -75,7 +77,12 @@ namespace ProyectoInge1.Controllers
 
             return View(modelo);   
         }
+
+
         //POST: Roles_Permisos
+        /*Metodo para la enviar todos los cambios solicitados en la pantalla de roles
+         *@param: model: Recibe por parámetro el modelo el cual trae todos los cambios que se hicieron en el grid
+         @return: retorna al index de la pantalla principal*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(ModRolesInter model)
