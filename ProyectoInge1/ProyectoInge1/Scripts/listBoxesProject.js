@@ -47,4 +47,3 @@ $("#leaderSel").on('focus', function () {
 });
 
 
-

@@ -225,34 +225,34 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Fecha de Inicio:</label>
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.proyecto.fechaInicio, new { @class = "form-control datepicker" })
+                            @Html.TextBoxFor(model => model.proyecto.fechaInicio, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-2">Fecha Final:</label>
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.proyecto.fechaFinal, new { @class = "form-control datepicker2" })
+                            @Html.TextBoxFor(model => model.proyecto.fechaFinal, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker2" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-2">* Estado:</label>
                         <div class="col-md-10" style="padding-top:0.5em;">
                             @Html.DropDownListFor(model => model.proyecto.estado, new[] { new SelectListItem() { Text = "Iniciado" }, new SelectListItem() { Text = "En Proceso" },
-                                                                      new SelectListItem() { Text = "Cancelado" }, new SelectListItem() { Text = "Suspendido" } },
-                                                                       "-- No asignado--", new { @class = "form-control" })
+                                                                      new SelectListItem() { Text = "Cancelado" }, new SelectListItem() { Text = "Suspendido" },
+                                                                      new SelectListItem() { Text = "Finalizado" } }, new { @class = "form-control" })
                         </div>
                     </div>
                     <br />
                     <div class="form-group">
                         <label class="control-label col-md-2">* Cliente:</label>
                         <div class="col-md-10" style="padding-top:0.5em;">
-                            @Html.DropDownListFor(model => model.proyecto.Cliente, new SelectList(ViewBag.Usuarios, "cedula", "names"), "Seleccionar Cliente", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.proyecto.Cliente, new SelectList(ViewBag.Usuarios, "cedula", "names"), new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-2">* Lider:</label>
                         <div class="col-md-10" style="padding-top:0.5em;">
-                            @Html.DropDownListFor(model => model.proyecto.lider, new SelectList(ViewBag.DesarrolladoresNL, "cedula", "names"), "Seleccionar Lider", new { @id = "leaderSel", @class = "form-control" })
+                            @Html.DropDownListFor(model => model.proyecto.lider, new SelectList(ViewBag.DesarrolladoresNL, "cedula", "names"), new { @id = "leaderSel", @class = "form-control" })
                         </div>
                     </div>
                     <br /><br />
@@ -298,15 +298,17 @@
     @Scripts.Render("~/bundles/multisel")
     <script type="text/javascript">
     $(function () {
-        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
-    });
-    $(".datepicker").on("dp.change", function (e) {
-        alert("here");
-        $('.datepicker2').data("DatePicker").setMinDate(e.date);
-    });
-    $(".datepicker2").on("dp.change", function (e) {
-        alert("here");
-        $('.datepicker').data("DatePicker").setMaxDate(e.date);
-    });
+        $('.datepicker, .datepicker2').datepicker({
+            dateFormat: "dd-mm-yy",
+            autoclose: true,
+            todayHighlight: true,
+        });
+        $(".datepicker").on("dp.change", function (e) {           
+            $('.datepicker2').data("DatePicker").setMinDate(e.date);
+        });
+        $(".datepicker2").on("dp.change", function (e) {
+            $('.datepicker').data("DatePicker").setMaxDate(e.date);
+        });
+    });    
     </script>
 }
