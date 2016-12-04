@@ -264,7 +264,7 @@ namespace ProyectoInge1.Controllers
             var Temp = RQ.UsuariosSistema.Intersect(RQ.listaUsuario);
             RQ.listaUsuarioView = Temp.ToList();
             ViewBag.lista = RQ.listaUsuarioView;
-            return View(RQ);
+            return RedirectToAction("Index", new { nombreProyecto = RQ.nProy }); 
         }
       
     }

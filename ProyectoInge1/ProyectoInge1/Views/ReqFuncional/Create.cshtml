@@ -184,28 +184,18 @@ window.onload = load_all
             </div>
 
         </fieldset>
+        @*Criterio De Aceptacion*@
         <fieldset name="generalesinfo">
             <legend>Criterios De Aceptacion</legend>
-            @*Criterio De Aceptacion*@
-            <label class="control-label col-md-3">Criterios de aceptacion:</label><br />
             @Html.HiddenFor(model => model.values, new { @id = "output" })
-            <input type="text" id="output" value=" " style="display:none"><br />
-
             <a onclick="add_textbox()" class="btn btn-primary">Agregar Criterio</a>
             <div id="textboxes">
-                <br /><br />
+                <br />
             </div>
         </fieldset>
 
-
-                @*Criterio De Aceptacion*@
-                <label class="control-label col-md-10">Criterios de aceptacion:</label><br />
-                @Html.HiddenFor(model => model.values, new { @id = "output" })
-                <input type="text" id="output" value=" " style="display:none" ><br/>
-
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-6">
-                    @* @Html.ActionLink("Crear", "Create", new { NProyecto = id }, new { @class = "btn btn-success", @style = "color:white" })*@
                     <input type="submit" value="Aceptar" class="btn btn-primary" />
                     <div class="btn btn-danger" style="color:white;" />
                     @Html.ActionLink("Cancelar", "Index", null, new { nombreProyecto = Request.Params["NombProy"] }, new { @style = "color:#FFFFFF;" })

@@ -238,8 +238,11 @@
                             @Html.TextAreaFor(model => Criterios, new { @class = "form-control", rows = 4, @readonly = true })
                             <br /><br />
                         }
-                    </fieldset>
-                </dl>
+                    </fieldset><br/><br/>
+                </dl><br/>
+                <div class="col-lg-1 btn btn-default">
+                    @Html.ActionLink("Volver", "Index","Proyectos")
+                </div><br />
             </div>
         </div>
 
