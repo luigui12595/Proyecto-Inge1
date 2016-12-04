@@ -101,18 +101,22 @@ namespace ProyectoInge1.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Detalles(string id)
+        //Permite ver los detalles de los usuarios, y modificarlos
+        public async Task<ActionResult> Detalles(string id)
         {
-
+            var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
+            // verificar Permisos de usuario
             if (!revisarPermisos("Detalles de Usuario"))
             {
-                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }
             ModUsuarioInter modelo = new ModUsuarioInter();
             modelo.modeloUsuario = BD.Usuario.Find(id);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
-            modelo.Role = "admin";
+
+
+            modelo.Role = "Administrador";//await UserManager.FindByIdAsync(modelo.modeloUsuario.id);
             if (1 <= modelo.listaTelefono.Count) { 
                 modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
 
@@ -122,24 +126,27 @@ namespace ProyectoInge1.Controllers
                 modelo.modeloTelefono2 = modelo.listaTelefono.ElementAt(1);
            
             }
+
             return View(modelo);  
         }
-
+        // post detalles, cambia los datos de la base de datos
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Detalles(ModUsuarioInter modelo)
         {
-
             var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
             BD.Entry(modelo.modeloUsuario).State = EntityState.Modified;
+            BD.SaveChanges();
             var id = modelo.modeloUsuario.cedula;
             var roleId = modelo.Role;
             var role = await RoleManager.FindByIdAsync(roleId);
-            await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, role.Name);
+            //await UserManager.RemoveFromRoleAsync(modelo.modeloUsuario.id, role.Name);
+            await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, modelo.Role);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
             for(int i = 0; i <modelo.listaTelefono.Count; i++){ 
                 BD.Entry(modelo.listaTelefono.ElementAt(i)).State = EntityState.Deleted;
+                BD.SaveChanges();
             }
             if (modelo.modeloTelefono1.numero!= null)
             {

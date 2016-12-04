@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProyectoInge1.Models;
+using System.Data;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -10,9 +12,11 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
 using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using PagedList;
 using System.Text;
+
 
 
 namespace ProyectoInge1.Controllers
@@ -113,12 +117,14 @@ namespace ProyectoInge1.Controllers
             ViewBag.userList = modelo.listaUsuarios;
             return View(proyectos.ToList().ToPagedList(pageNumber, pageSize));
         }
-        /*Metodo para la mostrar los detalles de un proyecto seleccionado
-          @param id: Consiste en un string que determinará el proyecto del cual se quiere mostrar el detalle.
-          @return: retorna la vista de detalle lista para mostrar*/
+
+
+        /* Muestra los detalles del proyecto y permite modificarlos con el boton "Modificar", recibe el id del proyecto para ser consultado/modificado
+        @Param id: identificacion del proyecto a ser modificado
+        @return: retorna la vista de detalle lista para mostrar
+        */
         public ActionResult Detalles(string id)
         {
-
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
@@ -162,7 +168,7 @@ namespace ProyectoInge1.Controllers
             ViewBag.SelectOpts = new MultiSelectList(usersSelected.ToList(), "cedula", "names");
             ViewBag.AvailableOpts = new MultiSelectList(usersAvailable.ToList(), "cedula", "names");
             return View(modelo);
-
+            
         }
 
         public ActionResult Eliminar(bool confirm, string Proyecto)
@@ -188,7 +194,11 @@ namespace ProyectoInge1.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        /*Guarda los detalles modificados en la vista recive dos arrays, uno con el lider y otro con el equipo
+        @Param modelo: modelo con los datos modificados previamente en la vista.
+        @Param selectedOpts: usuarios seleccionados para el equipo de desarrolladores
+        @Param liderValue: Lider del equipo
+        */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Detalles(ModProyectoInter modelo, string[] selectedOpts)
@@ -227,6 +237,7 @@ namespace ProyectoInge1.Controllers
                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
                 return RedirectToAction("Create");
             }
+
         }
 
         /*Método que carga los recursos necesarios para crear un proyecto, desarrolladores dispoonibles para el proyecto, clientes...
@@ -262,11 +273,53 @@ namespace ProyectoInge1.Controllers
                 else { usersAvailable.Add(developer); }
             }*/
             ViewBag.Usuarios = usuarios.ToList();
+
             ViewBag.DesarrolladoresNL = DesarrolladoresNoLider.ToList();
             //ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names"); 
             ViewBag.SelectOpts = new MultiSelectList( usersSelected.ToList(), "cedula", "names" );
             ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" ); 
             return View();
+        }
+        /*Metodo que carga los datos en las viewbag, recive el modelo.
+        @Param modelo: para obtener los valores que guardara en la viewbag.
+        */
+        public void populate(ModProyectoInter modelo) {
+           
+            var usuarios = from users in BD.Usuario
+                           select users;
+            var context = new ApplicationDbContext();
+            var desarrolladores = from developer in context.Users
+                                  where developer.Roles.Any(r => r.RoleId == "2")
+                                  select developer;
+            
+            var DesarrolladoresNoLider = new List<Usuario>();
+            var proyecto = modelo.proyecto;
+            var proyUsers = proyecto.Usuario2;
+            var usersSelected = new List<Usuario>();
+            var usersAvailable = new List<Usuario>();
+            var userLider = new List<Usuario>();
+            userLider.Add(BD.Usuario.Find(modelo.proyecto.lider));
+            foreach (var x in usuarios)
+            {
+                foreach (var y in desarrolladores)
+                {
+                    if (x.id == y.Id && (x.lider == false || x.lider == null))
+                    {
+                        DesarrolladoresNoLider.Add(x);
+                    }
+                }
+            }
+            foreach (var developer in DesarrolladoresNoLider) //seleccionar los desarrolladores disponibles para guardarlos en la viewBag 
+            {
+                if (proyUsers.Contains(developer)) { usersSelected.Add(developer); }
+                else { usersAvailable.Add(developer); }
+            }
+            
+            ViewBag.Usuarios = usuarios.ToList();
+            ViewBag.Desarrolladores = DesarrolladoresNoLider.ToList();
+            ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names");
+            ViewBag.SelectOpts = new MultiSelectList(usersSelected.ToList(), "cedula", "names");
+            ViewBag.AvailableOpts = new MultiSelectList(usersAvailable.ToList(), "cedula", "names");
         }
 
         /*Recibe los datos del proyecto asignados en la vista para agregarlo a la base de datos incluyendo
@@ -278,6 +331,7 @@ namespace ProyectoInge1.Controllers
           @return: retorna al listado de proyectos*/
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Create( ModProyectoInter modelo, string[] selectedOpts )
         {           
             if ( ModelState.IsValid ) {
@@ -302,7 +356,6 @@ namespace ProyectoInge1.Controllers
                 return RedirectToAction("Create");
             }
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar1(/*bool confirm, string Proyecto*/)

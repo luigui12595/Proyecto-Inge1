@@ -4,12 +4,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
-    function aceptar() {
-        alert("Se a generado la Solicitud");
-    }
-
-</script>
+<script></script>
 <h2>Gestion de Solicitudes</h2>
 
 
@@ -43,22 +38,22 @@
         @*fecha ini req, no editable*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.fechaInicial, "Fecha Inicial", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.fechaInicial, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control"} })
+            @Html.TextBoxFor(model => model.Requerimiento.fechaInicial, new { @class = "form-control datepicker", placeholder = "DATE" })
             @Html.ValidationMessageFor(model => model.Requerimiento.fechaInicial, "", new { @class = "text-danger" })
         </div>
         @*fecha final req, no editable*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.fechaFinal, "Fecha Final", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.fechaFinal, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control"} })
+            @Html.TextBoxFor(model => model.Requerimiento.fechaFinal, new { @class = "form-control datepicker", placeholder = "DATE" })
             @Html.ValidationMessageFor(model => model.Requerimiento.fechaFinal, "", new { @class = "text-danger" })
         </div>
-        @*Drescrip req, no editable*@
+        @*Drescrip req*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.descripcion, "Descripcion", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.TextAreaFor(model => model.Requerimiento.descripcion, new { @class = "form-control", rows = 4 })
+            @Html.TextAreaFor(model => model.Requerimiento.descripcion, new { @class = "form-control", rows = 4})
             @Html.ValidationMessageFor(model => model.Requerimiento.descripcion, "", new { @class = "text-danger" })
         </div>
-        @*observaciones, no editable*@
+        @*observaciones*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.observaciones, "Observaciones", htmlAttributes: new { @class = "control-label col-md-3" })
             @Html.TextAreaFor(model => model.Requerimiento.observaciones, new { @class = "form-control", rows = 4 })
@@ -68,7 +63,7 @@
 
         @*Responsable, no editable*@
         <div class="col-lg-6 ">
-            @Html.LabelFor(model => model.Requerimiento.responsable1, "Responsable", htmlAttributes: new { @class = "control-label col-md-3", @readonly = true })
+            @Html.LabelFor(model => model.Requerimiento.responsable1, "Responsable 1", htmlAttributes: new { @class = "control-label col-md-3", @readonly = true })
             <div class="form-control col-md-3" style="width:20em; " id="d" size="2">
                 @{var responsable1M = Model.UsuarioResponsable1 != null ? Model.UsuarioResponsable1.nombre + " " + Model.UsuarioResponsable1.apellidos : " ";}
                 @{var responsable2M = Model.UsuarioResponsable2 != null ? Model.UsuarioResponsable2.nombre + " " + Model.UsuarioResponsable2.apellidos : " ";}
@@ -91,22 +86,22 @@
             @Html.EditorFor(model => model.Requerimiento.estado, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Requerimiento.estado, "", new { @class = "text-danger" })
         </div>
-        @*Prioridad, no editable*@
+        @*Prioridad*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Requerimiento.prioridad, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Requerimiento.prioridad, "", new { @class = "text-danger" })
         </div>
-        @*modulo, no editable*@
+        @*modulo*@
         <div class="col-lg-6 ">
             @Html.LabelFor(model => model.Requerimiento.modulo, "Modulo", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.modulo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Requerimiento.modulo, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Requerimiento.modulo, "", new { @class = "text-danger" })
         </div>
-        @*sprint, no editable*@
+        @*sprint*@
         <div class="col-lg-6 form-group">
             @Html.LabelFor(model => model.Requerimiento.sprint, "Sprint", htmlAttributes: new { @class = "control-label col-md-3" })
-            @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Requerimiento.sprint, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Requerimiento.sprint, "", new { @class = "text-danger" })
         </div>
         @*Lider del equipo, oculto*@
@@ -174,9 +169,12 @@
         
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input onclik="aceptar()" type="submit" value="Aceptar" class="btn btn-primary" />
+            <div class="col-md-offset-2 col-md-5">
+                <input onclik= "succes()" type="submit" value="Aceptar" class="btn btn-primary"/>
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger", @onclick = "myFunction()", @style = "color:#FFFFFF;" })
+               
             </div>
+           
         </div>
     </div>
 }
@@ -185,3 +183,41 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    // mensaje desplegado al crear solicitud
+    function succes() {
+        alert("Se realizo la solicitud") 
+    }
+    //Confirmacion de calcelar solicitud
+    function myFunction() {
+        if (!confirm("No se guardaran los cambios, desea continuar?")) {
+
+        }  
+    }
+
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
+    });
+    $(".datepicker").on("dp.change", function (e) {
+        $('.datepicker2').data("DatePicker").setMinDate(e.date);
+    });
+    $(".datepicker2").on("dp.change", function (e) {
+        $('.datepicker').data("DatePicker").setMaxDate(e.date);
+    });
+
+
+    function MoverAsignados() {
+        var seleccionados = $("#recAsig option:selected");
+        $("#recDisp").append($(seleccionados).clone());
+        $(seleccionados).remove();
+        e.preventDefault();
+    }
+
+    function MoverDisponibles() {
+        var seleccionados = $("#recDisp option:selected");
+        $("#recAsig").append($(seleccionados).clone());
+        $(seleccionados).remove();
+        e.preventDefault();
+    }
+</script>

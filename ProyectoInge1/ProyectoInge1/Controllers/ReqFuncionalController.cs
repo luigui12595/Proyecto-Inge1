@@ -140,7 +140,7 @@ namespace ProyectoInge1.Controllers
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
             modelo.values = "";
-            foreach (var item in modelo.listaCriterios) {
+            foreach (var item in modelo.listaCriterios) {               //elimina los criterios de aceptacion para ser sustituidos por lños nuevos (pueden ser los mismos)
                 modelo.values += item.criterio + "|"; 
                 BD.Entry(item).State = EntityState.Deleted;
                 BD.SaveChanges();
@@ -171,7 +171,7 @@ namespace ProyectoInge1.Controllers
            BD.SaveChanges();
 
             if (modelo.values != null)
-            {
+            {   // Separa los criterios de aceptacion y los guarda en la base de datos.
                 String[] substrings = modelo.values.Split('|');
                 foreach (var substring in substrings)
                 {
@@ -238,7 +238,8 @@ namespace ProyectoInge1.Controllers
             List<ReqFuncional> LR;
             LR = BD.ReqFuncional.ToList();
             var idReq = LR.Last().id;
-            if (modelo.values != null) {
+            if (modelo.values != null)
+            {   //Guarda los criterios de aceptacion
                 String[] substrings = modelo.values.Split('|');
                 foreach (var substring in substrings)
                 {
