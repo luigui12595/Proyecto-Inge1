@@ -83,7 +83,6 @@ namespace ProyectoInge1.Controllers
         {
             if (!revisarPermisos("Eliminar Usuario"))
             {
-                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }
             ModUsuarioInter modelo = new ModUsuarioInter();
@@ -116,7 +115,7 @@ namespace ProyectoInge1.Controllers
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
 
 
-            modelo.Role = "Administrador";//await UserManager.FindByIdAsync(modelo.modeloUsuario.id);
+            modelo.Role = "Administrador";
             if (1 <= modelo.listaTelefono.Count) { 
                 modelo.modeloTelefono1 = modelo.listaTelefono.ElementAt(0);
 
@@ -141,7 +140,6 @@ namespace ProyectoInge1.Controllers
             var id = modelo.modeloUsuario.cedula;
             var roleId = modelo.Role;
             var role = await RoleManager.FindByIdAsync(roleId);
-            //await UserManager.RemoveFromRoleAsync(modelo.modeloUsuario.id, role.Name);
             await UserManager.AddToRoleAsync(modelo.modeloUsuario.id, modelo.Role);
             modelo.listaTelefono = BD.Telefono.Where(x => x.usuario == id).ToList();
             for(int i = 0; i <modelo.listaTelefono.Count; i++){ 
@@ -175,7 +173,6 @@ namespace ProyectoInge1.Controllers
         {
             if (!revisarPermisos("Crear Usuario"))
             {
-                // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }
 

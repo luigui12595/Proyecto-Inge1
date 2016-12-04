@@ -267,15 +267,10 @@ namespace ProyectoInge1.Controllers
                     }
                 }
             }
-            /*foreach ( var developer in DesarrolladoresNoLider ) //Carga de desarrolladores disponibles
-            {
-                if (proyUsers.Contains(developer)) { usersSelected.Add(developer); }
-                else { usersAvailable.Add(developer); }
-            }*/
+           
             ViewBag.Usuarios = usuarios.ToList();
 
             ViewBag.DesarrolladoresNL = DesarrolladoresNoLider.ToList();
-            //ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names"); 
             ViewBag.SelectOpts = new MultiSelectList( usersSelected.ToList(), "cedula", "names" );
             ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" ); 
             return View();
@@ -358,14 +353,14 @@ namespace ProyectoInge1.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Eliminar1(/*bool confirm, string Proyecto*/)
+        public ActionResult Eliminar1()
         {
             bool confirm = true;
             string Proyecto = "pruebaB";
             if (confirm == true)
             {
 
-                var ProyectoB = BD.Proyecto.Find(Proyecto/*modelo.proyecto.nombre*//*id*/);
+                var ProyectoB = BD.Proyecto.Find(Proyecto);
                 //Condicion de estado
                 if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
                 {
@@ -380,25 +375,18 @@ namespace ProyectoInge1.Controllers
                 }
 
             }
-
-
-            //Fin condicion estado
-            //  if (ProyectoB. ) { }
-            /*var usuario = BD.Usuario.Find(modelo. );
-            BD.Entry(usuario).State = EntityState.Deleted;
-            BD.SaveChanges();*/
+            
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Eliminar2(/**/bool confirm, string Proyecto/**//* string id*/)
+        public ActionResult Eliminar2(bool confirm, string Proyecto)
         {
-            //id ="pp";
             if (confirm == true)
             {
 
-                var ProyectoB = BD.Proyecto.Find(Proyecto/*modelo.proyecto.nombre*//*id*/);
+                var ProyectoB = BD.Proyecto.Find(Proyecto);
                 //Condicion de estado
                 if (ProyectoB.estado == "Terminado" || ProyectoB.estado == "Cancelado")
                 {
@@ -413,13 +401,6 @@ namespace ProyectoInge1.Controllers
                 }
 
             }
-
-
-            //Fin condicion estado
-            //  if (ProyectoB. ) { }
-            /*var usuario = BD.Usuario.Find(modelo. );
-            BD.Entry(usuario).State = EntityState.Deleted;
-            BD.SaveChanges();*/
             return RedirectToAction("Index");
         }
 
