@@ -14,7 +14,6 @@ namespace ProyectoInge1.Models
         public Proyecto proyecto { get; set; }
         public List<Usuario> listaUsuarios { get; set; }
         public List<Usuario> listaTemp { get; set; }
-        public List<Usuario> DesarrolladoresNoLider { get; set; }  //Usado para almacenar los desarrolladores no líderes
         public List<Proyecto> listaProyectos { get; set; }
         public ReqFuncional requerimiento { get; set; }
         public List<ReqFuncional> listaRequerimientos { get; set; }
@@ -25,6 +24,6 @@ namespace ProyectoInge1.Models
         public List<int> usuariosProyecto { get; set; }
         public List<Usuario> listaUsuariosProyecto { get; set; }
         public Usuario liderProyecto { get; set; } //Usado para actualizar bit de líder en usuario
-        public Usuario liderViejo { get; set; }
+        public string liderViejo { get; set; }
     }
 }

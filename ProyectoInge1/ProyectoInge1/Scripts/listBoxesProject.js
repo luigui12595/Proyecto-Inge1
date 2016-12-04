@@ -6,72 +6,44 @@
     $('#AvailableOpts').append($(selectedOpts).clone());
     $(selectedOpts).remove();
     e.preventDefault();
-    checkLeaderStatus()
 })
 
 $('#Left').click(function (e) {
     var availableOpts = $('#AvailableOpts option:selected');
-    var totalMembers = $('#liderValue option').size() + $('#selectedOpts option').size();
+    var totalMembers = $('#selectedOpts option').size();
     if (availableOpts.length == 0) {
         e.preventDefault();
     }
-    if ( totalMembers + availableOpts.length < 6 ) {
+    if ( totalMembers + availableOpts.length < 5 ) {
         $('#selectedOpts').append($(availableOpts).clone());
         $(availableOpts).remove();
         e.preventDefault();
-        checkLeaderStatus()
     }
 })
 
 $('#btnSubmit').click(function (e) {
     $('#selectedOpts option').prop('selected', true);
-    $('#liderValue option').prop('selected', true);
 })
 
-$('#selectedOpts').click(function (e) {
-    checkLeaderStatus()
-})
-
-$('#leaderButton').click(function (e) {
-    var leaderButton = document.getElementById("leaderButton");
-    if (leaderButton.value == "Asignar Lider") {
-        var liderSelected = $('#selectedOpts option:selected');
-        $('#liderValue').append($(liderSelected).clone());
-        $(liderSelected).remove();
-        e.preventDefault();
-        leaderButton.value = "Remover Lider";
-        leaderButton.className = "btn btn-danger";
-    } else {
-        var selectedOpts = $('#liderValue option:selected');
-        $('#selectedOpts').append($(selectedOpts).clone());
-        $(selectedOpts).remove();
-        e.preventDefault();
-        leaderButton.value = "Asignar Lider";
-        leaderButton.className = "btn btn-success";
-        document.getElementById("leaderButton").disabled = true;
-    }
-})
-
-$('#changeLider').click(function (e) {
-    if ($('#selectedOpts option:selected').length == 1 ) {
-        var oldLeader = $('#liderValue option');
-        var newLeader = $('#selectedOpts option:selected');
-        $('#selectedOpts').append($(oldLeader).clone());
-        $(oldLeader).remove();
-        e.preventDefault();
-        $('#liderValue').append($(newLeader).clone());
-        $(newLeader).remove();
-        e.preventDefault();
-    }
-})
-
-function checkLeaderStatus() {
-    var leaderButton = document.getElementById("leaderButton");
-    if (leaderButton.value == "Asignar Lider") {
-        if ( $('#selectedOpts option:selected').length == 1 && $('#liderValue option').size() == 0 ) {
-            document.getElementById("leaderButton").disabled = false;
-        } else { document.getElementById("leaderButton").disabled = true; }
-    }
-}
+$("#leaderSel").on('focus', function () {
+    var ddl = $(this);
+    ddl.data('previous', ddl.val());
+}).on('change', function () {
+    var ddl = $(this);
+    var previous = ddl.data('previous');
+    var liderSelector = document.getElementById("leaderSel");
+    for (var i = 0; i < liderSelector.options.length; ++i)
+        if (previous == liderSelector.options[i].value && previous != "" && $("#AvailableOpts option[value='" + previous + "']").length == 0)
+            $('#AvailableOpts').append($(liderSelector.options[i]).clone());
+    var availableOpts = document.getElementById('AvailableOpts');
+    var selectedOpts = document.getElementById('selectedOpts');
+    for (var i = 0; i < availableOpts.options.length; ++i)
+        if ($(this).val() == availableOpts.options[i].value)
+            availableOpts.remove(i);
+    for (var i = 0; i < selectedOpts.options.length; ++i)
+        if ($(this).val() == selectedOpts.options[i].value)
+            selectedOpts.remove(i);
+    ddl.data('previous', ddl.val());
+});
 
 

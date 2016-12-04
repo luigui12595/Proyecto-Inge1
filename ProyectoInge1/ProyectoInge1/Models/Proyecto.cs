@@ -27,11 +27,11 @@ namespace ProyectoInge1.Models
         public string descripcion { get; set; }
         [Display(Name = "Fecha Inicio")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaInicio { get; set; }
         [Display(Name = "Fecha Final")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaFinal { get; set; }
         [Display(Name = "Líder")]
         public string lider { get; set; }
@@ -45,6 +45,7 @@ namespace ProyectoInge1.Models
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [Display(Name = "Miembros:")]
         public virtual ICollection<Usuario> Usuario2 { get; set; }
     }
 }

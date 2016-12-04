@@ -46,9 +46,22 @@ namespace ProyectoInge1.Controllers
             bool userRol = listaRoles.Contains(rol.RoleId);
             return userRol;
         }
-        // GET: Usuarios
+
+        /*
+         Crea un listado de todos los requerimiento funcionales de un proyecto.
+         @param sortOrder: Consiste en una hilera de caracteres que indica el orden en el que se realizara el ordenamiento de las hileras.
+         @param currentFilter: Consiste en una hilera de caracteres que determina cual es el actual el actual estado de busqueda.
+         @param searchString: Consiste en una hilera de caracteres para realizar una busqueda en el index.
+         @param page: Consiste en un entero que determina el numero de pagina que se presentara.
+         @param nombreProyecto: String que contiene el nombre del proyecto del cual se están desplegando los requerimientos funcionales.
+         @return: Un modelo gestion de cambios con informacion de todas los requerimiento funcionales de un proyecto.
+        */
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string nombreProyecto)
         {
+            if (!revisarPermisos("Index de RF"))
+            {
+                return RedirectToAction("Index", "Proyectos");
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";
@@ -58,7 +71,7 @@ namespace ProyectoInge1.Controllers
             string param1 = nombreProyecto;
 
             var requerimientos = from rfunc in BD.ReqFuncional
-                                 where rfunc.nomProyecto == param1  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
+                                 where rfunc.nomProyecto == param1 
                                  select rfunc;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -73,7 +86,7 @@ namespace ProyectoInge1.Controllers
                     requerimientos = requerimientos.OrderBy(rfunc => rfunc.nombre);
                     break;
             }
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ModReqFuncionalInter modelo = new ModReqFuncionalInter();
             modelo.listaRequerimientos = requerimientos.ToList();
@@ -108,22 +121,23 @@ namespace ProyectoInge1.Controllers
         }
 
     
-
+        /*Despliega los detalles de un requerimiento funcional
+         @param id: Recibe el identificador del requerimiento para desplegar los detalles
+         @return: Retorna una vista los detalles del requerimiento selleccionado*/
         public ActionResult Details(short id)
         {
             /*if (!revisarPermisos("Detalles de Usuario"))
             {
                 return RedirectToAction("Index", "Usuario");
             }*/
-            ModReqFuncionalInter modelo = new ModReqFuncionalInter();
-            var requerimiento = from rfunc in BD.ReqFuncional
+            ModReqFuncionalInter modelo = new ModReqFuncionalInter(); 
+            var requerimiento = from rfunc in BD.ReqFuncional //búsca el requerimiento funcional
                                  where rfunc.id == id  // aquí va el parámetro recibido:  where rfunc.nomProyecto == parámetro.
                                  select rfunc;
-            modelo.Requerimiento = BD.ReqFuncional.Find(id, requerimiento.First().nomProyecto);
-            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente);
-            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1);
+            modelo.Requerimiento = BD.ReqFuncional.Find(id, requerimiento.First().nomProyecto); //Asigna el requerimiento al modelo
+            modelo.UsuarioFuente = BD.Usuario.Find(modelo.Requerimiento.fuente); //Usuario fuente del requerimiento funcional
+            modelo.UsuarioResponsable1 = BD.Usuario.Find(modelo.Requerimiento.responsable1); //REsponsables del requerimiento
             modelo.UsuarioResponsable2 = BD.Usuario.Find(modelo.Requerimiento.responsable2);
-            
             modelo.listaCriterios = BD.CriterioAceptacion.ToList();
             modelo.values = "";
             foreach (var item in modelo.listaCriterios) {               //elimina los criterios de aceptacion para ser sustituidos por lños nuevos (pueden ser los mismos)
@@ -138,7 +152,6 @@ namespace ProyectoInge1.Controllers
             modelo.listaUsuarioView = temp.ToList();
             ViewBag.Lista = modelo.listaUsuarioView;
             return View(modelo);
-
         }
 
 

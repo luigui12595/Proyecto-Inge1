@@ -105,7 +105,7 @@ namespace ProyectoInge1.Controllers
                     proyectos = proyectos.OrderBy(projects => projects.nombre);
                     break;
             }
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.listaUsuarios = BD.Usuario.ToList();
@@ -121,16 +121,45 @@ namespace ProyectoInge1.Controllers
             ModProyectoInter modelo = new ModProyectoInter();
             modelo.proyecto = BD.Proyecto.Find(id);
             modelo.listaUsuarios = BD.Usuario.ToList();
-            modelo.liderViejo = BD.Usuario.Find(modelo.proyecto.lider);
-            populate(modelo);                           //Metodo de llenado
-            modelo.liderViejo.lider = false;
-            BD.Entry(modelo.liderViejo).State = EntityState.Modified;
-            BD.SaveChanges();                           //Elimina el lider viejo para sustituirlo con el nuevo
-            modelo.listaUsuarios = modelo.proyecto.Usuario2.ToList();
-            foreach (var item in modelo.listaUsuarios) //remover los antiguos miembros para sustituirlos por los nuevos
+            if (modelo.proyecto.Usuario2.Count > 0 || !modelo.proyecto.Usuario2.Equals(null))
             {
-                modelo.proyecto.Usuario2.Remove(item);
+                modelo.listaUsuariosProyecto = modelo.proyecto.Usuario2.ToList();
             }
+            // bolsa de desarrolladores disponibles
+            modelo.liderViejo = BD.Usuario.Find(modelo.proyecto.lider).cedula;
+            var usuarios = from users in BD.Usuario
+                           select users;
+            var context = new ApplicationDbContext();
+            var desarrolladores = from developer in context.Users
+                                  where developer.Roles.Any(r => r.RoleId == "2")
+                                  select developer;
+            var DesarrolladoresNoLider = new List<Usuario>();
+            var Developers = new List<Usuario>();
+            var usersSelected = new List<Usuario>();
+            var usersAvailable = new List<Usuario>();
+            DesarrolladoresNoLider.Add(BD.Usuario.Find(modelo.proyecto.lider));
+            foreach (var x in usuarios)
+            { //Carga de desarrolladores no líderes
+                foreach (var y in desarrolladores) {
+                    if (x.id == y.Id) {
+                        Developers.Add(x);
+                        if (x.lider == false || x.lider == null) {
+                            DesarrolladoresNoLider.Add(x);
+                        }
+                    }
+                }
+            }
+            foreach (var developer in Developers) {//seleccionar los desarrolladores disponibles para guardarlos en la viewBag 
+                if ( modelo.proyecto.lider != developer.cedula) {
+                    if (modelo.listaUsuariosProyecto.Contains(developer)) {
+                        usersSelected.Add(developer);
+                    } else { usersAvailable.Add(developer); }
+                }
+            }
+            ViewBag.Usuarios = usuarios.ToList();
+            ViewBag.DesarrolladoresNL = DesarrolladoresNoLider.ToList();
+            ViewBag.SelectOpts = new MultiSelectList(usersSelected.ToList(), "cedula", "names");
+            ViewBag.AvailableOpts = new MultiSelectList(usersAvailable.ToList(), "cedula", "names");
             return View(modelo);
             
         }
@@ -165,63 +194,83 @@ namespace ProyectoInge1.Controllers
         */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Detalles(ModProyectoInter modelo,string[] selectedOpts, string[] liderValue)
+        public async Task<ActionResult> Detalles(ModProyectoInter modelo, string[] selectedOpts)
         {
-            if (selectedOpts != null) //Usuarios agregados al proyecto
+            if (ModelState.IsValid)
             {
-                modelo.proyecto.Usuario2 = new List<Usuario>();
-                foreach (var developer in selectedOpts)
-                {
-                    var proyDeveloper = BD.Usuario.Find(developer);
-                    modelo.proyecto.Usuario2.Add(proyDeveloper);
+                var proyect = BD.Proyecto.Include(u => u.Usuario2)
+                    .Single(u => u.nombre == modelo.proyecto.nombre);
+                List<Usuario> usersSelected = new List<Usuario>();
+                if (selectedOpts != null) {
+                    foreach (var selected in selectedOpts)
+                        usersSelected.Add(BD.Usuario.Find(selected));
+                    foreach (var user in proyect.Usuario2.ToList())
+                        if (!usersSelected.Any(u => u.cedula == user.cedula))
+                            proyect.Usuario2.Remove(user);
+                    foreach (var selectedUser in usersSelected)
+                        if (!proyect.Usuario2.Any(u => u.cedula == selectedUser.cedula))
+                            proyect.Usuario2.Add(selectedUser);
+                } else {
+                    foreach (var user in proyect.Usuario2.ToList())
+                        proyect.Usuario2.Remove(user);
                 }
+                proyect.Usuario2.Add(BD.Usuario.Find(modelo.proyecto.lider));
+                modelo.liderProyecto = BD.Usuario.Find(modelo.proyecto.lider);
+                var oldLeader = BD.Usuario.Find(modelo.liderViejo); 
+                oldLeader.lider = false;
+                modelo.liderProyecto.lider = true; //Cambio del estatus del desarrollador a líder
+                BD.Entry(modelo.liderProyecto).State = EntityState.Modified;
+                BD.Entry(oldLeader).State = EntityState.Modified;
+                BD.Entry(proyect).CurrentValues.SetValues(modelo.proyecto);
+                BD.SaveChanges();
+                return RedirectToAction("Index");  //Redireccionamiento al listado de proyectos
             }
-            modelo.proyecto.lider = liderValue[0];
-            modelo.liderProyecto = BD.Usuario.Find(modelo.proyecto.lider);
-            modelo.liderProyecto.lider = true;
-            //guarda el proyecto modificado
-            BD.Entry(modelo.liderProyecto).State = EntityState.Modified;
-            BD.Entry(modelo.proyecto).State = EntityState.Modified;
-            BD.SaveChanges();
-            return RedirectToAction("Index");
+            else
+            {
+                ModelState.AddModelError("", "Debe completar toda la información necesaria.");
+                return RedirectToAction("Create");
+            }
+
         }
 
-
+        /*Método que carga los recursos necesarios para crear un proyecto, desarrolladores dispoonibles para el proyecto, clientes...
+          @return: retorna la vista con los elementos para crear un proyecto*/
         public ActionResult Create()
         {
-            var usuarios = from users in BD.Usuario
+            var usuarios = from users in BD.Usuario //Carga de usuarios de la base
                            select users;
             var context = new ApplicationDbContext();
-            var desarrolladores = from developer in context.Users
+            var desarrolladores = from developer in context.Users //Carga de desarrolladores
                                   where developer.Roles.Any(r => r.RoleId == "2")
-                                  select developer;
-            ModProyectoInter model = new ModProyectoInter();
-            var DesarrolladoresNoLider = new List<Usuario>();
+                                  select developer; 
+            ModProyectoInter model = new ModProyectoInter(); 
+            var DesarrolladoresNoLider = new List<Usuario>(); //Lista de desarrolladores que no son lideres
             var proyecto = new Proyecto();
-            var proyUsers = proyecto.Usuario2;
-            var usersSelected = new List<Usuario>();
-            var usersAvailable = new List<Usuario>();
-            var userLider = new List<Usuario>();
-            foreach (var x in usuarios)
-            {
-                foreach (var y in desarrolladores)
-                {
-                    if (x.id == y.Id && (x.lider == false || x.lider == null))
-                    {
-                        DesarrolladoresNoLider.Add(x);
+            var proyUsers = proyecto.Usuario2; //Desarrolladores del nuevo proyecto
+            var usersSelected = new List<Usuario>(); 
+            var usersAvailable = new List<Usuario>(); // Desarrolladores disponibles para el nuevo proyecto
+            var userLider = new List<Usuario>(); //Lider del proyecto
+            foreach ( var x in usuarios) { //Carga de desarrolladores no líderes
+                foreach ( var y in desarrolladores) {
+                    if ( x.id == y.Id ) {                    
+                        usersAvailable.Add(x);
+                        if ( x.lider == false || x.lider == null ) {
+                            DesarrolladoresNoLider.Add(x);
+                        }                          
                     }
                 }
             }
-            foreach (var developer in DesarrolladoresNoLider)
+            /*foreach ( var developer in DesarrolladoresNoLider ) //Carga de desarrolladores disponibles
             {
                 if (proyUsers.Contains(developer)) { usersSelected.Add(developer); }
                 else { usersAvailable.Add(developer); }
-            }
+            }*/
             ViewBag.Usuarios = usuarios.ToList();
-            ViewBag.Desarrolladores = DesarrolladoresNoLider.ToList();
-            ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names");
-            ViewBag.SelectOpts = new MultiSelectList(usersSelected.ToList(), "cedula", "names");
-            ViewBag.AvailableOpts = new MultiSelectList(usersAvailable.ToList(), "cedula", "names");
+
+            ViewBag.DesarrolladoresNL = DesarrolladoresNoLider.ToList();
+            //ViewBag.Leader = new SelectList(userLider.ToList(), "cedula", "names"); 
+            ViewBag.SelectOpts = new MultiSelectList( usersSelected.ToList(), "cedula", "names" );
+            ViewBag.AvailableOpts = new MultiSelectList( usersAvailable.ToList(), "cedula", "names" ); 
             return View();
         }
         /*Metodo que carga los datos en las viewbag, recive el modelo.
@@ -266,32 +315,39 @@ namespace ProyectoInge1.Controllers
             ViewBag.AvailableOpts = new MultiSelectList(usersAvailable.ToList(), "cedula", "names");
         }
 
+        /*Recibe los datos del proyecto asignados en la vista para agregarlo a la base de datos incluyendo
+          los desarrolladores asignados, modifica la base de datos al crear proyectos
+          @param modelo: Modelo de proyecto que contiene toda la información requerida para crear proyecto
+          @param selectedOpts: recibe los numeros de cédula de los desarrollladores seleccionados para asignarlos 
+          al proyecto
+          @liderValue: recibe el número de cédula del líder asignado al proyecto
+          @return: retorna al listado de proyectos*/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModProyectoInter modelo, string[] selectedOpts, string[] liderValue)
-        {
-            if (selectedOpts != null)
-            {
+
+        public ActionResult Create( ModProyectoInter modelo, string[] selectedOpts )
+        {           
+            if ( ModelState.IsValid ) {
                 modelo.proyecto.Usuario2 = new List<Usuario>();
-                foreach (var developer in selectedOpts)
-                {
-                    var proyDeveloper = BD.Usuario.Find(developer);
-                    modelo.proyecto.Usuario2.Add(proyDeveloper);
+                modelo.proyecto.Usuario2.Add(BD.Usuario.Find(modelo.proyecto.lider));
+                if (selectedOpts != null) {
+                    foreach (var developer in selectedOpts) { //asignacion de desarrolladores al proyecto
+                        var proyDeveloper = BD.Usuario.Find(developer);
+                        modelo.proyecto.Usuario2.Add(proyDeveloper);
+                    }
                 }
+                modelo.liderProyecto = BD.Usuario.Find( modelo.proyecto.lider );
+                modelo.liderProyecto.lider = true; //Cambio del estatus del desarrollador a líder
+                BD.Entry(modelo.liderProyecto).State = EntityState.Modified; 
+                BD.Proyecto.Add( modelo.proyecto );
+                BD.SaveChanges();
+                return RedirectToAction("Index");  //Redireccionamiento al listado de proyectos
             }
-            modelo.proyecto.lider = liderValue[0];
-            /*if ( ModelState.IsValid ) {*/
-            modelo.liderProyecto = BD.Usuario.Find(modelo.proyecto.lider);
-            BD.Entry(modelo.liderProyecto).State = EntityState.Modified;
-            BD.Proyecto.Add(modelo.proyecto);
-            BD.SaveChanges();
-            return RedirectToAction("Index");
-            //}
-            /*else
+            else
             {
                 ModelState.AddModelError("", "Debe completar toda la información necesaria.");
                 return RedirectToAction("Create");
-            }*/
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

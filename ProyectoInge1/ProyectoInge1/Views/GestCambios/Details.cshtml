@@ -26,7 +26,15 @@ $(document).ready(function(){
     <div class="form-horizontal">
         <div class="row">
             <div class="col-lg-2 col-lg-push-8">
-                <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+                @{
+                    var t = Model.Solicitud.estado;
+                    if (t== "Pendiente" || t == "En Revision")
+                    {
+                        <a class="btn btn-success" onclick="esconderEditar()">Modificar</a>
+                    }
+
+                }
+                
             </div>
             <div class="col-lg-2 col-lg-push-8">
                 @Html.ActionLink("Eliminar", "Eliminar", "GestCambios", new{ confirm = true, fecha = Model.Solicitud.fecha, version = Model.Solicitud.versionRF,
@@ -206,7 +214,7 @@ $(document).ready(function(){
                         @Html.EditorFor(model => model.Solicitud.razon, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                         @Html.ValidationMessageFor(model => model.Solicitud.razon, "", new { @class = "text-danger" })
                     </div>
-                    @if ((Request.IsAuthenticated & /*User.IsInRole("Desarrollador") &&*/ Model.userInView.cedula == Model.Proyecto.lider) /*|| ( Request.IsAuthenticated && User.IsInRole("Administrador") )*/ )
+                    @if ((Request.IsAuthenticated /*&& User.IsInRole("Desarrollador") && Model.userInView.cedula == Model.Proyecto.lider) /*|| ( Request.IsAuthenticated && User.IsInRole("Administrador") */) )
                     {
                         <div class="form-group">
                             @Html.LabelFor(model => model.Solicitud.estado, htmlAttributes: new { @class = "control-label col-md-2" })

@@ -21,11 +21,11 @@ namespace ProyectoInge1.Models
         public ReqFuncional RequerimientosF { get; set; }
         public String values { get; set; }
        // public List<ReqFuncional> ModeloReqFun { get; set; }
-        public List<Usuario> listaUsuario { get; set; }
+        public List<Usuario> listaUsuario { get; set; } //Especifico para almacenar lista de usuarios (numeros de id) de un proyecto
         public Usuario Usuarios { get; set; }
         public Proyecto proyecto { get; set; }
         public ReqFuncional Requerimientos { get; set; }
-        public List<CriterioAceptacion> listaCriterios { get; set; }   
+        public List<CriterioAceptacion> listaCriterios { get; set; } //Especifico para almacenar lista de criterios de aceptación de un proyecto
         public List<Proyecto> listaProyecto { get; set; }
         public List<Usuario> UsuariosSistema { get; set; }//Especifico para almacenar lista de usuarios en el sistema
         public List<Usuario> listaUsuarios { get; set; }//Especifico para almacenar lista de usuarios (numeros de id) de un proyecto

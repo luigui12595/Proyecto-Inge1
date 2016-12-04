@@ -11,6 +11,7 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Usuario
     {
@@ -33,9 +34,25 @@ namespace ProyectoInge1.Models
             this.Proyecto2 = new HashSet<Proyecto>();
         }
         public string names { get { return nombre + " " + apellidos; } } //Para desplegar nombre completo en listas
+
+        [StringLength(9)]
+        [Required(ErrorMessage = "La cédula es un campo requerido.")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "La cédula solo puede estar compuesta por números")]
         public string cedula { get; set; }
+
+        [StringLength(15)]
+        [Required(ErrorMessage = "El nombre es un campo requerido.")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
         public string nombre { get; set; }
+
+        [StringLength(40)]
+        [Required(ErrorMessage = "Apellidos es un campo requerido.")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "Apellidos solo pueden estar compuesto por letras")]
         public string apellidos { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string correo { get; set; }
         public string id { get; set; }
         public Nullable<bool> lider { get; set; }

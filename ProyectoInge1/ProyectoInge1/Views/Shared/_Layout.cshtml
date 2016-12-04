@@ -35,24 +35,7 @@
                         <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
                         <li>@Html.ActionLink("Permisos", "Index", "Roles")</li>
                         <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
-                        <li>@Html.ActionLink("Solicitud de Cambios", "Solicitudes", "GestCambios")</li>
                         <li> @Html.ActionLink("Historial de Versiones", "Index", "GestCambios")</li>
-                       <!--ESTE IF CONTIENE LOS AQUELLAS PESTAÑAS QUE SOLO UN ADMINISTRADOR PODRIA VER-->
-                        @*string[] roles = Roles.GetRolesForUser();
-                        foreach (string role in roles)
-                        {
-                            if (role.Contains("Administrador"))
-                            {
-                                <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
-                                break;
-                            }
-                        }
-
-                        */
-                        /*if (Page.User.IsInRole("Administrador"))
-                    {
-                      <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
-                    }*@
                     }
                  </ul>
                 @Html.Partial("_LoginPartial")
