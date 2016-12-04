@@ -11,7 +11,7 @@ namespace ProyectoInge1.Models
 {
     public class ModGestionCambios
     {
-        public List<HistVersiones> listaCambios { get; set; }
+        public List<HistVersiones> listaCambios { get; set; }//Específico para obtener el listado de versiones de cambios
         public List<Proyecto> listaProyectos { get; set; }
 
         //public Solicitud solicitud { get; set; }
@@ -24,17 +24,18 @@ namespace ProyectoInge1.Models
         public List<Usuario> lista { get; set; }
         public List<Solicitud> listaSolicitudes { get; set; }
         public List<ReqFuncional> listaRequerimientos { get; set; }
-        public List<Usuario> listaUsuarios { get; set; }
+        public List<Usuario> listaUsuarios { get; set; }//Especifico para obtener los usuarios que son parte del sistema 
         //public Proyecto proyecto { get; set; }
         public HistVersiones ModeloHistVersion { get; set; }
         // public Proyecto proyecto { get; set; }
 
-
+        public DateTime Inicio { get; set; }//Especifico para almacenar temporalmente una nueva fecha de inicio de requerimiento
+        public DateTime Final { get; set; }//Especifico para almacenar temporalmente una nueva fecha de final de requerimiento
         public ReqFuncional Requerimiento { get; set; }
         public HistVersiones versionReq { get; set; }
         public List<ModGestionCambios> listaModelos { get; set; }
-        public List<Usuario> listaProyUsuarios { get; set; }
-        public List<Usuario> listaUsuarioView { get; set; }
+        public List<Usuario> listaProyUsuarios { get; set; }//Especifico para obtener los id de los usuarios que son parte de un proyecto especifico
+        public List<Usuario> listaUsuarioView { get; set; }//Especifico para obtener la infomacion usuarios que son parte de un proyecto especifico
         public Proyecto Proyecto { get; set; }
         public List<Solicitud> listaSolicitud { get; set; }
 

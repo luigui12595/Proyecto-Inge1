@@ -27,14 +27,17 @@ namespace ProyectoInge1.Controllers
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
 
         ApplicationDbContext context = new ApplicationDbContext();
+
         private bool revisarPermisos(string permiso)
         {
+
             string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var rol = context.Users.Find(userID).Roles.First();
             var permisoID = BD.Permiso.Where(m => m.descripcion == permiso).First().id;
             var listaRoles = BD.NetRolesPermiso.Where(m => m.idPermiso == permisoID).ToList().Select(n => n.idNetRoles);
             bool userRol = listaRoles.Contains(rol.RoleId);
             return userRol;
+
         }
 
         /*Método que posibilita el despliegue de un listado de solicitudes de cambio para requerimientos funcionales
@@ -104,9 +107,13 @@ namespace ProyectoInge1.Controllers
             return View(solicitudes.ToList().ToPagedList(pageNumber, pageSize)); //Retorna la lista de solicitudes de acuerdo a la paginación y criterios de búsqueda selleccionados
         }
 
-        /*Método que despliega los detalles de una varsión del requerimiento así como los detalles de una solicitud hecha para cambios en esa versión del requerimiento
-         @param id: Contiene los valores necesarioso llaves primarias para realizar la búsqueda de la solicitud a detallar en la base de datos así como el usuario que está 
-         observando consultandol los detalles de dicha solicitud*/ 
+        /*
+           Inicializa la informacion necesaria para presentar detalles, modificar o eliminar una solicitud de cambio
+           @param id: hilera de caracteres compuesta por la fecha de una solicitud, el requerimiento y el proyecto
+                      al que perteneceria y una version de este requerimiento.               
+           @return: Un modelo de solicitud de cambio que contiene la informacion correspondiente a este y un ViewBag 
+                    que contiene una lista de usuarios relacionados a que participan de ese proyecto.
+       */
         public ActionResult Details(string id)
         {
             /*if (!revisarPermisos("Detalles de Usuario"))
@@ -166,40 +173,68 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
-        /*Método que realiza cambios en la base de datos dependiendo de el estado asignado a la solicitud por el líder del proyecto al que se realizó la solicitud,
-         Si la olicitud fue aprobada entonces se crea una nueva versión del requerimiento funcional en cualquier otro estado seleccionado para la solicitud sól cambia 
-         esta propiedad en la misma
-         @param modelo: recibe el modelo con 
-         los datos necesarios para cambiar el estado de una solicitud ys de ser necesario crear una nueva versión de requerimiento funcional*/ 
+        /*
+		    Contiene la informacion referente a la informacion necesaria para realizar algun cambio en la informacion de una 
+            solicitud de cambio.
+			@param modelo: Consiste en los datos ingresados por un usuario que corresponde a la informacion referente para la 
+                          modificacion de una solicitud de cambio de una version de un requerimiento. 
+            @param imagen1: Consiste en una imagen para almacenar en base.              
+			@return: ningun valor pero devuelve al usuario al index de solicitudes
+		*/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(ModGestionCambios modelo)
+        public ActionResult Details(ModGestionCambios modelo, HttpPostedFileBase imagen1)
         {
-            /*if (!revisarPermisos("Crear Usuario"))
+            /*if (!revisarPermisos("Modificar Solicitud"))
             {
                 // this.AddToastMessage("Acceso Denegado", "No tienes el permiso para gestionar Roles!", ToastType.Warning);
                 return RedirectToAction("Index", "Usuario");
             }*/
-            BD.Entry(modelo.Solicitud).State = EntityState.Modified; //Modificación del estado de la soliocitud en la base
+            if (modelo.Solicitud.estado == "Pendiente" || modelo.Solicitud.estado == "En Revision")
+            {
+                if (imagen1 != null)
+                {
+                    modelo.Solicitud.imagenRF = new byte[imagen1.ContentLength];
+                    imagen1.InputStream.Read(modelo.Solicitud.imagenRF, 0, imagen1.ContentLength);
+                }
+                DateTime Prueba = new DateTime();
+                if (modelo.Final.CompareTo(Prueba)!=0) {
+                    modelo.Solicitud.fechaFinalRF = modelo.Final;
+                }
+                if (modelo.Inicio.CompareTo(Prueba) != 0)
+                {
+                    modelo.Solicitud.fechaInicialRF = modelo.Inicio;
+                }
+                BD.Entry(modelo.Solicitud).State = EntityState.Modified;
+                BD.SaveChanges();
+            }
+            //inicio de aprobacion solicitud, no borrar nada desde aqui
+            BD.Entry(modelo.Solicitud).State = EntityState.Modified; //Modificar cambio en el etado de la solicitud
             BD.SaveChanges();
             if (modelo.Solicitud.estado == "Aprobada" && modelo.ancientState != "Aprobada") //Si el estado de la solicitud es cambiado a aceptada se crea una nueva versión
             {
                 int count = (from version in BD.HistVersiones //Conteo de el número de versiones de un requerimiento funcional para asignar el número de versión a la nueva
-                            where version.idReqFunc == modelo.Solicitud.idReqFunc
-                            select version).ToList().Count;
-                modelo.versionReq.versionRF += Convert.ToInt16(count+1); //# identificador de la nueva versión
+                             where version.idReqFunc == modelo.Solicitud.idReqFunc
+                             select version).ToList().Count;
+                modelo.versionReq.versionRF += Convert.ToInt16(count + 1); //# identificador de la nueva versión
                 modelo.versionReq.fecha = DateTime.Now; //Fecha de creación de la nueva versión
                 BD.HistVersiones.Add(modelo.versionReq); //Insertado de la nueva versión en la base
                 BD.SaveChanges();
-            }
+            } //hasta aqui
             return RedirectToAction("Solicitudes"); //Redireccionamiento al listado de solicitudes
         }
 
+        /*
+            Contiene la informacion referente a una versión.
+            @param id: un string que contiene tres datos: el nombre del proyecto, el id del requerimiento funcional y el número de versión (concatenados); 
+                        que corresponde a la información básica necesaria para desplegar la información sobre una versión específica.
+            @return: Un modelo de gestión de cambios con toda la información de una versión de un requerimiento funcional.
+        */
         public ActionResult Details_Hist(string id)
         {
-            /*if (!revisarPermisos("Detalles de Usuario"))
+            /*if (!revisarPermisos("Detalles de Version"))
             {
-                return RedirectToAction("Index", "Usuario");
+                return RedirectToAction("Index", "GestCambios");
             }*/
             var usuarios = from usuario in BD.Usuario
                            orderby usuario.cedula
@@ -217,8 +252,24 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
         }
 
+
+
+        /*
+            Crea un listado de todas las versiones que existen de un requerimiento funcional.
+			@param sortOrder: Consiste en una hilera de caracteres que indica el orden en el que se realizara el ordenamiento de 
+                              de las hileras
+            @param currentFilter: Consiste en una hilera de caracteres que determina cual es el actual el actual estado de busqueda 
+            @param searchString: Consiste en una hilera de caracteres para realizar una busqueda en el index 
+            @param page: Consiste en un entero que determina el numero de paginas que se presentara               
+			@return: Un modelo gestion de cambios con informacion de todas las versiones existentes.
+		*/
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            /*if (!revisarPermisos("Index de Version"))
+            {
+
+                return RedirectToAction("Index", "Home");
+            }*/
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Rol" ? "rol_desc" : "Rol";
@@ -240,7 +291,7 @@ namespace ProyectoInge1.Controllers
                     versiones = versiones.OrderBy(users => users.versionRF);
                     break;
             }
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ModGestionCambios modelo = new ModGestionCambios();
             modelo.listaCambios = versiones.ToList();

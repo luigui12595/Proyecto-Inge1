@@ -187,30 +187,56 @@ BEGIN
 
 END;
 
-
 CREATE TRIGGER borrar_reqFuncional
 ON ReqFuncional INSTEAD OF DELETE
 AS
 BEGIN
 	DECLARE @id INT
-	DECLARE @nombre VARCHAR(30)
+	DECLARE @nomProyecto VARCHAR(30)
 	DECLARE cursorRF CURSOR FOR SELECT id, nomProyecto FROM deleted
 	OPEN cursorRF
-	FETCH NEXT FROM cursorRF INTO @id, @nombre
+	FETCH NEXT FROM cursorRF INTO @id, @nomProyecto
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		DELETE FROM CriterioAceptacion
 		WHERE idReqFunc = @id
-		AND nomProyecto = @nombre
-		
-		FETCH NEXT FROM cursorRF INTO @id, @nombre
+		AND nomProyecto = @nomProyecto
+
+		DELETE FROM HistVersiones
+		WHERE idReqFunc = @id
+		AND nomProyecto = @nomProyecto
+
+		FETCH NEXT FROM cursorRF INTO @id, @nomProyecto
 	END
+	
 	DELETE FROM ReqFuncional
 	WHERE id = @id
-	AND nomProyecto = @nombre
+	AND nomProyecto = @nomProyecto
 
 	CLOSE cursorRF
 	DEALLOCATE cursorRF
+END;
+
+CREATE TRIGGER borrar_Version
+ON HistVersiones INSTEAD OF DELETE
+AS
+BEGIN
+	DECLARE @idReqFunc INT
+	DECLARE @nomProyecto VARCHAR(30)
+	DECLARE cursorHV CURSOR FOR SELECT idReqFunc, nomProyecto FROM deleted
+	OPEN cursorHV
+	FETCH NEXT FROM cursorHV INTO @idReqFunc, @nomProyecto
+
+	DELETE FROM Solicitud
+	WHERE idReqFunc = @idReqFunc
+	AND nomProyecto = @nomProyecto
+
+	DELETE FROM HistVersiones
+	WHERE idReqFunc = @idReqFunc
+	AND nomProyecto = @nomProyecto
+
+	CLOSE cursorHV
+	DEALLOCATE cursorHV
 END;
 
 CREATE TRIGGER borrar_proyecto
@@ -233,5 +259,35 @@ BEGIN
 	DELETE FROM Proyecto
 	WHERE nombre IN (SELECT nombre
 						FROM deleted);
+END;
+
+CREATE TRIGGER crearVersionInicial
+ON ReqFuncional AFTER INSERT
+AS
+BEGIN
+	DECLARE @id INT
+	DECLARE @nombre VARCHAR(20)
+	DECLARE @sprint TINYINT
+	DECLARE @modulo TINYINT
+	DECLARE @estado VARCHAR(10)
+	DECLARE @fechaInicial DATE
+	DECLARE @fechaFinal DATE
+	DECLARE @observaciones VARCHAR(256)
+	DECLARE @descripcion VARCHAR(256)
+	DECLARE @esfuerzo SMALLINT
+	DECLARE @prioridad SMALLINT
+	DECLARE @imagen VARBINARY(8000)
+	DECLARE @fuente CHAR(9)
+	DECLARE @responsable1 CHAR(9)
+	DECLARE @responsable2 CHAR(9)
+	DECLARE @nomProyecto VARCHAR(30)
+	DECLARE @fechaDia VARCHAR
+
+	DECLARE cursorRF CURSOR FOR SELECT id, nombre,sprint,modulo,estado,fechaInicial,fechaFinal,observaciones,descripcion,esfuerzo,prioridad,imagen,fuente,responsable1,responsable2,nomProyecto FROM inserted
+	OPEN cursorRF
+	FETCH NEXT FROM cursorRF INTO @id, @nombre, @sprint, @modulo, @estado, @fechaInicial, @fechaFinal, @observaciones, @descripcion, @esfuerzo, @prioridad, @imagen, @fuente, @responsable1, @responsable2, @nomProyecto 
+	INSERT INTO HistVersiones VALUES(1, @fechaInicial, 'Version inicial requerimiento funcional', @fuente, @id, @nomProyecto, @nombre, @sprint, @modulo, @fechaInicial, @fechaFinal, @observaciones, @descripcion, @esfuerzo, @prioridad, @imagen, @responsable1, @responsable2)
+	CLOSE cursorRF
+	DEALLOCATE cursorRF
 END;
 

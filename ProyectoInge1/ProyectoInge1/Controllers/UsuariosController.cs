@@ -157,7 +157,11 @@ namespace ProyectoInge1.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        /*
+         Permite la creación de un usuario
+         @param modelo: Consiste en un modelo  que contiene la información de un usuario que se desea agregar al sistema.
+         @return: Un modelo de usuario para permitir la creación de éste.
+        */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModUsuarioInter modelo)
