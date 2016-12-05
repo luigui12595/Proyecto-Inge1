@@ -23,6 +23,7 @@ namespace ProyectoInge1.Controllers
 {
     public class ProyectosController : Controller
     {
+        static string detailLink = "";
         BD_IngeGrupo4Entities1 BD = new BD_IngeGrupo4Entities1();
 
         ApplicationDbContext context = new ApplicationDbContext();
@@ -170,7 +171,11 @@ namespace ProyectoInge1.Controllers
             return View(modelo);
             
         }
-
+        /*Elimina un proyecto en estado finalizado, cancelado y suspendido
+               @Param Proyecto:Nombre de proyectoa eliminar
+               @Param confirm: confirmacion de eliminacion
+               
+               */
         public ActionResult Eliminar(bool confirm, string Proyecto)
         {
           
@@ -188,7 +193,8 @@ namespace ProyectoInge1.Controllers
                 else
                 {
                     //Desplegar mensaje de imposible eliminar el proyecto
-                    return View();
+                    var link = ProyectoB.nombre;
+                    return RedirectToAction("Detalles", new { id = link });
                 }
                 return RedirectToAction("Index"); 
             }
