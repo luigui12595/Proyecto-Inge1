@@ -11,11 +11,13 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CriterioAceptacion
     {
         public int idReqFunc { get; set; }
         public string nomProyecto { get; set; }
+        [Display(Name = "Criterio")]
         public string criterio { get; set; }
     
         public virtual ReqFuncional ReqFuncional { get; set; }

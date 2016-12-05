@@ -197,14 +197,14 @@ namespace ProyectoInge1.Controllers
                     modelo.Solicitud.imagenRF = new byte[imagen1.ContentLength];
                     imagen1.InputStream.Read(modelo.Solicitud.imagenRF, 0, imagen1.ContentLength);
                 }
-                DateTime Prueba = new DateTime();
+                /*DateTime Prueba = new DateTime();
                 if (modelo.Final.CompareTo(Prueba)!=0) {
                     modelo.Solicitud.fechaFinalRF = modelo.Final;
                 }
                 if (modelo.Inicio.CompareTo(Prueba) != 0)
                 {
                     modelo.Solicitud.fechaInicialRF = modelo.Inicio;
-                }
+                }*/
                 BD.Entry(modelo.Solicitud).State = EntityState.Modified;
                 BD.SaveChanges();
             }

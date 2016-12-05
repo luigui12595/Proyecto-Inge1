@@ -11,6 +11,7 @@ namespace ProyectoInge1.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class ReqFuncional
     {
@@ -20,22 +21,38 @@ namespace ProyectoInge1.Models
             this.CriterioAceptacion = new HashSet<CriterioAceptacion>();
             this.HistVersiones = new HashSet<HistVersiones>();
         }
-    
+
         public int id { get; set; }
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "El nombre de requerimiento requerido.")]
         public string nombre { get; set; }
+        [Display(Name = "Sprint")]
         public Nullable<byte> sprint { get; set; }
+        [Display(Name = "Modulo")]
         public Nullable<byte> modulo { get; set; }
+        [Display(Name = "Estado")]
         public string estado { get; set; }
+        [Display(Name = "Fecha Inicio")]
         public Nullable<System.DateTime> fechaInicial { get; set; }
+        [Display(Name = "Fecha Final")]
         public Nullable<System.DateTime> fechaFinal { get; set; }
+        [Display(Name = "Observaciones")]
         public string observaciones { get; set; }
+        [Display(Name = "Descripcion")]
         public string descripcion { get; set; }
+        [Display(Name = "Esfuerzo")]
         public Nullable<short> esfuerzo { get; set; }
+        [Display(Name = "Prioridad")]
         public Nullable<short> prioridad { get; set; }
+        [Display(Name = "Imagen")]
         public byte[] imagen { get; set; }
+        [Display(Name = "Fuente")]
         public string fuente { get; set; }
+        [Display(Name = "Responsable")]
         public string responsable1 { get; set; }
+        [Display(Name = "Responsable")]
         public string responsable2 { get; set; }
+        [Display(Name = "Nombre Proyecto")]
         public string nomProyecto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

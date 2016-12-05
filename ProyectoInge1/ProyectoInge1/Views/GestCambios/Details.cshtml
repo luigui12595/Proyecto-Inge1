@@ -84,7 +84,7 @@ $(document).ready(function(){
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Solicitud.fechaFinalRF, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Solicitud.fechaFinalRF, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.EditorFor(model => model.Solicitud.fechaFinalRF, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", } })
                     @Html.ValidationMessageFor(model => model.Solicitud.fechaFinalRF, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
@@ -283,18 +283,18 @@ $(document).ready(function(){
                     <div class="form-group">
 
                         <label class="control-label col-md-2">Fecha Inicial:</label>
-                        @Html.HiddenFor(model => model.Solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })
+                        @*Html.HiddenFor(model => model.Solicitud.fechaInicialRF, new { htmlAttributes = new { @class = "form-control" } })*@
                         
-                        @Html.TextBoxFor(model => model.Inicio, new { @class = "form-control datepicker2", placeholder = "DATE" })
+                        @Html.TextBoxFor(model => model.Solicitud.fechaInicialRF, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker" })
                       
                     </div>
                     @*Fecha de finalizacion del requerimiento*@
                     <div class="form-group">
 
                         <label class="control-label col-md-2">Fecha Final:</label>
-                        @Html.HiddenFor(model => model.Solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })
+                       @*@Html.HiddenFor(model => model.Solicitud.fechaFinalRF, new { htmlAttributes = new { @class = "form-control" } })*@
 
-                        @Html.TextBoxFor(model => model.Final, new { @class = "form-control datepicker2", placeholder = "DATE" })
+                        @Html.TextBoxFor(model => model.Solicitud.fechaFinalRF, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker2" })
 
                     </div>
                     @*Fuente del requerimiento(no editable)*@
@@ -438,15 +438,19 @@ $(document).ready(function(){
 
     </script>
 <script type="text/javascript">
-                $(function () {
-                    $('.datepicker, .datepicker2').datepicker("setDate", new Date()); //Initialise any date pickers
-                });
-               /* $(".datepicker").on("dp.change", function (e) {
-                    $('.datepicker2').data("DatePicker").setMinDate(e.date);
-                });
-                $(".datepicker2").on("dp.change", function (e) {
-                    $('.datepicker').data("DatePicker").setMaxDate(e.date);
-                });*/
+    $(function () {
+        $('.datepicker, .datepicker2').datepicker({
+            dateFormat: "dd-mm-yy",
+            autoclose: true,
+            todayHighlight: true,
+        });
+        $(".datepicker").on("dp.change", function (e) {
+            $('.datepicker2').data("DatePicker").setMinDate(e.date);
+        });
+        $(".datepicker2").on("dp.change", function (e) {
+            $('.datepicker').data("DatePicker").setMaxDate(e.date);
+        });
+    });
 </script>
 
 

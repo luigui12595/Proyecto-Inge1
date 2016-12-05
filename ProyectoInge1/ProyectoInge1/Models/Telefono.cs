@@ -17,6 +17,7 @@ namespace ProyectoInge1.Models
     {
         public string usuario { get; set; }
         [StringLength(8)]
+        [Display(Name = "Telefono")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Teléfono solo puede estar compuesto por números")]
         public string numero { get; set; }
     

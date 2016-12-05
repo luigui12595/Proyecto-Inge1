@@ -20,7 +20,10 @@ namespace ProyectoInge1.Models
             this.ReqFuncional = new HashSet<ReqFuncional>();
             this.Usuario2 = new HashSet<Usuario>();
         }
+
         [Display(Name = "Nombre")]
+        [StringLength(30)]
+        [Required(ErrorMessage = "El nombre es un campo requerido.")]
         public string nombre { get; set; }
         [Display(Name = "Descripción")]
         [DataType(DataType.MultilineText)]
@@ -30,12 +33,15 @@ namespace ProyectoInge1.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaInicio { get; set; }
         [Display(Name = "Fecha Final")]
+        [Required(ErrorMessage = "La fecha de inicio es un campo de inicio")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaFinal { get; set; }
         [Display(Name = "Líder")]
+        [Required(ErrorMessage = "El líder es un campo requerido.")]
         public string lider { get; set; }
         [Display(Name = "Estado")]
+        [Required(ErrorMessage = "El estado es un campo requerido.")]
         public string estado { get; set; }
         [Display(Name = "Cliente")]
         public string Cliente { get; set; }
